@@ -7,22 +7,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.disposables.CompositeDisposable
 import ru.job4j.cryptocompareapp.repository.AppRepository
+import ru.job4j.cryptocompareapp.repository.database.entity.CoinPriceInfo
 
 class CoinViewModel(application: Application, private val repository: AppRepository) :
     AndroidViewModel(application) {
     private val compositeDisposable = CompositeDisposable()
-    private val liveDataTopCoinsInfo: MutableLiveData<String> = MutableLiveData()
+    private val liveDataCoinPriceList: MutableLiveData<List<CoinPriceInfo>> = MutableLiveData()
 
-    fun getTopCoinsInfo(): Unit {
-        val disposable = repository.getTopCoinsInfo().subscribe { it ->
-            liveDataTopCoinsInfo.value = it
+    fun loadData(): Unit {
+        val disposable = repository.getCoinPriceInfo().subscribe({ it ->
+            liveDataCoinPriceList.value = it
             Log.d("TEST_OF_LOADING_DATA", it.toString())
-        }
+        }, {
+            Log.d("TEST_OF_LOADING_DATA", it.message.toString())
+        })
         compositeDisposable.add(disposable)
     }
 
-    fun getLiveDataTopCoinsInfo(): LiveData<String> {
-        return liveDataTopCoinsInfo
+    fun getLiveDataFullPriceList(): LiveData<List<CoinPriceInfo>> {
+        return liveDataCoinPriceList
     }
 
     override fun onCleared() {
