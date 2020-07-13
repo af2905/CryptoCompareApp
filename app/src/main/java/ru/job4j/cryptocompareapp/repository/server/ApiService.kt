@@ -1,6 +1,6 @@
 package ru.job4j.cryptocompareapp.repository.server
 
-import io.reactivex.Single
+import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.job4j.cryptocompareapp.repository.database.pojo.CoinInfoListOfData
@@ -13,7 +13,7 @@ interface ApiService {
         @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
         @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-    ): Single<CoinInfoListOfData>
+    ): Flowable<CoinInfoListOfData>
 
     //https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=USD
     @GET("pricemultifull")
@@ -21,7 +21,7 @@ interface ApiService {
         @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
         @Query(QUERY_PARAM_FROM_SYMBOLS) fSyms: String,
         @Query(QUERY_PARAM_TO_SYMBOLS) tSyms: String = CURRENCY
-    ): Single<CoinPriceInfoRawData>
+    ): Flowable<CoinPriceInfoRawData>
 
     companion object {
         private const val CURRENCY = "USD"

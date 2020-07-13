@@ -18,9 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         createDaggerDependencies()
-        coinViewModel?.loadData()
         coinViewModel?.getLiveDataFullPriceList()
-            ?.observe(this, Observer { t -> Log.d("TEST_OF_LOADING_DATA", t.toString()) })
+             ?.observe(this, Observer { t -> Log.d("TEST_OF_LOADING_DATA", t.toString()) })
+        coinViewModel?.getDetailInfo("BTC")
+        coinViewModel?.getLiveDataDetailInfo()
+            ?.observe(this, Observer { t -> Log.d("TEST_OF_LOADING_DETAIL", t.toString()) })
     }
 
     private fun injectDependency(component: ViewModelComponent) {

@@ -11,17 +11,36 @@ import ru.job4j.cryptocompareapp.repository.database.entity.CoinPriceInfo
 
 class CoinViewModel(application: Application, private val repository: AppRepository) :
     AndroidViewModel(application) {
-    private val compositeDisposable = CompositeDisposable()
+    private val disposeBag = CompositeDisposable()
     private val liveDataCoinPriceList: MutableLiveData<List<CoinPriceInfo>> = MutableLiveData()
+    private val liveDataDetailInfo: MutableLiveData<CoinPriceInfo> = MutableLiveData()
 
-    fun loadData(): Unit {
+    init {
+        loadData()
+    }
+
+    fun getDetailInfo(fSym: String) {
+        val disposable = repository.getDetailInfo(fSym).subscribe({ it ->
+            liveDataDetailInfo.value = it
+            Log.d("TEST_OF_LOADING_DETAIL", it.toString())
+        }, {
+            Log.d("TEST_OF_LOADING_DETAIL", it.message.toString())
+        })
+        disposeBag.add(disposable)
+    }
+
+    private fun loadData(): Unit {
         val disposable = repository.getCoinPriceInfo().subscribe({ it ->
             liveDataCoinPriceList.value = it
             Log.d("TEST_OF_LOADING_DATA", it.toString())
         }, {
             Log.d("TEST_OF_LOADING_DATA", it.message.toString())
         })
-        compositeDisposable.add(disposable)
+        disposeBag.add(disposable)
+    }
+
+    fun getLiveDataDetailInfo(): LiveData<CoinPriceInfo> {
+        return liveDataDetailInfo
     }
 
     fun getLiveDataFullPriceList(): LiveData<List<CoinPriceInfo>> {
@@ -30,6 +49,6 @@ class CoinViewModel(application: Application, private val repository: AppReposit
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.dispose()
+        disposeBag.dispose()
     }
 }
