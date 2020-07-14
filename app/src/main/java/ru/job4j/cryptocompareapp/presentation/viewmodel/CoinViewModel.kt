@@ -1,4 +1,4 @@
-package ru.job4j.cryptocompareapp.presentation.view.viewmodel
+package ru.job4j.cryptocompareapp.presentation.viewmodel
 
 import android.app.Application
 import android.util.Log

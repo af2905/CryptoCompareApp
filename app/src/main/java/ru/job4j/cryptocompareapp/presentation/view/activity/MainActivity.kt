@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import ru.job4j.cryptocompareapp.App
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
-import ru.job4j.cryptocompareapp.presentation.view.viewmodel.CoinViewModel
+import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
