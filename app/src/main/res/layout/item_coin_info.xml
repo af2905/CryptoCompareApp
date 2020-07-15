@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 tools:text="Bitcoin" />
 
             <TextView
@@ -65,30 +65,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:orientation="horizontal"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvPrice"
+                android:id="@+id/tvVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                tools:text="$ 9,265.40" />
+                tools:text="$ 1,938.70 M" />
 
-            <ImageView
-                android:id="@+id/ivArrow"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/arrow"
-                app:srcCompat="@android:drawable/arrow_down_float" />
+                android:layout_gravity="end"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    tools:text="$ 9,265.40" />
+
+                <ImageView
+                    android:id="@+id/ivArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/arrow"
+                    app:srcCompat="@android:drawable/arrow_down_float" />
+            </LinearLayout>
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>
