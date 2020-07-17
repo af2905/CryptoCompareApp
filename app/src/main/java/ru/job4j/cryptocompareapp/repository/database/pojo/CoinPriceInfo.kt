@@ -1,53 +1,37 @@
-package ru.job4j.cryptocompareapp.repository.database.entity
+package ru.job4j.cryptocompareapp.repository.database.pojo
 
-import androidx.annotation.NonNull
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
+
 import com.google.gson.annotations.SerializedName
-@Entity(tableName = "full_price_list")
+
 data class CoinPriceInfo(
-    @SerializedName("TYPE")
-    @Expose
-    val type: String? = null,
-
-    @SerializedName("MARKET")
-    @Expose
-    val market: String? = null,
-
-    @PrimaryKey
-    @NonNull
     @SerializedName("FROMSYMBOL")
     @Expose
-    val fromSymbol: String,
+    val fromSymbol: String? = null,
 
     @SerializedName("TOSYMBOL")
     @Expose
     val toSymbol: String? = null,
 
-    @SerializedName("FLAGS")
+    @SerializedName("MARKET")
     @Expose
-    val flags: String? = null,
+    val market: String? = null,
 
     @SerializedName("PRICE")
     @Expose
-    val price: Double? = null,
+    val price: String? = null,
 
     @SerializedName("LASTUPDATE")
     @Expose
-    val lastUpdate: Int? = null,
-
-    @SerializedName("MEDIAN")
-    @Expose
-    val median: Double? = null,
+    val lastUpdate: String? = null,
 
     @SerializedName("LASTVOLUME")
     @Expose
-    val lastVolume: Double? = null,
+    val lastVolume: String? = null,
 
     @SerializedName("LASTVOLUMETO")
     @Expose
-    val lastVolumeTo: Double? = null,
+    val lastVolumeTo: String? = null,
 
     @SerializedName("LASTTRADEID")
     @Expose
@@ -55,43 +39,43 @@ data class CoinPriceInfo(
 
     @SerializedName("VOLUMEDAY")
     @Expose
-    val volumeDay: Double? = null,
+    val volumeDay: String? = null,
 
     @SerializedName("VOLUMEDAYTO")
     @Expose
-    val volumeDayTo: Double? = null,
+    val volumeDayTo: String? = null,
 
     @SerializedName("VOLUME24HOUR")
     @Expose
-    val volume24Hour: Double? = null,
+    val volume24Hour: String? = null,
 
     @SerializedName("VOLUME24HOURTO")
     @Expose
-    val volume24HourTo: Double? = null,
+    val volume24HourTo: String? = null,
 
     @SerializedName("OPENDAY")
     @Expose
-    val openDay: Double? = null,
+    val openDay: String? = null,
 
     @SerializedName("HIGHDAY")
     @Expose
-    val highDay: Double? = null,
+    val highDay: String? = null,
 
     @SerializedName("LOWDAY")
     @Expose
-    val lowDay: Double? = null,
+    val lowDay: String? = null,
 
     @SerializedName("OPEN24HOUR")
     @Expose
-    val open24Hour: Double? = null,
+    val open24Hour: String? = null,
 
     @SerializedName("HIGH24HOUR")
     @Expose
-    val high24Hour: Double? = null,
+    val high24Hour: String? = null,
 
     @SerializedName("LOW24HOUR")
     @Expose
-    val low24Hour: Double? = null,
+    val low24Hour: String? = null,
 
     @SerializedName("LASTMARKET")
     @Expose
@@ -99,55 +83,55 @@ data class CoinPriceInfo(
 
     @SerializedName("VOLUMEHOUR")
     @Expose
-    val volumeHour: Double? = null,
+    val volumeHour: String? = null,
 
     @SerializedName("VOLUMEHOURTO")
     @Expose
-    val volumeHourTo: Double? = null,
+    val volumeHourTo: String? = null,
 
     @SerializedName("OPENHOUR")
     @Expose
-    val openHour: Double? = null,
+    val openHour: String? = null,
 
     @SerializedName("HIGHHOUR")
     @Expose
-    val highHour: Double? = null,
+    val highHour: String? = null,
 
     @SerializedName("LOWHOUR")
     @Expose
-    val lowHour: Double? = null,
+    val lowHour: String? = null,
 
     @SerializedName("TOPTIERVOLUME24HOUR")
     @Expose
-    val topTierVolume24Hour: Double? = null,
+    val topTierVolume24Hour: String? = null,
 
     @SerializedName("TOPTIERVOLUME24HOURTO")
     @Expose
-    val topTierVolume24HourTo: Double? = null,
+    val topTierVolume24HourTo: String? = null,
 
     @SerializedName("CHANGE24HOUR")
     @Expose
-    val change24Hour: Double? = null,
+    val change24Hour: String? = null,
 
     @SerializedName("CHANGEPCT24HOUR")
     @Expose
-    val changePct24Hou: Double? = null,
+    val changeRct24Hour: String? = null,
 
     @SerializedName("CHANGEDAY")
     @Expose
-    val changeDay: Double? = null,
+    val changeDay: String? = null,
 
     @SerializedName("CHANGEPCTDAY")
     @Expose
-    val changePctDay: Double? = null,
+    val changePctDay: String? = null,
 
     @SerializedName("CHANGEHOUR")
     @Expose
-    val changeHour: Double? = null,
+    val changeHour: String? = null,
 
     @SerializedName("CHANGEPCTHOUR")
     @Expose
-    val changePctHour: Double? = null,
+    val changePctHour: String? = null,
 
     @SerializedName("CONVERSIONTYPE")
     @Expose
@@ -159,27 +143,27 @@ data class CoinPriceInfo(
 
     @SerializedName("SUPPLY")
     @Expose
-    val supply: Int? = null,
+    val supply: String? = null,
 
     @SerializedName("MKTCAP")
     @Expose
-    val mktCup: Double? = null,
+    val mktCap: String? = null,
 
     @SerializedName("TOTALVOLUME24H")
     @Expose
-    val totalVolume24H: Double? = null,
+    val totalVolume24H: String? = null,
 
     @SerializedName("TOTALVOLUME24HTO")
     @Expose
-    val totalVolume24HTo: Double? = null,
+    val totalVolume24HTo: String? = null,
 
     @SerializedName("TOTALTOPTIERVOLUME24H")
     @Expose
-    val totalTopTierVolume24H: Double? = null,
+    val totalTopTierVolume24H: String? = null,
 
     @SerializedName("TOTALTOPTIERVOLUME24HTO")
     @Expose
-    val totalTopTierVolume24HTo: Double? = null,
+    val totalTopTierVolume24HTo: String? = null,
 
     @SerializedName("IMAGEURL")
     @Expose

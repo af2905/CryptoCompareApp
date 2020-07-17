@@ -2,10 +2,10 @@ package ru.job4j.cryptocompareapp.repository.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.job4j.cryptocompareapp.repository.database.dao.CoinPriceInfoDao
-import ru.job4j.cryptocompareapp.repository.database.entity.CoinPriceInfo
+import ru.job4j.cryptocompareapp.repository.database.dao.DatumDao
+import ru.job4j.cryptocompareapp.repository.database.entity.Datum
 
-@Database(entities = [CoinPriceInfo::class], version = 1, exportSchema = false)
+@Database(entities = [Datum::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun coinPriceInfoDao(): CoinPriceInfoDao
+    abstract fun datumDao(): DatumDao
 }

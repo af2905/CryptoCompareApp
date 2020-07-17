@@ -1,33 +1,33 @@
 package ru.job4j.cryptocompareapp.repository
 
+import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.job4j.cryptocompareapp.repository.database.AppDatabase
-import ru.job4j.cryptocompareapp.repository.database.entity.CoinPriceInfo
+import ru.job4j.cryptocompareapp.repository.database.entity.Datum
 import ru.job4j.cryptocompareapp.repository.server.ServerCommunicator
-import java.util.concurrent.TimeUnit
 
 class AppRepository(
     private val serverCommunicator: ServerCommunicator,
     private val appDatabase: AppDatabase
 ) {
-    fun getCoinPriceInfo(): Flowable<List<CoinPriceInfo>> {
+    fun getCoinPriceInfo(): Flowable<List<Datum>> {
         return serverCommunicator.getCoinPriceInfo()
-            .flatMap {
-                if (appDatabase.coinPriceInfoDao().getPriceList().isEmpty()) {
-                    appDatabase.coinPriceInfoDao().insertPriceList(it)
-                }
-                return@flatMap Flowable.just(appDatabase.coinPriceInfoDao().getPriceList())
+            .map {
+                Log.d("TAG", "toDB $it")
+                appDatabase.datumDao().insertDatumList(it)
+                Log.d("TAG",
+                    "fromDB" + appDatabase.datumDao()
+                        .getDatumList().size + " " + appDatabase.datumDao().getDatumList()
+                        .toString()
+                )
             }
-            .delaySubscription(5, TimeUnit.SECONDS)
-            .repeat()
-            .retry()
+            .flatMap {
+
+                return@flatMap Flowable.just(appDatabase.datumDao().getDatumList())
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun getDetailInfo(fSym: String): Flowable<CoinPriceInfo> {
-        return Flowable.just(appDatabase.coinPriceInfoDao().getPriceInfoAboutCoin(fSym))
     }
 }
