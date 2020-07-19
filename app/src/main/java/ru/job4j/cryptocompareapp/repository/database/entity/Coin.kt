@@ -7,16 +7,24 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import ru.job4j.cryptocompareapp.repository.database.pojo.CoinBasicInfo
 import ru.job4j.cryptocompareapp.repository.database.pojo.DisplayCoinPriceInfo
+import ru.job4j.cryptocompareapp.repository.database.pojo.RawCoinPriceInfo
 
 @Entity(tableName = "datum")
-data class Datum(
+data class Coin(
     @PrimaryKey
     var id: Int,
+
+    var number: Int,
 
     @SerializedName("CoinInfo")
     @Expose
     @Embedded
     val coinBasicInfo: CoinBasicInfo,
+
+    @SerializedName("RAW")
+    @Expose
+    @Embedded
+    val rawCoinPriceInfo: RawCoinPriceInfo,
 
     @SerializedName("DISPLAY")
     @Expose

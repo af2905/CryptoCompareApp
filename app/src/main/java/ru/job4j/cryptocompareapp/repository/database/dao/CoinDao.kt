@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ru.job4j.cryptocompareapp.repository.database.entity.Datum
+import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 @Dao
-interface DatumDao {
-    @Query("SELECT * FROM datum ORDER BY totalVolume24HTo")
-    fun getDatumList(): List<Datum>
+interface CoinDao {
+    @Query("SELECT * FROM datum ORDER BY coinPrice DESC")
+    fun getCoinList(): List<Coin>
 
     @Query("SELECT * FROM datum WHERE id =:id")
-    fun getDatumById(id: Int): Datum
+    fun getCoinById(id: Int): Coin
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDatumList(datumList: List<Datum>)
+    fun insertCoinList(coinList: List<Coin>)
 }

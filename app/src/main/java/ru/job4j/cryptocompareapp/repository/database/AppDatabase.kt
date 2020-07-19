@@ -2,10 +2,10 @@ package ru.job4j.cryptocompareapp.repository.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.job4j.cryptocompareapp.repository.database.dao.DatumDao
-import ru.job4j.cryptocompareapp.repository.database.entity.Datum
+import ru.job4j.cryptocompareapp.repository.database.dao.CoinDao
+import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
-@Database(entities = [Datum::class], version = 1, exportSchema = false)
+@Database(entities = [Coin::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun datumDao(): DatumDao
+    abstract fun coinDao(): CoinDao
 }

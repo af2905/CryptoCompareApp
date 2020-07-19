@@ -1,17 +1,17 @@
 package ru.job4j.cryptocompareapp.repository.server
 
 import io.reactivex.Flowable
-import ru.job4j.cryptocompareapp.repository.database.entity.Datum
+import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 class ServerCommunicator(private val apiService: ApiService) {
-    fun getCoinPriceInfo(): Flowable<List<Datum>> {
+    fun getCoinPriceInfo(): Flowable<List<Coin>> {
         return apiService.getTopCoinsInfo()
-                    .map {
-                if (!it.data.isNullOrEmpty())
-                    for (datum in it.data) {
-                        datum.id = datum.coinBasicInfo.coinBasicId.toInt()
+            .map {
+                if (!it.coins.isNullOrEmpty())
+                    for (coin in it.coins) {
+                        coin.id = coin.coinBasicInfo.coinBasicId.toInt()
                     }
-                return@map it.data
+                return@map it.coins
             }
     }
 }

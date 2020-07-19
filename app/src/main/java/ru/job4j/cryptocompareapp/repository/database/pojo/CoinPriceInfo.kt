@@ -3,6 +3,7 @@ package ru.job4j.cryptocompareapp.repository.database.pojo
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+import ru.job4j.cryptocompareapp.repository.server.ApiService
 
 data class CoinPriceInfo(
     @SerializedName("FROMSYMBOL")
@@ -115,7 +116,7 @@ data class CoinPriceInfo(
 
     @SerializedName("CHANGEPCT24HOUR")
     @Expose
-    val changeRct24Hour: String? = null,
+    val changePct24Hour: String? = null,
 
     @SerializedName("CHANGEDAY")
     @Expose
@@ -168,4 +169,9 @@ data class CoinPriceInfo(
     @SerializedName("IMAGEURL")
     @Expose
     val imageUrl: String? = null
-)
+) {
+    fun getFullImageUrl(): String {
+        return ApiService.BASE_IMAGE_URL + imageUrl
+    }
+}
+

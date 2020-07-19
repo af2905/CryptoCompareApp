@@ -21,5 +21,6 @@ interface ApiService {
         private const val QUERY_PARAM_API_KEY = "api_key"
         private const val QUERY_PARAM_LIMIT = "limit"
         private const val QUERY_PARAM_TO_SYMBOL = "tsym"
+        const val BASE_IMAGE_URL = "https://cryptocompare.com"
     }
 }
