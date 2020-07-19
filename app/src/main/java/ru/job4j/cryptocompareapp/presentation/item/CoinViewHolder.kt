@@ -28,7 +28,7 @@ class CoinViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
             tvChange24Percent.text = coin?.displayCoinPriceInfo?.coinPriceInfo?.changePct24Hour
 
             val imgUrl = coin?.displayCoinPriceInfo?.coinPriceInfo?.getFullImageUrl()
-            Picasso.get().load(imgUrl).resize(72, 72).into(ivIcon)
+            Picasso.get().load(imgUrl).into(ivIcon)
 
             setArrow()
             setOnClickListener(itemDetail)

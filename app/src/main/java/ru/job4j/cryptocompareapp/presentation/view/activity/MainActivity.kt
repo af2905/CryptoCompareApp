@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_coin_price_list.*
 import ru.job4j.cryptocompareapp.App
 import ru.job4j.cryptocompareapp.R
@@ -18,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     var coinViewModel: CoinViewModel? = null
         @Inject set
 
+    lateinit var recycler: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_coin_price_list)
@@ -28,10 +33,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView(coins: List<Coin>) {
+        recycler = rvCoinPriceList
         val coinAdapter = CoinAdapter()
         coinAdapter.coinPriceInfoList = coins
         coinAdapter.listener = itemClickListener
-        rvCoinPriceList.adapter = coinAdapter
+        recycler.adapter = coinAdapter
+        val dividerItemDecoration =
+            DividerItemDecoration(recycler.context, LinearLayoutManager.VERTICAL)
+        recycler.addItemDecoration(dividerItemDecoration)
     }
 
     private val itemClickListener = object : ICoinItemClickListener<Coin> {

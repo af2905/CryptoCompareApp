@@ -26,7 +26,7 @@ class CoinViewModel(application: Application, private val repository: AppReposit
             .retry()
             .subscribe({ it ->
                 liveDataCoinInfoList.value = it
-                Log.d("TEST_OF_LOADING_DATA", it.toString())
+                Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
             }, {
                 Log.d("TEST_OF_LOADING_DATA", it.message.toString())
             })
