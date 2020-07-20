@@ -10,11 +10,13 @@ import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.ICoinItemClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
+import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
+import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
+import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     private var coinPriceInfoList: MutableList<Coin> = mutableListOf()
-
     var listener: ICoinItemClickListener<Coin>? = null
 
     fun setData(newList: List<Coin>) {
@@ -70,15 +72,13 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
             val bundle: Bundle = payloads.firstOrNull() as Bundle
             for (key in bundle.keySet()) {
                 with(holder) {
-                    if (key == CoinDiffUtilCallback.PRICE) {
-                        txtPrice.text = coin.displayCoinPriceInfo.coinPriceInfo?.price
-                    }
-                    if (key == CoinDiffUtilCallback.CHANGE_24) {
-                        txtChange24.text = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-                    }
-                    if (key == CoinDiffUtilCallback.CHANGE_PCT_24) {
-                        txtChangePct24.text =
+                    when (key) {
+                        PRICE -> txtPrice.text = coin.displayCoinPriceInfo.coinPriceInfo?.price
+                        CHANGE_24 -> txtChange24.text =
+                            coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
+                        CHANGE_PCT_24 -> txtChangePct24.text =
                             coin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
+
                     }
                 }
             }
@@ -86,33 +86,26 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     }
 
     private fun checkPercentageChangesAndSetArrow(holder: CoinViewHolder, coin: Coin) {
+        val res = holder.itemView.resources
+        val appTheme = holder.itemView.context.theme
+
         val change24Hour = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
         if (change24Hour != null) {
             if (change24Hour.contains('-')) {
-                holder.imgArrow.setImageResource(android.R.drawable.arrow_down_float)
+                holder.imgArrow.setImageDrawable(
+                    res.getDrawable(
+                        R.drawable.ic_baseline_arrow_drop_down_24,
+                        appTheme
+                    )
+                )
             } else {
-                holder.imgArrow.setImageResource(android.R.drawable.arrow_up_float)
+                holder.imgArrow.setImageDrawable(
+                    res.getDrawable(
+                        R.drawable.ic_baseline_arrow_drop_up_24,
+                        appTheme
+                    )
+                )
             }
         }
     }
 }
-
-
-/* tvNumber.text = coin?.number.toString()
-            tvFullName.text = coin?.coinBasicInfo?.fullName
-            tvName.text = coin?.coinBasicInfo?.name
-            tvPrice.text = coin?.displayCoinPriceInfo?.coinPriceInfo?.price
-            tvChange24.text = coin?.displayCoinPriceInfo?.coinPriceInfo?.change24Hour*/
-
-/* if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads);
-        } else {
-            Bundle o = (Bundle) payloads.get(0);
-            for (String key : o.keySet()) {
-                if (key.equals("price")) {
-                    holder.mName.setText(data.get(position).name);
-                    holder.mPrice.setText(data.get(position).price + " USD");
-                    holder.mPrice.setTextColor(Color.GREEN);
-                }
-            }
-        }*/

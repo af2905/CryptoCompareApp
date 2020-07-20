@@ -17,9 +17,22 @@ class CoinViewModel(application: Application, private val repository: AppReposit
 
     init {
         loadData()
+        updateData()
     }
 
     private fun loadData() {
+        val disposable = repository.getCoinPriceInfoFromNet()
+            .retry()
+            .subscribe({ it ->
+                liveDataCoinInfoList.value = it
+                Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+            }, {
+                Log.d("TEST_OF_LOADING_DATA", it.message.toString())
+            })
+        disposeBag.add(disposable)
+    }
+
+    private fun updateData() {
         val disposable = repository.getCoinPriceInfoFromNet()
             .delaySubscription(30, TimeUnit.SECONDS)
             .repeat()

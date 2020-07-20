@@ -32,7 +32,11 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView(coinAdapter)
         coinViewModel?.getLiveDataCoinInfoList()
             ?.observe(this, Observer { setDataInAdapter(coinAdapter, it) })
-
+        swipeRefreshLayout.setOnRefreshListener {
+            coinViewModel?.getLiveDataCoinInfoList()
+                ?.observe(this, Observer { setDataInAdapter(coinAdapter, it) })
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun initRecyclerView(coinAdapter: CoinAdapter) {

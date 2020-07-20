@@ -27,39 +27,4 @@ class CoinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         this.listener = listener
         itemView.setOnClickListener(itemDetail)
     }
-
-    /* private fun setupItem() {
-         with(view) {
-             tvNumber.text = coin?.number.toString()
-             tvFullName.text = coin?.coinBasicInfo?.fullName
-             tvName.text = coin?.coinBasicInfo?.name
-             tvPrice.text = coin?.displayCoinPriceInfo?.coinPriceInfo?.price
-             tvChange24.text = coin?.displayCoinPriceInfo?.coinPriceInfo?.change24Hour
-
-             val imgUrl = coin?.displayCoinPriceInfo?.coinPriceInfo?.getFullImageUrl()
-             Picasso.get().load(imgUrl).into(ivIcon)
-
-             checkPercentageChangesAndSetArrow()
-
-             val percentChanged =
-                 String.format("(%s%%)", coin?.displayCoinPriceInfo?.coinPriceInfo?.changePct24Hour)
-             tvChange24Percent.text = percentChanged
-
-             setOnClickListener(itemDetail)
-         }
-     }*/
-
-    /* private fun checkPercentageChangesAndSetArrow() {
-         var percentChanged = coin?.displayCoinPriceInfo?.coinPriceInfo?.changePct24Hour
-         val change24Hour = coin?.displayCoinPriceInfo?.coinPriceInfo?.change24Hour
-         if (change24Hour != null) {
-             if (change24Hour.contains('-')) {
-                 view.ivArrow.setImageResource(android.R.drawable.arrow_down_float)
-             } else {
-                 view.ivArrow.setImageResource(android.R.drawable.arrow_up_float)
-                 percentChanged = "+$percentChanged"
-                 coin?.displayCoinPriceInfo?.coinPriceInfo?.changePct24Hour = percentChanged
-             }
-         }
-     }*/
 }
