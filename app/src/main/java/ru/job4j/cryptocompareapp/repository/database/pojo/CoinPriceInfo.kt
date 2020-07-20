@@ -116,7 +116,7 @@ data class CoinPriceInfo(
 
     @SerializedName("CHANGEPCT24HOUR")
     @Expose
-    val changePct24Hour: String? = null,
+    var changePct24Hour: String? = null,
 
     @SerializedName("CHANGEDAY")
     @Expose

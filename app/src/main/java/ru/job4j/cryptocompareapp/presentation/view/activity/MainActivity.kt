@@ -1,6 +1,7 @@
 package ru.job4j.cryptocompareapp.presentation.view.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -27,25 +28,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_coin_price_list)
         createDaggerDependencies()
+        val coinAdapter = CoinAdapter()
+        initRecyclerView(coinAdapter)
         coinViewModel?.getLiveDataCoinInfoList()
-            ?.observe(this, Observer { initRecyclerView(it) })
+            ?.observe(this, Observer { setDataInAdapter(coinAdapter, it) })
 
     }
 
-    private fun initRecyclerView(coins: List<Coin>) {
+    private fun initRecyclerView(coinAdapter: CoinAdapter) {
         recycler = rvCoinPriceList
-        val coinAdapter = CoinAdapter()
-        coinAdapter.coinPriceInfoList = coins
         coinAdapter.listener = itemClickListener
         recycler.adapter = coinAdapter
+
         val dividerItemDecoration =
             DividerItemDecoration(recycler.context, LinearLayoutManager.VERTICAL)
+        dividerItemDecoration.setDrawable(
+            this.resources.getDrawable(R.drawable.vertical_divider, applicationContext.theme)
+        )
         recycler.addItemDecoration(dividerItemDecoration)
+    }
+
+    private fun setDataInAdapter(coinAdapter: CoinAdapter, newList: List<Coin>) {
+        coinAdapter.setData(newList)
     }
 
     private val itemClickListener = object : ICoinItemClickListener<Coin> {
         override fun openDetail(m: Coin) {
             Toast.makeText(this@MainActivity, "DetailClick", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onClick(v: View?) {
+
         }
     }
 

@@ -1,5 +1,7 @@
 package ru.job4j.cryptocompareapp.presentation.item
 
-interface ICoinItemClickListener<M> {
+import android.view.View
+
+interface ICoinItemClickListener<M> : View.OnClickListener {
     fun openDetail(m: M)
 }
