@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bottomNavMenuTop100Id"
+        android:id="@+id/bottomNavMenuTopCoinsId"
         android:icon="@drawable/ic_finance"
-        android:title="@string/top100" />
+        android:title="@string/topCoins" />
     <item
         android:id="@+id/bottomNavMenuSpyId"
         android:icon="@drawable/ic_spy"
