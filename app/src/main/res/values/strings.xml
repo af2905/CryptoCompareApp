@@ -2,5 +2,8 @@
     <string name="app_name">CryptoCompareApp</string>
     <string name="icon">icon</string>
     <string name="arrow">arrow</string>
+    <string name="top100">Top 100</string>
+    <string name="spy">Spy</string>
+    <string name="news">News</string>
 
 </resources>

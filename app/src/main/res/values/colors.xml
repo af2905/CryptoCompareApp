@@ -7,5 +7,6 @@
     <color name="colorDarkBlue">#0A1623</color>
     <color name="colorBrightGreen">#00D665</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorErrorRed">#B00020</color>
 
 </resources>

@@ -94,14 +94,14 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
             if (change24Hour.contains('-')) {
                 holder.imgArrow.setImageDrawable(
                     res.getDrawable(
-                        R.drawable.ic_baseline_arrow_drop_down_24,
+                        R.drawable.ic_arrow_down,
                         appTheme
                     )
                 )
             } else {
                 holder.imgArrow.setImageDrawable(
                     res.getDrawable(
-                        R.drawable.ic_baseline_arrow_drop_up_24,
+                        R.drawable.ic_arrow_up,
                         appTheme
                     )
                 )
