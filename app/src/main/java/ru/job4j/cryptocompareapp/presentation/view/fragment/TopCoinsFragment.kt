@@ -2,7 +2,6 @@ package ru.job4j.cryptocompareapp.presentation.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -10,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -27,7 +25,7 @@ import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class TopCoinsFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class TopCoinsFragment : BaseFragment() {
     lateinit var recycler: RecyclerView
     private val disposeBag = CompositeDisposable()
 
@@ -42,13 +40,14 @@ class TopCoinsFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSe
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
+
         val coinAdapter = CoinAdapter()
         initRecyclerView(view, coinAdapter)
         coinViewModel?.getLiveDataCoinInfoList()
-            ?.observe(this, Observer { setDataInAdapter(coinAdapter, it) })
+            ?.observe(viewLifecycleOwner, Observer { setDataInAdapter(coinAdapter, it) })
         view.swipeTopCoinsRefreshLayout.setOnRefreshListener {
             coinViewModel?.getLiveDataCoinInfoList()
-                ?.observe(this, Observer {
+                ?.observe(viewLifecycleOwner, Observer {
                     setDataInAdapter(coinAdapter, it)
                 })
             val disposable = Completable.timer(1, TimeUnit.SECONDS)
@@ -57,9 +56,6 @@ class TopCoinsFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSe
                 .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
             disposeBag.add(disposable)
         }
-
-        view.bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu)
-        view.bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
         return view
     }
@@ -94,14 +90,5 @@ class TopCoinsFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSe
     override fun onDestroy() {
         super.onDestroy()
         disposeBag.dispose()
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.bottomNavMenuTopCoinsId -> true
-            R.id.bottomNavMenuSpyId -> true
-            R.id.bottomNavMenuNewsId -> true
-            else -> throw IllegalStateException("Unexpected value: " + item.itemId);
-        }
     }
 }

@@ -8,8 +8,7 @@ import ru.job4j.cryptocompareapp.App
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 
 abstract class BaseFragment : Fragment() {
-    private var activity: AppCompatActivity? = null
-        get() = field
+    private lateinit var activity: AppCompatActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +16,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     private fun createDaggerDependencies() =
-        injectDependency((activity?.application as App).getViewModelComponent())
+        injectDependency((activity.application as App).getViewModelComponent())
 
     abstract fun injectDependency(component: ViewModelComponent)
 

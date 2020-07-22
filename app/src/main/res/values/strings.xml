@@ -5,4 +5,5 @@
     <string name="topCoins">Top</string>
     <string name="spy">Spy</string>
     <string name="news">News</string>
+    <string name="action_settings">settings</string>
 </resources>
