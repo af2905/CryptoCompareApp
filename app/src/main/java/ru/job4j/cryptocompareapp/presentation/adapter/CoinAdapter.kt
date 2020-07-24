@@ -1,11 +1,14 @@
 package ru.job4j.cryptocompareapp.presentation.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.ICoinItemClickListener
@@ -22,6 +25,10 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     fun setData(newList: List<Coin>) {
         val coinDiffUtilCallback = CoinDiffUtilCallback(coinPriceInfoList, newList)
         val coinDiffResult = DiffUtil.calculateDiff(coinDiffUtilCallback)
+        Log.d(
+            "TEST_OF_LOADING_DATA",
+            "newList.size: " + newList.size + " oldList.size: " + coinPriceInfoList.size
+        )
         coinPriceInfoList.clear()
         coinPriceInfoList.addAll(newList)
         coinDiffResult.dispatchUpdatesTo(this)
@@ -49,7 +56,15 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
             txtChange24.text = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
 
             val imgUrl = coin.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
-            Picasso.get().load(imgUrl).into(imgIcon)
+            //Picasso.get().load(imgUrl).into(imgIcon)
+            Glide.with(holder.itemView.context).load(imgUrl)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.ic_placeholder)
+                        .error(R.drawable.ic_placeholder_error)
+                )
+                .transition(withCrossFade())
+                .into(imgIcon)
 
             checkPercentageChangesAndSetArrow(holder, coin)
 
@@ -66,6 +81,11 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         val coin = coinPriceInfoList[position]
         coin.number = coinPriceInfoList.indexOf(coin) + 1
         listener?.let { holder.bind(coin, it) }
+
+        Log.d(
+            "TEST_OF_LOADING_DATA",
+            "coinPriceInfoList[position]: " + coinPriceInfoList[position] + " coin.number: " + coin.number
+        )
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {

@@ -64,7 +64,6 @@ class TopCoinsFragment : BaseFragment() {
         recycler = view.recyclerViewTopCoins
         coinAdapter.listener = itemClickListener
         recycler.adapter = coinAdapter
-
         val dividerItemDecoration =
             DividerItemDecoration(recycler.context, LinearLayoutManager.VERTICAL)
         dividerItemDecoration.setDrawable(
