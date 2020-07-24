@@ -6,4 +6,6 @@
     <string name="spy">Spy</string>
     <string name="news">News</string>
     <string name="action_settings">settings</string>
+    <string name="top_price">TOP PRICE</string>
+    <string name="just_now">just now</string>
 </resources>
