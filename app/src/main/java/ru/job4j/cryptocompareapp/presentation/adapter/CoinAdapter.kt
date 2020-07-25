@@ -1,7 +1,6 @@
 package ru.job4j.cryptocompareapp.presentation.adapter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,7 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
-import ru.job4j.cryptocompareapp.presentation.item.ICoinItemClickListener
+import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
@@ -20,18 +19,18 @@ import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     private var coinPriceInfoList: MutableList<Coin> = mutableListOf()
-    var listener: ICoinItemClickListener<Coin>? = null
+    private var clickListener: ICoinClickListener<Coin>? = null
 
     fun setData(newList: List<Coin>) {
         val coinDiffUtilCallback = CoinDiffUtilCallback(coinPriceInfoList, newList)
         val coinDiffResult = DiffUtil.calculateDiff(coinDiffUtilCallback)
-        Log.d(
-            "TEST_OF_LOADING_DATA",
-            "newList.size: " + newList.size + " oldList.size: " + coinPriceInfoList.size
-        )
         coinPriceInfoList.clear()
         coinPriceInfoList.addAll(newList)
         coinDiffResult.dispatchUpdatesTo(this)
+    }
+
+    fun setCoinClickListener(clickListener: ICoinClickListener<Coin>?){
+        this.clickListener = clickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
@@ -46,7 +45,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         holder.itemView.tag = coinPriceInfoList[position]
         val coin = coinPriceInfoList[position]
         coin.number = coinPriceInfoList.indexOf(coin) + 1
-        listener?.let { holder.bind(coin, it) }
+        clickListener?.let { holder.bind(coin, it) }
 
         with(holder) {
             txtNumber.text = coin.number.toString()
@@ -57,14 +56,11 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
 
             val imgUrl = coin.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
             //Picasso.get().load(imgUrl).into(imgIcon)
-            Glide.with(holder.itemView.context).load(imgUrl)
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.ic_placeholder)
-                        .error(R.drawable.ic_placeholder_error)
-                )
-                .transition(withCrossFade())
-                .into(imgIcon)
+            Glide.with(holder.itemView.context).load(imgUrl).apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder_error)
+            ).transition(withCrossFade()).into(imgIcon)
 
             checkPercentageChangesAndSetArrow(holder, coin)
 
@@ -80,12 +76,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         holder.itemView.tag = coinPriceInfoList[position]
         val coin = coinPriceInfoList[position]
         coin.number = coinPriceInfoList.indexOf(coin) + 1
-        listener?.let { holder.bind(coin, it) }
-
-        Log.d(
-            "TEST_OF_LOADING_DATA",
-            "coinPriceInfoList[position]: " + coinPriceInfoList[position] + " coin.number: " + coin.number
-        )
+        clickListener?.let { holder.bind(coin, it) }
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
@@ -106,25 +97,16 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     }
 
     private fun checkPercentageChangesAndSetArrow(holder: CoinViewHolder, coin: Coin) {
-        val res = holder.itemView.resources
-        val appTheme = holder.itemView.context.theme
-
         val change24Hour = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
         if (change24Hour != null) {
-            if (change24Hour.contains('-')) {
-                holder.imgArrow.setImageDrawable(
-                    res.getDrawable(
-                        R.drawable.ic_arrow_down,
-                        appTheme
-                    )
-                )
-            } else {
-                holder.imgArrow.setImageDrawable(
-                    res.getDrawable(
-                        R.drawable.ic_arrow_up,
-                        appTheme
-                    )
-                )
+            with(holder) {
+                val res = itemView.resources
+                val appTheme = itemView.context.theme
+                if (change24Hour.contains('-')) {
+                    imgArrow.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_down, appTheme))
+                } else {
+                    imgArrow.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_up, appTheme))
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ class CoinViewModel(application: Application, private val repository: AppReposit
     AndroidViewModel(application) {
     private val disposeBag = CompositeDisposable()
     private val liveDataCoinInfoList: MutableLiveData<List<Coin>> = MutableLiveData()
+    private val liveDataSelectedCoin: MutableLiveData<Coin> = MutableLiveData()
 
     init {
         loadData()
@@ -48,6 +49,14 @@ class CoinViewModel(application: Application, private val repository: AppReposit
 
     fun getLiveDataCoinInfoList(): LiveData<List<Coin>> {
         return liveDataCoinInfoList
+    }
+
+    fun setLiveDataSelectedCoin(coin: Coin) {
+        liveDataSelectedCoin.value = coin
+    }
+
+    fun getLiveDataSelectedCoin(): LiveData<Coin> {
+        return liveDataSelectedCoin
     }
 
     override fun onCleared() {

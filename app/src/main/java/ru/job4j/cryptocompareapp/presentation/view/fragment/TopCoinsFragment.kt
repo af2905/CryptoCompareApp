@@ -1,10 +1,10 @@
 package ru.job4j.cryptocompareapp.presentation.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +19,7 @@ import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.adapter.CoinAdapter
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
-import ru.job4j.cryptocompareapp.presentation.item.ICoinItemClickListener
+import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
 import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import java.util.concurrent.TimeUnit
@@ -28,6 +28,10 @@ import javax.inject.Inject
 class TopCoinsFragment : BaseFragment() {
     lateinit var recycler: RecyclerView
     private val disposeBag = CompositeDisposable()
+    private var callbackToDetail: CallbackToDetail? = null
+    private val coinClickListener: ICoinClickListener<Coin> = object: ICoinClickListener<Coin> {
+        override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
+    }
 
     var coinViewModel: CoinViewModel? = null
         @Inject set
@@ -40,7 +44,6 @@ class TopCoinsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
-
         val coinAdapter = CoinAdapter()
         initRecyclerView(view, coinAdapter)
         coinViewModel?.getLiveDataCoinInfoList()
@@ -56,13 +59,12 @@ class TopCoinsFragment : BaseFragment() {
                 .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
             disposeBag.add(disposable)
         }
-
         return view
     }
 
     private fun initRecyclerView(view: View, coinAdapter: CoinAdapter) {
         recycler = view.recyclerViewTopCoins
-        coinAdapter.listener = itemClickListener
+        coinAdapter.setCoinClickListener(coinClickListener)
         recycler.adapter = coinAdapter
         val dividerItemDecoration =
             DividerItemDecoration(recycler.context, LinearLayoutManager.VERTICAL)
@@ -76,18 +78,22 @@ class TopCoinsFragment : BaseFragment() {
         coinAdapter.setData(newList)
     }
 
-    private val itemClickListener = object : ICoinItemClickListener<Coin> {
-        override fun openDetail(m: Coin) {
-            Toast.makeText(activity, "DetailClick", Toast.LENGTH_SHORT).show()
-        }
+    fun openCoinDetailInfo(coin: Coin) {
+        callbackToDetail?.openCoinDetailClick(coin)
+    }
 
-        override fun onClick(v: View?) {
+    interface CallbackToDetail {
+        fun openCoinDetailClick(coin: Coin)
+    }
 
-        }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.callbackToDetail = context as CallbackToDetail
     }
 
     override fun onDestroy() {
         super.onDestroy()
         disposeBag.dispose()
+        callbackToDetail = null
     }
 }

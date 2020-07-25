@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtNumber"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_launcher_round" />
+            app:srcCompat="@drawable/ic_placeholder" />
 
     </LinearLayout>
 
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:contentDescription="@string/arrow"
-                    app:srcCompat="@drawable/ic_arrow_up" />
+                    tools:srcCompat="@drawable/ic_arrow_up" />
 
             </LinearLayout>
         </LinearLayout>

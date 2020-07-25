@@ -9,9 +9,9 @@ import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 class CoinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private var coin: Coin? = null
-    private var listener: ICoinItemClickListener<Coin>? = null
-    private var itemDetail =
-        View.OnClickListener { this.coin?.let { it1 -> listener?.openDetail(it1) } }
+    private var clickListener: ICoinClickListener<Coin>? = null
+    private var openDetail =
+        View.OnClickListener{ this.coin?.let { it1 -> clickListener?.openDetailInfo(it1) } }
 
     val txtNumber: TextView = itemView.txtNumber
     val txtFullName: TextView = itemView.txtFullName
@@ -22,9 +22,9 @@ class CoinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val imgIcon: ImageView = itemView.imgIcon
     val imgArrow: ImageView = itemView.imgArrow
 
-    fun bind(coin: Coin, listener: ICoinItemClickListener<Coin>) {
+    fun bind(coin: Coin, clickListener: ICoinClickListener<Coin>) {
         this.coin = coin
-        this.listener = listener
-        itemView.setOnClickListener(itemDetail)
+        this.clickListener = clickListener
+        itemView.setOnClickListener(openDetail)
     }
 }
