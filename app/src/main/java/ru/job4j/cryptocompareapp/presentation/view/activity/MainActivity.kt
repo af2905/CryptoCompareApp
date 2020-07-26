@@ -3,6 +3,7 @@ package ru.job4j.cryptocompareapp.presentation.view.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     TopCoinsFragment.CallbackToDetail {
+    private var isBottomNavViewVisible = true
     var coinViewModel: CoinViewModel? = null
         @Inject set
 
@@ -29,24 +31,27 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setToolbarAndBottomNavigationView()
+        if (savedInstanceState == null) loadTopCoinsFragment()
+    }
 
+    private fun setToolbarAndBottomNavigationView() {
         val mainToolbar = toolbar
         setSupportActionBar(mainToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu)
-        bottomNavigationView.setOnNavigationItemSelectedListener(this)
-
-        if (savedInstanceState == null) {
-            loadTopCoinsFragment()
-        }
+        setBottomNavigationViewVisible()
+        bottomNavView.inflateMenu(R.menu.bottom_navigation_menu)
+        bottomNavView.setOnNavigationItemSelectedListener(this)
     }
 
     private fun loadTopCoinsFragment() {
+        setBottomNavigationViewVisible()
         loadFragment(TopCoinsFragment(), TOP_COINS_FRAGMENT)
     }
 
     private fun loadDetailCoinInfoFragment() {
+        setBottomNavigationViewGone()
         loadFragment(DetailCoinInfoFragment(), DETAIL_COIN_INFO_FRAGMENT)
     }
 
@@ -78,13 +83,29 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         }
     }
 
-    companion object {
-        private const val TOP_COINS_FRAGMENT = "topCoinsFragment"
-        private const val DETAIL_COIN_INFO_FRAGMENT = "detailCoinInfoFragment"
+    private fun setBottomNavigationViewVisible() {
+        isBottomNavViewVisible = true
+        bottomNavView.visibility = View.VISIBLE
+    }
+
+    private fun setBottomNavigationViewGone() {
+        isBottomNavViewVisible = false
+        bottomNavView.visibility = View.GONE
     }
 
     override fun openCoinDetailClick(coin: Coin) {
         coinViewModel?.setLiveDataSelectedCoin(coin)
         loadDetailCoinInfoFragment()
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 1) finish() else super.onBackPressed()
+        if (isBottomNavViewVisible) return else bottomNavView.visibility = View.VISIBLE
+    }
+
+    companion object {
+        private const val TOP_COINS_FRAGMENT = "topCoinsFragment"
+        private const val DETAIL_COIN_INFO_FRAGMENT = "detailCoinInfoFragment"
     }
 }
