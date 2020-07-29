@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
@@ -16,6 +13,7 @@ import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companio
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
+import ru.job4j.cryptocompareapp.repository.server.GlideClient
 
 class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     private var coinPriceInfoList: MutableList<Coin> = mutableListOf()
@@ -29,7 +27,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         coinDiffResult.dispatchUpdatesTo(this)
     }
 
-    fun setCoinClickListener(clickListener: ICoinClickListener<Coin>?){
+    fun setCoinClickListener(clickListener: ICoinClickListener<Coin>?) {
         this.clickListener = clickListener
     }
 
@@ -53,20 +51,13 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
             txtName.text = coin.coinBasicInfo.name
             txtPrice.text = coin.displayCoinPriceInfo.coinPriceInfo?.price
             txtChange24.text = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-
             val imgUrl = coin.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
-            //Picasso.get().load(imgUrl).into(imgIcon)
-            Glide.with(holder.itemView.context).load(imgUrl).apply(
-                RequestOptions()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder_error)
-            ).transition(withCrossFade()).into(imgIcon)
-
+            if (imgUrl != null) {
+                GlideClient.downloadImage(holder.itemView.context, imgUrl, imgIcon)
+            }
             checkPercentageChangesAndSetArrow(holder, coin)
-
-            val percentChanged =
+            txtChangePct24.text =
                 String.format("(%s%%)", coin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour)
-            txtChangePct24.text = percentChanged
         }
     }
 

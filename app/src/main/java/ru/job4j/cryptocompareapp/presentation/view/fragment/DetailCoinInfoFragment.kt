@@ -1,5 +1,6 @@
 package ru.job4j.cryptocompareapp.presentation.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,23 +8,30 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.*
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
 import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
+import ru.job4j.cryptocompareapp.repository.server.GlideClient
 import javax.inject.Inject
 
 class DetailCoinInfoFragment : BaseFragment() {
     var coinViewModel: CoinViewModel? = null
         @Inject set
-    lateinit var detailIcon: ImageView
-    lateinit var detailArrow: ImageView
-    lateinit var detailPctChange24: TextView
+    private lateinit var detailFullName: TextView
+    private lateinit var detailPrice: TextView
+    private lateinit var detailChange24: TextView
+    private lateinit var detailMarketCap: TextView
+    private lateinit var detailHigh24: TextView
+    private lateinit var detailLow24: TextView
+    private lateinit var detailTotalVolume24: TextView
+    private lateinit var detailOpen24: TextView
+    private lateinit var detailDirectVol24: TextView
+    private lateinit var detailIcon: ImageView
+    private lateinit var detailArrow: ImageView
+    private lateinit var detailPctChange24: TextView
 
     override fun injectDependency(component: ViewModelComponent) {
         component.inject(this)
@@ -33,45 +41,55 @@ class DetailCoinInfoFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail_coin_info, container, false)
-        val detailFullName = view.txtDetailFullName
-        detailIcon = view.imgDetailIcon
-        detailArrow = view.imgDetailArrow
-        val detailPrice = view.txtDetailPrice
-        val detailChange24 = view.txtDetailChange24
-        detailPctChange24 = view.txtDetailChangePct24
-        val detailMarketCap = view.txtDetailMarketCap
-        val detailHigh24 = view.txtDetailHigh24
-        val detailLow24 = view.txtDetailLow24
-        val detailTotalVolume24 = view.txtDetailTotalVolume24
-        val detailOpen24 = view.txtDetailOpen24
-        val detailDirectVol24 = view.txtDetailDirectVol24
+        initViews(view)
 
         coinViewModel?.getLiveDataSelectedCoin()?.observe(viewLifecycleOwner, Observer {
-            val url = it.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
-            loadImg(url)
-            detailFullName.text = it.coinBasicInfo.fullName
-            detailPrice.text = it.displayCoinPriceInfo.coinPriceInfo?.price
-            detailChange24.text = it.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-            detailPctChange24.text =
-                String.format("%% %s", it.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour)
-            detailMarketCap.text = it.displayCoinPriceInfo.coinPriceInfo?.mktCap
-            detailHigh24.text = it.displayCoinPriceInfo.coinPriceInfo?.high24Hour
-            detailLow24.text = it.displayCoinPriceInfo.coinPriceInfo?.low24Hour
-            detailTotalVolume24.text = it.displayCoinPriceInfo.coinPriceInfo?.totalVolume24H
-            detailOpen24.text = it.displayCoinPriceInfo.coinPriceInfo?.open24Hour
-            detailDirectVol24.text = it.displayCoinPriceInfo.coinPriceInfo?.topTierVolume24Hour
+            val imgUrl = it.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
+            downloadImage(imgUrl)
+            setDataToViews(it)
             checkPercentageChangesAndSetArrow(view, it)
         })
         return view
     }
 
-    private fun loadImg(imgUrl: String?) {
-        activity?.applicationContext?.let {
-            Glide.with(it).load(imgUrl).apply(
-                RequestOptions()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder_error)
-            ).transition(DrawableTransitionOptions.withCrossFade()).into(detailIcon)
+    private fun initViews(view: View) {
+        with(view) {
+            detailFullName = txtDetailFullName
+            detailIcon = imgDetailIcon
+            detailArrow = imgDetailArrow
+            detailPrice = txtDetailPrice
+            detailChange24 = txtDetailChange24
+            detailPctChange24 = txtDetailChangePct24
+            detailMarketCap = txtDetailMarketCap
+            detailHigh24 = txtDetailHigh24
+            detailLow24 = txtDetailLow24
+            detailTotalVolume24 = txtDetailTotalVolume24
+            detailOpen24 = txtDetailOpen24
+            detailDirectVol24 = txtDetailDirectVol24
+        }
+    }
+
+    private fun setDataToViews(coin: Coin) {
+        with(coin) {
+            detailFullName.text = coinBasicInfo.fullName
+            detailPrice.text = displayCoinPriceInfo.coinPriceInfo?.price
+            detailChange24.text = displayCoinPriceInfo.coinPriceInfo?.change24Hour
+            detailPctChange24.text =
+                String.format("%% %s", displayCoinPriceInfo.coinPriceInfo?.changePct24Hour)
+            detailMarketCap.text = displayCoinPriceInfo.coinPriceInfo?.mktCap
+            detailHigh24.text = displayCoinPriceInfo.coinPriceInfo?.high24Hour
+            detailLow24.text = displayCoinPriceInfo.coinPriceInfo?.low24Hour
+            detailTotalVolume24.text = displayCoinPriceInfo.coinPriceInfo?.totalVolume24H
+            detailOpen24.text = displayCoinPriceInfo.coinPriceInfo?.open24Hour
+            detailDirectVol24.text = displayCoinPriceInfo.coinPriceInfo?.topTierVolume24Hour
+        }
+    }
+
+    private fun downloadImage(imgUrl: String?) {
+        activity?.applicationContext?.let { it1 ->
+            if (imgUrl != null) {
+                GlideClient.downloadImage(it1, imgUrl, detailIcon)
+            }
         }
     }
 
@@ -82,24 +100,18 @@ class DetailCoinInfoFragment : BaseFragment() {
                 detailArrow.setImageDrawable(
                     resources.getDrawable(R.drawable.ic_arrow_down, view.context.theme)
                 )
-                detailPctChange24.setTextColor(
-                    resources.getColor(
-                        R.color.colorErrorRed,
-                        view.context.theme
-                    )
-                )
+                changeTextColor(view.context, detailPctChange24, R.color.colorErrorRed)
             } else {
                 detailArrow.setImageDrawable(
                     resources.getDrawable(R.drawable.ic_arrow_up, view.context.theme)
                 )
-                detailPctChange24.setTextColor(
-                    resources.getColor(
-                        R.color.colorBrightGreen,
-                        view.context.theme
-                    )
-                )
+                changeTextColor(view.context, detailPctChange24, R.color.colorBrightGreen)
             }
         }
+    }
+
+    private fun changeTextColor(context: Context, textView: TextView, color: Int) {
+        textView.setTextColor(resources.getColor(color, context.theme))
     }
 }
 
