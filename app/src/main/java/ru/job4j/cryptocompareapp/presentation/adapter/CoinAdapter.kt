@@ -35,7 +35,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_coin_info, parent, false)
+        val view = inflater.inflate(R.layout.item_coin_info_cardview, parent, false)
         return CoinViewHolder(view)
     }
 

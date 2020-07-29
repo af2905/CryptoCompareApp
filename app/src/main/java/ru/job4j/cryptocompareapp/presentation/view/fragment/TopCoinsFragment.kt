@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,6 +17,7 @@ import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.adapter.CoinAdapter
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
+import ru.job4j.cryptocompareapp.presentation.decoration.DivItemDecoration
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
 import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
@@ -66,11 +65,13 @@ class TopCoinsFragment : BaseFragment() {
         recycler = view.recyclerViewTopCoins
         coinAdapter.setCoinClickListener(coinClickListener)
         recycler.adapter = coinAdapter
-        val dividerItemDecoration =
+/*        val dividerItemDecoration =
             DividerItemDecoration(recycler.context, LinearLayoutManager.VERTICAL)
         dividerItemDecoration.setDrawable(
             this.resources.getDrawable(R.drawable.vertical_divider, activity?.theme)
-        )
+        )*/
+        val dividerItemDecoration =
+            DivItemDecoration(16, 8)
         recycler.addItemDecoration(dividerItemDecoration)
     }
 
