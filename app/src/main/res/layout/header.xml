@@ -17,7 +17,7 @@
             android:text="@string/top_price"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
-            android:background="@color/colorBrightGreen" />
+            android:background="@color/colorAccent" />
     </LinearLayout>
 
     <LinearLayout

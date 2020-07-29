@@ -16,4 +16,5 @@
     <string name="open_24h">Open 24h</string>
     <string name="powered_by">Powered by</string>
     <string name="direct_volume_24h">Direct volume 24h</string>
+    <string name="coin_name">Coin name</string>
 </resources>

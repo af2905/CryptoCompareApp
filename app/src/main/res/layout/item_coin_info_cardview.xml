@@ -70,7 +70,7 @@
                         android:id="@+id/txtFullName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorDarkBlue"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         tools:text="Bitcoin" />
                 </LinearLayout>
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:textColor="@color/colorDarkBlue"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         tools:text="$ 9,173.81" />
                 </LinearLayout>
@@ -117,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorDarkBlue"
+                        android:textColor="@color/colorPrimaryDark"
                         tools:text="$ 36.60" />
 
                     <TextView
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="4dp"
-                        android:textColor="@color/colorDarkBlue"
+                        android:textColor="@color/colorPrimaryDark"
                         tools:text="(0.35 %)" />
 
                     <ImageView
