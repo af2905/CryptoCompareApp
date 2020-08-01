@@ -3,12 +3,10 @@ package ru.job4j.cryptocompareapp.presentation.adapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
-import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
@@ -16,16 +14,8 @@ import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
 
 class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
-    private var coinPriceInfoList: MutableList<Coin> = mutableListOf()
+    var coinList: MutableList<Coin> = mutableListOf()
     private var clickListener: ICoinClickListener<Coin>? = null
-
-    fun setData(newList: List<Coin>) {
-        val coinDiffUtilCallback = CoinDiffUtilCallback(coinPriceInfoList, newList)
-        val coinDiffResult = DiffUtil.calculateDiff(coinDiffUtilCallback)
-        coinPriceInfoList.clear()
-        coinPriceInfoList.addAll(newList)
-        coinDiffResult.dispatchUpdatesTo(this)
-    }
 
     fun setCoinClickListener(clickListener: ICoinClickListener<Coin>?) {
         this.clickListener = clickListener
@@ -37,12 +27,11 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         return CoinViewHolder(view)
     }
 
-    override fun getItemCount() = coinPriceInfoList.size
+    override fun getItemCount() = coinList.size
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
-        holder.itemView.tag = coinPriceInfoList[position]
-        val coin = coinPriceInfoList[position]
-        coin.number = coinPriceInfoList.indexOf(coin) + 1
+        holder.itemView.tag = coinList[position]
+        val coin = coinList[position]
         clickListener?.let { holder.bind(coin, it) }
 
         with(holder) {
@@ -64,9 +53,9 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     override fun onBindViewHolder(
         holder: CoinViewHolder, position: Int, payloads: MutableList<Any>
     ) {
-        holder.itemView.tag = coinPriceInfoList[position]
-        val coin = coinPriceInfoList[position]
-        coin.number = coinPriceInfoList.indexOf(coin) + 1
+        holder.itemView.tag = coinList[position]
+        val coin = coinList[position]
+        coin.number = coinList.indexOf(coin) + 1
         clickListener?.let { holder.bind(coin, it) }
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)

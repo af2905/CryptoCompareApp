@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <FrameLayout
             android:id="@+id/content"
@@ -27,9 +28,6 @@
             app:itemBackground="@drawable/bottom_navigation_bg"
             app:itemIconTint="@color/bottom_navigation_item_colors"
             app:itemTextColor="@color/bottom_navigation_item_colors"
-            app:labelVisibilityMode="selected"
-            />
-
+            app:labelVisibilityMode="labeled" />
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

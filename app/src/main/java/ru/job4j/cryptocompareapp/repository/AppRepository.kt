@@ -15,6 +15,10 @@ class AppRepository(
         return serverCommunicator.getCoinPriceInfo()
             .map {
                 appDatabase.coinDao().insertCoinList(it)
+                val coins = appDatabase.coinDao().getCoinList()
+                for ((i, coin) in coins.withIndex()) {
+                    coin.number = i + 1
+                }
             }
             .flatMap {
                 return@flatMap Flowable.just(appDatabase.coinDao().getCoinList())

@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_top_coins.*
 import kotlinx.android.synthetic.main.fragment_top_coins.view.*
@@ -19,6 +22,7 @@ import ru.job4j.cryptocompareapp.presentation.adapter.CoinAdapter
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
 import ru.job4j.cryptocompareapp.presentation.decoration.DivItemDecoration
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
+import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
 import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import java.util.concurrent.TimeUnit
@@ -26,9 +30,10 @@ import javax.inject.Inject
 
 class TopCoinsFragment : BaseFragment() {
     lateinit var recycler: RecyclerView
+    private val coinAdapter = CoinAdapter()
     private val disposeBag = CompositeDisposable()
     private var callbackToDetail: CallbackToDetail? = null
-    private val coinClickListener: ICoinClickListener<Coin> = object: ICoinClickListener<Coin> {
+    private val coinClickListener: ICoinClickListener<Coin> = object : ICoinClickListener<Coin> {
         override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
     }
 
@@ -43,7 +48,6 @@ class TopCoinsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
-        val coinAdapter = CoinAdapter()
         initRecyclerView(view, coinAdapter)
         coinViewModel?.getLiveDataCoinInfoList()
             ?.observe(viewLifecycleOwner, Observer { setDataInAdapter(coinAdapter, it) })
@@ -75,8 +79,15 @@ class TopCoinsFragment : BaseFragment() {
         recycler.addItemDecoration(dividerItemDecoration)
     }
 
-    private fun setDataInAdapter(coinAdapter: CoinAdapter, newList: List<Coin>) {
-        coinAdapter.setData(newList)
+    private fun setDataInAdapter(coinAdapter: CoinAdapter, coins: List<Coin>): Disposable {
+        val listOfCoins: Flowable<List<Coin>> = Flowable.fromArray(coins)
+        val disposable = listOfCoins
+            .map { DiffUtil.calculateDiff(CoinDiffUtilCallback(coinAdapter.coinList, it)) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { coinAdapter.coinList = coins as MutableList<Coin> }
+            .subscribe { it.dispatchUpdatesTo(coinAdapter) }
+        disposeBag.add(disposable)
+        return disposable
     }
 
     fun openCoinDetailInfo(coin: Coin) {
