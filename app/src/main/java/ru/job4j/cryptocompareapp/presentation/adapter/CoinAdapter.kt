@@ -69,7 +69,6 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
                             coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
                         CHANGE_PCT_24 -> txtChangePct24.text =
                             coin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
-
                     }
                 }
             }

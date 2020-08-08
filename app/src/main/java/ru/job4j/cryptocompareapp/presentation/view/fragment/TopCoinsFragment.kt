@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -31,8 +31,8 @@ import javax.inject.Inject
 class TopCoinsFragment : BaseFragment() {
     lateinit var recycler: RecyclerView
     private val coinAdapter = CoinAdapter()
-    private val disposeBag = CompositeDisposable()
     private var callbackToDetail: CallbackToDetail? = null
+    private val disposeBag = CompositeDisposable()
     private val coinClickListener: ICoinClickListener<Coin> = object : ICoinClickListener<Coin> {
         override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
     }
@@ -56,11 +56,10 @@ class TopCoinsFragment : BaseFragment() {
                 ?.observe(viewLifecycleOwner, Observer {
                     setDataInAdapter(coinAdapter, it)
                 })
-            val disposable = Completable.timer(1, TimeUnit.SECONDS)
+            disposeBag.add(Completable.timer(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
-            disposeBag.add(disposable)
+                .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false })
         }
         return view
     }
@@ -74,13 +73,11 @@ class TopCoinsFragment : BaseFragment() {
         dividerItemDecoration.setDrawable(
             this.resources.getDrawable(R.drawable.vertical_divider, activity?.theme)
         )*/
-        val dividerItemDecoration =
-            DivItemDecoration(16, 8)
-        recycler.addItemDecoration(dividerItemDecoration)
+        recycler.addItemDecoration(DivItemDecoration(16, 8))
     }
 
     private fun setDataInAdapter(coinAdapter: CoinAdapter, coins: List<Coin>): Disposable {
-        val listOfCoins: Flowable<List<Coin>> = Flowable.fromArray(coins)
+        val listOfCoins: Observable<List<Coin>> = Observable.fromArray(coins)
         val disposable = listOfCoins
             .map { DiffUtil.calculateDiff(CoinDiffUtilCallback(coinAdapter.coinList, it)) }
             .observeOn(AndroidSchedulers.mainThread())

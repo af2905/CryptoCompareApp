@@ -1,10 +1,10 @@
 package ru.job4j.cryptocompareapp.repository.server
 
-import io.reactivex.Flowable
+import io.reactivex.Single
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 class ServerCommunicator(private val apiService: ApiService) {
-    fun getCoinPriceInfo(): Flowable<List<Coin>> {
+    fun getCoinPriceInfo(): Single<List<Coin>> {
         return apiService.getTopCoinsInfo()
             .map {
                 if (!it.coins.isNullOrEmpty())

@@ -1,6 +1,6 @@
 package ru.job4j.cryptocompareapp.repository.server
 
-import io.reactivex.Flowable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.job4j.cryptocompareapp.repository.database.pojo.CoinInfoListOfData
@@ -12,7 +12,7 @@ interface ApiService {
          @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
          @Query(QUERY_PARAM_LIMIT) limit: Int = 100,
          @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-     ): Flowable<CoinInfoListOfData>
+     ): Single<CoinInfoListOfData>
 
     companion object {
         private const val CURRENCY = "USD"

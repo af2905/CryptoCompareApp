@@ -32,7 +32,9 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setToolbarAndBottomNavigationView()
-        if (savedInstanceState == null) loadTopCoinsFragment()
+        if (savedInstanceState == null) {
+            loadTopCoinsFragment()
+        }
     }
 
     private fun setToolbarAndBottomNavigationView() {

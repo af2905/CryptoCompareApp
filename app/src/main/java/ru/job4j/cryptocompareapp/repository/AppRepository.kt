@@ -1,6 +1,6 @@
 package ru.job4j.cryptocompareapp.repository
 
-import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.job4j.cryptocompareapp.repository.database.AppDatabase
@@ -11,7 +11,7 @@ class AppRepository(
     private val serverCommunicator: ServerCommunicator,
     private val appDatabase: AppDatabase
 ) {
-    fun getCoinPriceInfoFromNet(): Flowable<List<Coin>> {
+    fun getCoinPriceInfoFromNet(): Single<List<Coin>> {
         return serverCommunicator.getCoinPriceInfo()
             .map {
                 appDatabase.coinDao().insertCoinList(it)
@@ -21,7 +21,7 @@ class AppRepository(
                 }
             }
             .flatMap {
-                return@flatMap Flowable.just(appDatabase.coinDao().getCoinList())
+                return@flatMap Single.just(appDatabase.coinDao().getCoinList())
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
