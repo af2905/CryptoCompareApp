@@ -9,6 +9,7 @@ import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
+import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.NUMBER
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
@@ -55,7 +56,6 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     ) {
         holder.itemView.tag = coinList[position]
         val coin = coinList[position]
-        coin.number = coinList.indexOf(coin) + 1
         clickListener?.let { holder.bind(coin, it) }
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
@@ -69,6 +69,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
                             coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
                         CHANGE_PCT_24 -> txtChangePct24.text =
                             coin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
+                        NUMBER -> txtNumber.text = coin.number.toString()
                     }
                 }
             }

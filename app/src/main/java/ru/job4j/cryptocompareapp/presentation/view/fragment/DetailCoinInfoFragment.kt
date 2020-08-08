@@ -18,8 +18,6 @@ import ru.job4j.cryptocompareapp.repository.server.GlideClient
 import javax.inject.Inject
 
 class DetailCoinInfoFragment : BaseFragment() {
-    var coinViewModel: CoinViewModel? = null
-        @Inject set
     private lateinit var detailFullName: TextView
     private lateinit var detailName: TextView
     private lateinit var detailPrice: TextView
@@ -33,6 +31,8 @@ class DetailCoinInfoFragment : BaseFragment() {
     private lateinit var detailArrow: ImageView
     private lateinit var detailPctChange24: TextView
     private lateinit var detailInfographic1: ImageView
+    var coinViewModel: CoinViewModel? = null
+        @Inject set
 
     override fun injectDependency(component: ViewModelComponent) {
         component.inject(this)
@@ -43,7 +43,6 @@ class DetailCoinInfoFragment : BaseFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail_coin_info, container, false)
         initViews(view)
-
         coinViewModel?.getLiveDataSelectedCoin()?.observe(viewLifecycleOwner, Observer {
             val imgUrl = it.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
             downloadImage(imgUrl)

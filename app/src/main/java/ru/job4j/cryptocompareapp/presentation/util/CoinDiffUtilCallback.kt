@@ -17,32 +17,33 @@ class CoinDiffUtilCallback(private val oldList: List<Coin>, private val newList:
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldCoin: Coin = oldList[oldItemPosition]
         val newCoin: Coin = newList[newItemPosition]
-        return oldCoin.displayCoinPriceInfo.coinPriceInfo?.price ==
-                newCoin.displayCoinPriceInfo.coinPriceInfo?.price
+        val oldPrice = oldCoin.displayCoinPriceInfo.coinPriceInfo?.price
+        val newPrice = newCoin.displayCoinPriceInfo.coinPriceInfo?.price
+        return oldPrice == newPrice && oldCoin.number == newCoin.number
     }
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
         val oldCoin: Coin = oldList[oldItemPosition]
         val newCoin: Coin = newList[newItemPosition]
+        val oldPrice = oldCoin.displayCoinPriceInfo.coinPriceInfo?.price
+        val newPrice = newCoin.displayCoinPriceInfo.coinPriceInfo?.price
+        val oldChange24Hour = oldCoin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
+        val newChange24Hour = newCoin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
+        val oldChangePct24Hour = oldCoin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
+        val newChangePct24Hour = newCoin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
+
         val bundle = Bundle()
-        if (!(oldCoin.displayCoinPriceInfo.coinPriceInfo?.price
-                .equals(newCoin.displayCoinPriceInfo.coinPriceInfo?.price))
-        ) {
-            bundle.putString(PRICE, newCoin.displayCoinPriceInfo.coinPriceInfo?.price)
+        if (!(oldPrice.equals(newPrice))) {
+            bundle.putString(PRICE, newPrice)
         }
-        if (!(oldCoin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-                .equals(newCoin.displayCoinPriceInfo.coinPriceInfo?.change24Hour))
-        ) {
-            bundle.putString(
-                CHANGE_24, newCoin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-            )
+        if (!(oldChange24Hour.equals(newChange24Hour))) {
+            bundle.putString(CHANGE_24, newChange24Hour)
         }
-        if (!(oldCoin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
-                .equals(newCoin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour))
-        ) {
-            bundle.putString(
-                CHANGE_PCT_24, newCoin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
-            )
+        if (!(oldChangePct24Hour.equals(newChangePct24Hour))) {
+            bundle.putString(CHANGE_PCT_24, newChangePct24Hour)
+        }
+        if (oldCoin.number != newCoin.number) {
+            bundle.putString(NUMBER, newCoin.number.toString())
         }
         if (bundle.size() == 0) {
             return null
@@ -54,5 +55,6 @@ class CoinDiffUtilCallback(private val oldList: List<Coin>, private val newList:
         const val PRICE = "price"
         const val CHANGE_24 = "change24Hour"
         const val CHANGE_PCT_24 = "changePct24Hour"
+        const val NUMBER = "number"
     }
 }

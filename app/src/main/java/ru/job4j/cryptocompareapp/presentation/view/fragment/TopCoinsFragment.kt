@@ -36,7 +36,6 @@ class TopCoinsFragment : BaseFragment() {
     private val coinClickListener: ICoinClickListener<Coin> = object : ICoinClickListener<Coin> {
         override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
     }
-
     var coinViewModel: CoinViewModel? = null
         @Inject set
 
@@ -68,11 +67,6 @@ class TopCoinsFragment : BaseFragment() {
         recycler = view.recyclerViewTopCoins
         coinAdapter.setCoinClickListener(coinClickListener)
         recycler.adapter = coinAdapter
-/*        val dividerItemDecoration =
-            DividerItemDecoration(recycler.context, LinearLayoutManager.VERTICAL)
-        dividerItemDecoration.setDrawable(
-            this.resources.getDrawable(R.drawable.vertical_divider, activity?.theme)
-        )*/
         recycler.addItemDecoration(DivItemDecoration(16, 8))
     }
 

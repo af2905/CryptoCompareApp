@@ -16,9 +16,12 @@ class AppRepository(
             .map {
                 appDatabase.coinDao().insertCoinList(it)
                 val coins = appDatabase.coinDao().getCoinList()
+                val temp = mutableListOf<Coin>()
                 for ((i, coin) in coins.withIndex()) {
                     coin.number = i + 1
+                    temp.add(coin)
                 }
+                appDatabase.coinDao().insertCoinList(temp)
             }
             .flatMap {
                 return@flatMap Single.just(appDatabase.coinDao().getCoinList())
