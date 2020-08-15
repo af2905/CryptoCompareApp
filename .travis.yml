@@ -1,24 +1,27 @@
 language: android
 dist: trusty
+# setup before install
+before_install:
+  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
+  - chmod +x ./gradlew
+  - cp local.properties.ci local.properties
+
+# define android packages and licenses
 android:
   components:
-    # The BuildTools version used by your project
+    - tools
+    - platform-tools
     - build-tools-29.0.3
-    # The SDK version used to compile your project
     - android-29
+    - extra-android-m2repository
 
-before_install:
-  - chmod +x gradlew
-  - yes | sdkmanager "platforms;android-29"
+  licenses:
+    - android-sdk-license-.+
 
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+# only perform unit test only
+script:
+  - ./gradlew assembleDebug
 
 env:
   global:
