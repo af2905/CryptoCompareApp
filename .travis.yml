@@ -13,10 +13,6 @@ before_install:
 
 script:
   - ./gradlew build assembleDebug
-  - |
-    ./gradlew \
-    build \
-    jacocoTestReport
 
 env:
   global:
