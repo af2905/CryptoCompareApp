@@ -14,8 +14,6 @@ data class Coin(
     @PrimaryKey
     var id: Int,
 
-    var number: Int,
-
     @SerializedName("CoinInfo")
     @Expose
     @Embedded

@@ -73,9 +73,9 @@ class TopCoinsFragment : BaseFragment() {
     private fun setDataInAdapter(coinAdapter: CoinAdapter, coins: List<Coin>): Disposable {
         val listOfCoins: Observable<List<Coin>> = Observable.fromArray(coins)
         val disposable = listOfCoins
-            .map { DiffUtil.calculateDiff(CoinDiffUtilCallback(coinAdapter.coinList, it)) }
+            .map { DiffUtil.calculateDiff(CoinDiffUtilCallback(coinAdapter.getCoins(), it)) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { coinAdapter.coinList = coins as MutableList<Coin> }
+            .doOnNext { coinAdapter.setCoins(coins) }
             .subscribe { it.dispatchUpdatesTo(coinAdapter) }
         disposeBag.add(disposable)
         return disposable

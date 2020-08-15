@@ -9,17 +9,22 @@ import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
-import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.NUMBER
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
 
 class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
-    var coinList: MutableList<Coin> = mutableListOf()
-    private var clickListener: ICoinClickListener<Coin>? = null
+    private var coins: MutableList<Coin> = mutableListOf()
+    private lateinit var clickListener: ICoinClickListener<Coin>
 
-    fun setCoinClickListener(clickListener: ICoinClickListener<Coin>?) {
+    fun setCoinClickListener(clickListener: ICoinClickListener<Coin>) {
         this.clickListener = clickListener
+    }
+
+    fun getCoins() = coins
+
+    fun setCoins(coins: List<Coin>) {
+        this.coins = coins as MutableList<Coin>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
@@ -28,48 +33,45 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         return CoinViewHolder(view)
     }
 
-    override fun getItemCount() = coinList.size
+    override fun getItemCount() = coins.size
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
-        holder.itemView.tag = coinList[position]
-        val coin = coinList[position]
-        clickListener?.let { holder.bind(coin, it) }
+        holder.itemView.tag = coins[position]
+        val coin = coins[position]
+        holder.bind(coin, clickListener)
 
         with(holder) {
-            txtNumber.text = coin.number.toString()
             txtFullName.text = coin.coinBasicInfo.fullName
             txtName.text = coin.coinBasicInfo.name
-            txtPrice.text = coin.displayCoinPriceInfo.coinPriceInfo?.price
-            txtChange24.text = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-            val imgUrl = coin.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
-            if (imgUrl != null) {
+            coin.displayCoinPriceInfo.coinPriceInfo?.let {
+                txtPrice.text = it.price
+                txtChange24.text = it.change24Hour
+                val imgUrl = it.getFullImageUrl()
                 GlideClient.downloadImage(holder.itemView.context, imgUrl, imgIcon)
+                txtChangePct24.text = pctChange(it.changePct24Hour)
             }
             checkPercentageChangesAndSetArrow(holder, coin)
-            txtChangePct24.text =
-                String.format("(%s%%)", coin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour)
         }
     }
 
     override fun onBindViewHolder(
         holder: CoinViewHolder, position: Int, payloads: MutableList<Any>
     ) {
-        holder.itemView.tag = coinList[position]
-        val coin = coinList[position]
-        clickListener?.let { holder.bind(coin, it) }
+        holder.itemView.tag = coins[position]
+        val coin = coins[position]
+        holder.bind(coin, clickListener)
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
             val bundle: Bundle = payloads.firstOrNull() as Bundle
             for (key in bundle.keySet()) {
                 with(holder) {
-                    when (key) {
-                        PRICE -> txtPrice.text = coin.displayCoinPriceInfo.coinPriceInfo?.price
-                        CHANGE_24 -> txtChange24.text =
-                            coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
-                        CHANGE_PCT_24 -> txtChangePct24.text =
-                            coin.displayCoinPriceInfo.coinPriceInfo?.changePct24Hour
-                        NUMBER -> txtNumber.text = coin.number.toString()
+                    coin.displayCoinPriceInfo.coinPriceInfo?.let {
+                        when (key) {
+                            PRICE -> txtPrice.text = it.price
+                            CHANGE_24 -> txtChange24.text = it.change24Hour
+                            CHANGE_PCT_24 -> txtChangePct24.text = pctChange(it.changePct24Hour)
+                        }
                     }
                 }
             }
@@ -90,4 +92,6 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
             }
         }
     }
+
+    private fun pctChange(text: String?) = String.format("(%s%%)", text)
 }

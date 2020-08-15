@@ -8,12 +8,10 @@ import kotlinx.android.synthetic.main.item_coin_info.view.*
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 class CoinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private var coin: Coin? = null
-    private var clickListener: ICoinClickListener<Coin>? = null
-    private var openDetail =
-        View.OnClickListener{ this.coin?.let { it1 -> clickListener?.openDetailInfo(it1) } }
+    private lateinit var coin: Coin
+    private lateinit var clickListener: ICoinClickListener<Coin>
+    private val openDetail = View.OnClickListener { clickListener.openDetailInfo(coin) }
 
-    val txtNumber: TextView = itemView.txtNumber
     val txtFullName: TextView = itemView.txtFullName
     val txtName: TextView = itemView.txtName
     val txtPrice: TextView = itemView.txtPrice
