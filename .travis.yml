@@ -1,12 +1,9 @@
-
 language: android
 dist: trusty
 android:
   components:
-
     # The BuildTools version used by your project
     - build-tools-29.0.3
-
     # The SDK version used to compile your project
     - android-29
 
@@ -17,13 +14,13 @@ before_install:
 script:
   - ./gradlew build assembleDebug
   - |
-      ./gradlew \
-      build \
-      jacocoTestReport
+    ./gradlew \
+    build \
+    jacocoTestReport
 
 env:
   global:
-    - CODECOV_TOKEN="b4c8cc6f-253e-4aed-91b2-c2cddc96c2ba"
+    - export CODECOV_TOKEN="b4c8cc6f-253e-4aed-91b2-c2cddc96c2ba"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
