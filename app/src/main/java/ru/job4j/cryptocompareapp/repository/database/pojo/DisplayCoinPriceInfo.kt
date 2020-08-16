@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class DisplayCoinPriceInfo (
+data class DisplayCoinPriceInfo(
     @SerializedName("USD")
     @Expose
     @Embedded

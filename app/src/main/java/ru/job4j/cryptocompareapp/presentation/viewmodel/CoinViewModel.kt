@@ -24,12 +24,15 @@ class CoinViewModel(application: Application, private val repository: AppReposit
     private fun loadData() {
         val disposable = repository.getCoinPriceInfoFromNet()
             .retry()
-            .subscribe({ it ->
-                liveDataCoinInfoList.value = it
-                Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
-            }, {
-                Log.d("TEST_OF_LOADING_DATA", it.message.toString())
-            })
+            .subscribe(
+                { it ->
+                    liveDataCoinInfoList.value = it
+                    Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+                },
+                {
+                    Log.d("TEST_OF_LOADING_DATA", it.message.toString())
+                }
+            )
         disposeBag.add(disposable)
     }
 
@@ -38,20 +41,23 @@ class CoinViewModel(application: Application, private val repository: AppReposit
             .delaySubscription(1, TimeUnit.MINUTES)
             .repeat()
             .retry()
-            .subscribe({ it ->
-                liveDataCoinInfoList.value = it
-                if (getLiveDataSelectedCoin().value != null) {
-                    val liveDataCoinId = getLiveDataSelectedCoin().value?.id
-                    for (coin in it) {
-                        if (coin.id == liveDataCoinId) {
-                            setLiveDataSelectedCoin(coin)
+            .subscribe(
+                { it ->
+                    liveDataCoinInfoList.value = it
+                    if (getLiveDataSelectedCoin().value != null) {
+                        val liveDataCoinId = getLiveDataSelectedCoin().value?.id
+                        for (coin in it) {
+                            if (coin.id == liveDataCoinId) {
+                                setLiveDataSelectedCoin(coin)
+                            }
                         }
                     }
+                    Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+                },
+                {
+                    Log.d("TEST_OF_LOADING_DATA", it.message.toString())
                 }
-                Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
-            }, {
-                Log.d("TEST_OF_LOADING_DATA", it.message.toString())
-            })
+            )
         disposeBag.add(disposable)
     }
 

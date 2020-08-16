@@ -55,7 +55,9 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     }
 
     override fun onBindViewHolder(
-        holder: CoinViewHolder, position: Int, payloads: MutableList<Any>
+        holder: CoinViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
     ) {
         holder.itemView.tag = coins[position]
         val coin = coins[position]

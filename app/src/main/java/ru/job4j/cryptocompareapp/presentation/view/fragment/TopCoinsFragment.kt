@@ -44,7 +44,9 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
         initRecyclerView(view, coinAdapter)
@@ -52,13 +54,18 @@ class TopCoinsFragment : BaseFragment() {
             ?.observe(viewLifecycleOwner, Observer { setDataInAdapter(coinAdapter, it) })
         view.swipeTopCoinsRefreshLayout.setOnRefreshListener {
             coinViewModel?.getLiveDataCoinInfoList()
-                ?.observe(viewLifecycleOwner, Observer {
-                    setDataInAdapter(coinAdapter, it)
-                })
-            disposeBag.add(Completable.timer(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false })
+                ?.observe(
+                    viewLifecycleOwner,
+                    Observer {
+                        setDataInAdapter(coinAdapter, it)
+                    }
+                )
+            disposeBag.add(
+                Completable.timer(1, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
+            )
         }
         return view
     }

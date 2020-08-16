@@ -16,6 +16,3 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun injectDependency(component: ViewModelComponent)
 }
-
-
-

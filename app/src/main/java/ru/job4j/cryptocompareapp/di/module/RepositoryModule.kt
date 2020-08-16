@@ -11,7 +11,7 @@ import ru.job4j.cryptocompareapp.repository.server.ServerCommunicator
 class RepositoryModule {
     @Provides
     @RepositoryScope
-    fun providesRepository(communicator: ServerCommunicator, appDatabase: AppDatabase):AppRepository{
+    fun providesRepository(communicator: ServerCommunicator, appDatabase: AppDatabase): AppRepository {
         return AppRepository(communicator, appDatabase)
     }
 }

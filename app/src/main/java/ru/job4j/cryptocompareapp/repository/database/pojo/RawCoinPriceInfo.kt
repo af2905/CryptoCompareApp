@@ -10,4 +10,3 @@ data class RawCoinPriceInfo(
     @Embedded
     val coinPriceAndLastUpdate: CoinPriceAndLastUpdate? = null
 )
-

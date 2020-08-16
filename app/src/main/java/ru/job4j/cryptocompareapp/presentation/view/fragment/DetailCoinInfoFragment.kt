@@ -39,16 +39,21 @@ class DetailCoinInfoFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail_coin_info, container, false)
         initViews(view)
-        coinViewModel?.getLiveDataSelectedCoin()?.observe(viewLifecycleOwner, Observer {
-            val imgUrl = it.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
-            downloadImage(imgUrl)
-            setDataToViews(it)
-            checkPercentageChangesAndSetArrow(view, it)
-        })
+        coinViewModel?.getLiveDataSelectedCoin()?.observe(
+            viewLifecycleOwner,
+            Observer {
+                val imgUrl = it.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()
+                downloadImage(imgUrl)
+                setDataToViews(it)
+                checkPercentageChangesAndSetArrow(view, it)
+            }
+        )
         return view
     }
 
@@ -121,4 +126,3 @@ class DetailCoinInfoFragment : BaseFragment() {
         imageView.setImageDrawable(resources.getDrawable(img, context.theme))
     }
 }
-

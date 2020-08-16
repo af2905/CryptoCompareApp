@@ -1,7 +1,7 @@
 [![API](https://img.shields.io/badge/API-23%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![Build Status](https://travis-ci.org/af2905/CryptoCompareApp.svg?branch=master)](https://travis-ci.org/af2905/CryptoCompareApp)
 [![codecov](https://codecov.io/gh/af2905/CryptoCompareApp/branch/master/graph/badge.svg)](https://codecov.io/gh/af2905/CryptoCompareApp)
-[![Android](https://img.shields.io/badge/platform-Android-blue.svg?style=flat)](https://developer.android.com)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 # CryptoCompareApp
 
 * The app contains single activity and fragments.

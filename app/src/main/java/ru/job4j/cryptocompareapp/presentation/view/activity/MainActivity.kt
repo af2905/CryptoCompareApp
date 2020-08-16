@@ -18,7 +18,9 @@ import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+class MainActivity :
+    BaseActivity(),
+    BottomNavigationView.OnNavigationItemSelectedListener,
     TopCoinsFragment.CallbackToDetail {
     private var isBottomNavViewVisible = true
     var coinViewModel: CoinViewModel? = null

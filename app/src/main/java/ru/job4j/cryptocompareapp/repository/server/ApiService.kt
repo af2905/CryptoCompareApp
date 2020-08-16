@@ -6,13 +6,13 @@ import retrofit2.http.Query
 import ru.job4j.cryptocompareapp.repository.database.pojo.CoinInfoListOfData
 
 interface ApiService {
-    //https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD
-     @GET("top/totalvolfull")
-     fun getTopCoinsInfo(
-         @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
-         @Query(QUERY_PARAM_LIMIT) limit: Int = 100,
-         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-     ): Single<CoinInfoListOfData>
+    // https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD
+    @GET("top/totalvolfull")
+    fun getTopCoinsInfo(
+        @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
+        @Query(QUERY_PARAM_LIMIT) limit: Int = 100,
+        @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
+    ): Single<CoinInfoListOfData>
 
     companion object {
         private const val CURRENCY = "USD"
