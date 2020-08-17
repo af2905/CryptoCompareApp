@@ -38,7 +38,7 @@ class CoinViewModel(application: Application, private val repository: AppReposit
 
     private fun updateData() {
         val disposable = repository.getCoinPriceInfoFromNet()
-            .delaySubscription(1, TimeUnit.MINUTES)
+            .delaySubscription(70, TimeUnit.SECONDS)
             .repeat()
             .retry()
             .subscribe(

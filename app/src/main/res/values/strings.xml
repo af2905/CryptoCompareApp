@@ -11,10 +11,12 @@
     <string name="price">Current price</string>
     <string name="price_change">Price change 24h</string>
     <string name="market_capitalization">Market capitalization</string>
-    <string name="low_high_24h">Low/High 24h</string>
+    <string name="low_high_24h">High/Low 24h</string>
     <string name="total_volume_24h">Total volume 24h</string>
     <string name="open_24h">Open 24h</string>
     <string name="powered_by">Powered by</string>
     <string name="direct_volume_24h">Direct volume 24h</string>
     <string name="coin_name">Coin name</string>
+    <string name="a_few_seconds_ago">a few seconds ago</string>
+    <string name="a_minute_ago">a minute ago</string>
 </resources>

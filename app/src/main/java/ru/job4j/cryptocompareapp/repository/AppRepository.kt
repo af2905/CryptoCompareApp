@@ -13,12 +13,8 @@ class AppRepository(
 ) {
     fun getCoinPriceInfoFromNet(): Single<List<Coin>> {
         return serverCommunicator.getCoinPriceInfo()
-            .map {
-                appDatabase.coinDao().insertCoinList(it)
-            }
-            .flatMap {
-                return@flatMap Single.just(appDatabase.coinDao().getCoinList())
-            }
+            .map { appDatabase.coinDao().insertCoinList(it) }
+            .flatMap { return@flatMap Single.just(appDatabase.coinDao().getCoinList()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

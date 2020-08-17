@@ -1,5 +1,6 @@
 package ru.job4j.cryptocompareapp.presentation.view.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,7 +44,7 @@ class DetailCoinInfoFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_detail_coin_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_detail_coin_info_new, container, false)
         initViews(view)
         coinViewModel?.getLiveDataSelectedCoin()?.observe(
             viewLifecycleOwner,
@@ -99,6 +100,7 @@ class DetailCoinInfoFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkPercentageChangesAndSetArrow(view: View, coin: Coin) {
         val change24Hour = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
         if (change24Hour != null) {
@@ -122,6 +124,7 @@ class DetailCoinInfoFragment : BaseFragment() {
         textView.setTextColor(resources.getColor(color, context.theme))
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun changeInfographic(context: Context, imageView: ImageView, img: Int) {
         imageView.setImageDrawable(resources.getDrawable(img, context.theme))
     }

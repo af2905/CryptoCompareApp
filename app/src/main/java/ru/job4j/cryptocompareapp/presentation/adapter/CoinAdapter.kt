@@ -1,5 +1,6 @@
 package ru.job4j.cryptocompareapp.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -80,6 +81,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkPercentageChangesAndSetArrow(holder: CoinViewHolder, coin: Coin) {
         val change24Hour = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
         if (change24Hour != null) {
