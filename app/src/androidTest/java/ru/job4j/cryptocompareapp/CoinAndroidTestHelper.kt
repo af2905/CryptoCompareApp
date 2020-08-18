@@ -1,7 +1,11 @@
 package ru.job4j.cryptocompareapp
 
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
-import ru.job4j.cryptocompareapp.repository.database.pojo.*
+import ru.job4j.cryptocompareapp.repository.database.pojo.CoinBasicInfo
+import ru.job4j.cryptocompareapp.repository.database.pojo.CoinPriceAndLastUpdate
+import ru.job4j.cryptocompareapp.repository.database.pojo.CoinPriceInfo
+import ru.job4j.cryptocompareapp.repository.database.pojo.DisplayCoinPriceInfo
+import ru.job4j.cryptocompareapp.repository.database.pojo.RawCoinPriceInfo
 
 class CoinAndroidTestHelper {
     val coins = listOf(

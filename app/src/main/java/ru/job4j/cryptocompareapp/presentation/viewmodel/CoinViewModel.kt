@@ -31,41 +31,45 @@ class CoinViewModel(application: Application, private val repository: AppReposit
     }
 
     private fun loadData() {
-        disposeBag.add(getCoinPriceInfoFromRepository()
-            .retry()
-            .subscribe(
-                {
-                    liveDataCoinInfoList.value = it
-                    Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
-                },
-                {
-                    Log.d("TEST_OF_LOADING_DATA", it.message.toString())
-                }
-            ))
+        disposeBag.add(
+            getCoinPriceInfoFromRepository()
+                .retry()
+                .subscribe(
+                    {
+                        liveDataCoinInfoList.value = it
+                        Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+                    },
+                    {
+                        Log.d("TEST_OF_LOADING_DATA", it.message.toString())
+                    }
+                )
+        )
     }
 
     private fun updateData() {
-        disposeBag.add(getCoinPriceInfoFromRepository()
-            .delaySubscription(70, TimeUnit.SECONDS)
-            .repeat()
-            .retry()
-            .subscribe(
-                { it ->
-                    liveDataCoinInfoList.value = it
-                    if (getLiveDataSelectedCoin().value != null) {
-                        val liveDataCoinId = getLiveDataSelectedCoin().value?.id
-                        for (coin in it) {
-                            if (coin.id == liveDataCoinId) {
-                                setLiveDataSelectedCoin(coin)
+        disposeBag.add(
+            getCoinPriceInfoFromRepository()
+                .delaySubscription(70, TimeUnit.SECONDS)
+                .repeat()
+                .retry()
+                .subscribe(
+                    { it ->
+                        liveDataCoinInfoList.value = it
+                        if (getLiveDataSelectedCoin().value != null) {
+                            val liveDataCoinId = getLiveDataSelectedCoin().value?.id
+                            for (coin in it) {
+                                if (coin.id == liveDataCoinId) {
+                                    setLiveDataSelectedCoin(coin)
+                                }
                             }
                         }
+                        Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+                    },
+                    {
+                        Log.d("TEST_OF_LOADING_DATA", it.message.toString())
                     }
-                    Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
-                },
-                {
-                    Log.d("TEST_OF_LOADING_DATA", it.message.toString())
-                }
-            ))
+                )
+        )
     }
 
     fun getLiveDataCoinInfoList(): LiveData<List<Coin>> {
