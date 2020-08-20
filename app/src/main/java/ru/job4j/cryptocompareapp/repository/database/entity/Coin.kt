@@ -9,7 +9,7 @@ import ru.job4j.cryptocompareapp.repository.database.pojo.CoinBasicInfo
 import ru.job4j.cryptocompareapp.repository.database.pojo.DisplayCoinPriceInfo
 import ru.job4j.cryptocompareapp.repository.database.pojo.RawCoinPriceInfo
 
-@Entity(tableName = "datum")
+@Entity(tableName = "coins")
 data class Coin(
     @PrimaryKey
     var id: Int,

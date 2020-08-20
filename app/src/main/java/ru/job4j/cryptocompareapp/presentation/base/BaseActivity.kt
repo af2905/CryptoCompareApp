@@ -8,11 +8,12 @@ import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createDaggerDependencies()
+        createDependencies()
     }
 
-    private fun createDaggerDependencies() =
+    private fun createDependencies() {
         injectDependency((application as App).getViewModelComponent())
+    }
 
     abstract fun injectDependency(component: ViewModelComponent)
 }

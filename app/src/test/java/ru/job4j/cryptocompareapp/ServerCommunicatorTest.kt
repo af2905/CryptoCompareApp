@@ -13,7 +13,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
-import ru.job4j.cryptocompareapp.repository.database.pojo.CoinInfoListOfData
+import ru.job4j.cryptocompareapp.repository.database.pojo.CoinsListOfData
 import ru.job4j.cryptocompareapp.repository.server.ApiService
 import ru.job4j.cryptocompareapp.repository.server.ServerCommunicator
 
@@ -35,7 +35,7 @@ class ServerCommunicatorTest {
     @Test
     fun checkDataFlowFromApiService() {
         val coins = CoinTestHelper().createListOfCoins()
-        val priceList = mockk<CoinInfoListOfData>()
+        val priceList = mockk<CoinsListOfData>()
         every { priceList.coins } returns coins
         every { apiService.getTopCoinsInfo() } returns Single.fromObservable(
             Observable.fromArray(priceList)

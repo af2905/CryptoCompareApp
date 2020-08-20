@@ -13,7 +13,7 @@ import ru.job4j.cryptocompareapp.repository.AppRepository
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import java.util.concurrent.TimeUnit
 
-class CoinViewModel(application: Application, private val repository: AppRepository) :
+class AppViewModel(application: Application, private val repository: AppRepository) :
     AndroidViewModel(application) {
     private val disposeBag = CompositeDisposable()
     private val liveDataCoinInfoList: MutableLiveData<List<Coin>> = MutableLiveData()

@@ -2,6 +2,7 @@ package ru.job4j.cryptocompareapp.repository.server
 
 import io.reactivex.Single
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
+import ru.job4j.cryptocompareapp.repository.database.entity.News
 
 class ServerCommunicator(private val apiService: ApiService) {
     fun getCoinPriceInfo(): Single<List<Coin>> {
@@ -13,5 +14,10 @@ class ServerCommunicator(private val apiService: ApiService) {
                     }
                 return@map it.coins
             }
+    }
+
+    fun getLatestNewsArticles(): Single<List<News>> {
+        return apiService.getLatestNewsArticles()
+            .map { return@map it.news }
     }
 }

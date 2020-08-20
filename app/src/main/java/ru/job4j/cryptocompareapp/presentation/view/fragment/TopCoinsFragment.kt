@@ -26,7 +26,7 @@ import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
 import ru.job4j.cryptocompareapp.presentation.decoration.DivItemDecoration
 import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
-import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
+import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class TopCoinsFragment : BaseFragment() {
     private val coinClickListener: ICoinClickListener<Coin> = object : ICoinClickListener<Coin> {
         override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
     }
-    var coinViewModel: CoinViewModel? = null
+    var appViewModel: AppViewModel? = null
         @Inject set
 
     override fun injectDependency(component: ViewModelComponent) {
@@ -65,7 +65,7 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     private fun loadDataFromCoinViewModel() {
-        coinViewModel?.getLiveDataCoinInfoList()
+        appViewModel?.getLiveDataCoinInfoList()
             ?.observe(
                 viewLifecycleOwner,
                 Observer {

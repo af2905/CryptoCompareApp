@@ -12,18 +12,16 @@ import kotlinx.android.synthetic.main.content_main.*
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.base.BaseActivity
-import ru.job4j.cryptocompareapp.presentation.view.fragment.DetailCoinInfoFragment
+import ru.job4j.cryptocompareapp.presentation.view.fragment.DetailCoinFragment
 import ru.job4j.cryptocompareapp.presentation.view.fragment.TopCoinsFragment
-import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
+import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import javax.inject.Inject
 
-class MainActivity :
-    BaseActivity(),
-    BottomNavigationView.OnNavigationItemSelectedListener,
+class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     TopCoinsFragment.CallbackToDetail {
     private var isBottomNavViewVisible = true
-    var coinViewModel: CoinViewModel? = null
+    var appViewModel: AppViewModel? = null
         @Inject set
 
     override fun injectDependency(component: ViewModelComponent) {
@@ -56,7 +54,7 @@ class MainActivity :
 
     private fun loadDetailCoinInfoFragment() {
         setBottomNavigationViewGone()
-        loadFragment(DetailCoinInfoFragment(), DETAIL_COIN_INFO_FRAGMENT)
+        loadFragment(DetailCoinFragment(), DETAIL_COIN_FRAGMENT)
     }
 
     private fun loadFragment(fragment: Fragment, tag: String) {
@@ -98,7 +96,7 @@ class MainActivity :
     }
 
     override fun openCoinDetailClick(coin: Coin) {
-        coinViewModel?.setLiveDataSelectedCoin(coin)
+        appViewModel?.setLiveDataSelectedCoin(coin)
         loadDetailCoinInfoFragment()
     }
 
@@ -110,6 +108,7 @@ class MainActivity :
 
     companion object {
         private const val TOP_COINS_FRAGMENT = "topCoinsFragment"
-        private const val DETAIL_COIN_INFO_FRAGMENT = "detailCoinInfoFragment"
+        private const val DETAIL_COIN_FRAGMENT = "detailCoinFragment"
+        private const val NEWS_ARTICLES_FRAGMENT = "newsArticlesFragment"
     }
 }

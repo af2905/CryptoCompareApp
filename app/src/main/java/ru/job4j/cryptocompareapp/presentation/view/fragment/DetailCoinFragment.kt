@@ -13,12 +13,12 @@ import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.*
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
-import ru.job4j.cryptocompareapp.presentation.viewmodel.CoinViewModel
+import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
 import javax.inject.Inject
 
-class DetailCoinInfoFragment : BaseFragment() {
+class DetailCoinFragment : BaseFragment() {
     private lateinit var detailFullName: TextView
     private lateinit var detailName: TextView
     private lateinit var detailPrice: TextView
@@ -32,7 +32,7 @@ class DetailCoinInfoFragment : BaseFragment() {
     private lateinit var detailArrow: ImageView
     private lateinit var detailPctChange24: TextView
     private lateinit var detailInfographic1: ImageView
-    var coinViewModel: CoinViewModel? = null
+    var appViewModel: AppViewModel? = null
         @Inject set
 
     override fun injectDependency(component: ViewModelComponent) {
@@ -46,7 +46,7 @@ class DetailCoinInfoFragment : BaseFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail_coin_info_new, container, false)
         initViews(view)
-        coinViewModel?.getLiveDataSelectedCoin()?.observe(
+        appViewModel?.getLiveDataSelectedCoin()?.observe(
             viewLifecycleOwner,
             Observer {
                 val imgUrl = it.displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl()

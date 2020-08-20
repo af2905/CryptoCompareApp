@@ -8,10 +8,10 @@ import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 
 @Dao
 interface CoinDao {
-    @Query("SELECT * FROM datum ORDER BY coinPrice DESC LIMIT 50")
+    @Query("SELECT * FROM coins ORDER BY coinPrice DESC LIMIT 50")
     fun getCoinList(): List<Coin>
 
-    @Query("SELECT * FROM datum WHERE id =:id")
+    @Query("SELECT * FROM coins WHERE id =:id")
     fun getCoinById(id: Int): Coin
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
