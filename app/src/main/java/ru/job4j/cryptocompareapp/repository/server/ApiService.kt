@@ -15,7 +15,7 @@ interface ApiService {
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
     ): Single<CoinsListOfData>
 
-    //https://min-api.cryptocompare.com/data/v2/news/?lang=EN
+    // https://min-api.cryptocompare.com/data/v2/news/?lang=EN
     @GET("v2/news/")
     fun getLatestNewsArticles(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
@@ -28,12 +28,12 @@ interface ApiService {
         private const val QUERY_PARAM_API_KEY = "api_key"
         const val BASE_IMAGE_URL = "https://cryptocompare.com"
 
-        //for getTopCoinsInfo
+        // for getTopCoinsInfo
         private const val CURRENCY = "USD"
         private const val QUERY_PARAM_LIMIT = "limit"
         private const val QUERY_PARAM_TO_SYMBOL = "tsym"
 
-        //for getLatestNewsArticles
+        // for getLatestNewsArticles
         private const val LANGUAGE = "EN"
         private const val QUERY_PARAM_LANG = "lang"
     }

@@ -8,7 +8,6 @@ import ru.job4j.cryptocompareapp.presentation.view.fragment.DetailCoinFragment
 import ru.job4j.cryptocompareapp.presentation.view.fragment.NewsArticlesFragment
 import ru.job4j.cryptocompareapp.presentation.view.fragment.TopCoinsFragment
 
-
 @ViewModelScope
 @Component(modules = [ViewModelModule::class], dependencies = [RepositoryComponent::class])
 interface ViewModelComponent {

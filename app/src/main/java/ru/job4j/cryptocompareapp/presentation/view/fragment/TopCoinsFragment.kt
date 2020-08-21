@@ -24,7 +24,7 @@ import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.adapter.CoinAdapter
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
 import ru.job4j.cryptocompareapp.presentation.decoration.DivItemDecoration
-import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
+import ru.job4j.cryptocompareapp.presentation.item.IClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
 import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
@@ -39,7 +39,7 @@ class TopCoinsFragment : BaseFragment() {
     private lateinit var infoAboutLastUpdateDisposable: Disposable
     private lateinit var infoAboutLastUpdate: TextView
     private lateinit var swipeTopCoinsRefreshLayout: SwipeRefreshLayout
-    private val coinClickListener: ICoinClickListener<Coin> = object : ICoinClickListener<Coin> {
+    private val clickListener: IClickListener<Coin> = object : IClickListener<Coin> {
         override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
     }
     var appViewModel: AppViewModel? = null
@@ -50,19 +50,21 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins_new, container, false)
         infoAboutLastUpdate = view.txtInfoAboutLastUpdate
         infoAboutLastUpdateDisposable = CompositeDisposable()
         swipeTopCoinsRefreshLayout = view.swipeTopCoinsRefreshLayout
         initRecyclerView(view, coinAdapter)
-        loadDataFromCoinViewModel()
+        loadDataFromViewModel()
         refreshLayoutWithDelay()
         return view
     }
 
-    private fun loadDataFromCoinViewModel() {
+    private fun loadDataFromViewModel() {
         appViewModel?.getLiveDataCoinInfoList()
             ?.observe(
                 viewLifecycleOwner,
@@ -77,7 +79,7 @@ class TopCoinsFragment : BaseFragment() {
 
     private fun refreshLayoutWithDelay() {
         swipeTopCoinsRefreshLayout.setOnRefreshListener {
-            loadDataFromCoinViewModel()
+            loadDataFromViewModel()
             timerForRefresh(1, TimeUnit.SECONDS)
         }
     }
@@ -93,7 +95,7 @@ class TopCoinsFragment : BaseFragment() {
 
     private fun initRecyclerView(view: View, coinAdapter: CoinAdapter) {
         recycler = view.recyclerViewTopCoins
-        coinAdapter.setCoinClickListener(coinClickListener)
+        coinAdapter.setClickListener(clickListener)
         recycler.adapter = coinAdapter
         recycler.addItemDecoration(DivItemDecoration(16, 8))
     }

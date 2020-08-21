@@ -14,6 +14,7 @@ class GlideClient {
                 RequestOptions()
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_placeholder_error)
+                    .fitCenter()
             ).transition(DrawableTransitionOptions.withCrossFade()).into(imgView)
         }
     }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
-import ru.job4j.cryptocompareapp.presentation.item.ICoinClickListener
+import ru.job4j.cryptocompareapp.presentation.item.IClickListener
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
 import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
@@ -16,9 +16,9 @@ import ru.job4j.cryptocompareapp.repository.server.GlideClient
 
 class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
     private var coins: MutableList<Coin> = mutableListOf()
-    private lateinit var clickListener: ICoinClickListener<Coin>
+    private lateinit var clickListener: IClickListener<Coin>
 
-    fun setCoinClickListener(clickListener: ICoinClickListener<Coin>) {
+    fun setClickListener(clickListener: IClickListener<Coin>) {
         this.clickListener = clickListener
     }
 
@@ -48,7 +48,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinViewHolder>() {
                 txtPrice.text = it.price
                 txtChange24.text = it.change24Hour
                 val imgUrl = it.getFullImageUrl()
-                GlideClient.downloadImage(holder.itemView.context, imgUrl, imgIcon)
+                GlideClient.downloadImage(itemView.context, imgUrl, imgIcon)
                 txtChangePct24.text = pctChange(it.changePct24Hour)
             }
             checkPercentageChangesAndSetArrow(holder, coin)
