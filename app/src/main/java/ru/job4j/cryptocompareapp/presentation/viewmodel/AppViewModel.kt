@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ru.job4j.cryptocompareapp.repository.AppRepository
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
+import ru.job4j.cryptocompareapp.repository.database.entity.News
 import java.util.concurrent.TimeUnit
 
 class AppViewModel(application: Application, private val repository: AppRepository) :
@@ -18,10 +19,13 @@ class AppViewModel(application: Application, private val repository: AppReposito
     private val disposeBag = CompositeDisposable()
     private val liveDataCoinInfoList: MutableLiveData<List<Coin>> = MutableLiveData()
     private val liveDataSelectedCoin: MutableLiveData<Coin> = MutableLiveData()
+    private val liveDataNewsArticlesList: MutableLiveData<List<News>> = MutableLiveData()
 
     init {
-        loadData()
-        updateData()
+        loadTopCoins()
+        loadNewsArticles()
+        updateTopCoins()
+        updateNewsArticles()
     }
 
     private fun getCoinPriceInfoFromRepository(): Single<List<Coin>> {
@@ -30,7 +34,13 @@ class AppViewModel(application: Application, private val repository: AppReposito
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun loadData() {
+    private fun getLatestNewsArticlesFromRepository(): Single<List<News>> {
+        return repository.getLatestNewsArticlesFromNet()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun loadTopCoins() {
         disposeBag.add(
             getCoinPriceInfoFromRepository()
                 .retry()
@@ -46,7 +56,7 @@ class AppViewModel(application: Application, private val repository: AppReposito
         )
     }
 
-    private fun updateData() {
+    private fun updateTopCoins() {
         disposeBag.add(
             getCoinPriceInfoFromRepository()
                 .delaySubscription(70, TimeUnit.SECONDS)
@@ -72,6 +82,40 @@ class AppViewModel(application: Application, private val repository: AppReposito
         )
     }
 
+    private fun loadNewsArticles() {
+        disposeBag.add(
+            getLatestNewsArticlesFromRepository()
+                .retry()
+                .subscribe(
+                    {
+                        liveDataNewsArticlesList.value = it
+                        Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+                    },
+                    {
+                        Log.d("TEST_OF_LOADING_DATA", it.message.toString())
+                    }
+                )
+        )
+    }
+
+    private fun updateNewsArticles() {
+        disposeBag.add(
+            getLatestNewsArticlesFromRepository()
+                .delaySubscription(70, TimeUnit.SECONDS)
+                .repeat()
+                .retry()
+                .subscribe(
+                    { it ->
+                        liveDataNewsArticlesList.value = it
+                        Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
+                    },
+                    {
+                        Log.d("TEST_OF_LOADING_DATA", it.message.toString())
+                    }
+                )
+        )
+    }
+
     fun getLiveDataCoinInfoList(): LiveData<List<Coin>> {
         return liveDataCoinInfoList
     }
@@ -82,6 +126,10 @@ class AppViewModel(application: Application, private val repository: AppReposito
 
     fun getLiveDataSelectedCoin(): LiveData<Coin> {
         return liveDataSelectedCoin
+    }
+
+    fun getLiveDataNewsArticlesList(): LiveData<List<News>> {
+        return liveDataNewsArticlesList
     }
 
     override fun onCleared() {

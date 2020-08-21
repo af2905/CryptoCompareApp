@@ -13,6 +13,7 @@ import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.base.BaseActivity
 import ru.job4j.cryptocompareapp.presentation.view.fragment.DetailCoinFragment
+import ru.job4j.cryptocompareapp.presentation.view.fragment.NewsArticlesFragment
 import ru.job4j.cryptocompareapp.presentation.view.fragment.TopCoinsFragment
 import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
@@ -57,6 +58,11 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         loadFragment(DetailCoinFragment(), DETAIL_COIN_FRAGMENT)
     }
 
+    private fun loadNewsArticlesFragment() {
+        setBottomNavigationViewVisible()
+        loadFragment(NewsArticlesFragment(), NEWS_ARTICLES_FRAGMENT)
+    }
+
     private fun loadFragment(fragment: Fragment, tag: String) {
         supportFragmentManager
             .beginTransaction()
@@ -78,9 +84,15 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.bottomNavMenuTopCoinsId -> true
+            R.id.bottomNavMenuTopCoinsId -> {
+                loadTopCoinsFragment()
+                true
+            }
             R.id.bottomNavMenuSpyId -> true
-            R.id.bottomNavMenuNewsId -> true
+            R.id.bottomNavMenuNewsId -> {
+                loadNewsArticlesFragment()
+                true
+            }
             else -> false
         }
     }

@@ -1,9 +1,11 @@
 package ru.job4j.cryptocompareapp.repository.database.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import ru.job4j.cryptocompareapp.repository.database.pojo.NewsSourceInfo
 
 @Entity(tableName = "news")
 data class News(
@@ -58,5 +60,10 @@ data class News(
 
     @SerializedName("lang")
     @Expose
-    val lang: String? = null
+    val lang: String? = null,
+
+    @SerializedName("source_info")
+    @Expose
+    @Embedded
+    val newsSourceInfo: NewsSourceInfo? = null
 )

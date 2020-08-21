@@ -8,7 +8,7 @@ import ru.job4j.cryptocompareapp.repository.database.entity.News
 
 @Dao
 interface NewsDao {
-    @Query("SELECT * FROM news")
+    @Query("SELECT * FROM news ORDER BY publishedOn DESC LIMIT 50")
     fun getNewsList(): List<News>
 
     @Query("SELECT * FROM news WHERE id =:id")
