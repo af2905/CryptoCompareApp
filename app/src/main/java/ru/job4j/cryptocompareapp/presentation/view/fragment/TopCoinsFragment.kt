@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_top_coins.view.recyclerViewTopCoins
-import kotlinx.android.synthetic.main.fragment_top_coins.view.swipeTopCoinsRefreshLayout
-import kotlinx.android.synthetic.main.fragment_top_coins_new.view.*
+import kotlinx.android.synthetic.main.fragment_top_coins.view.*
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.adapter.CoinAdapter
@@ -34,10 +32,8 @@ import javax.inject.Inject
 class TopCoinsFragment : BaseFragment() {
     private lateinit var recycler: RecyclerView
     private val coinAdapter = CoinAdapter()
-    private var callbackToDetail: CallbackToDetail? = null
+    private var callbackToDetail: CallbackToCoinDetail? = null
     private val disposeBag = CompositeDisposable()
-    private lateinit var infoAboutLastUpdateDisposable: Disposable
-    private lateinit var infoAboutLastUpdate: TextView
     private lateinit var swipeTopCoinsRefreshLayout: SwipeRefreshLayout
     private val clickListener: IClickListener<Coin> = object : IClickListener<Coin> {
         override fun openDetailInfo(m: Coin) = openCoinDetailInfo(m)
@@ -52,47 +48,25 @@ class TopCoinsFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_top_coins_new, container, false)
-        infoAboutLastUpdate = view.txtInfoAboutLastUpdate
-        infoAboutLastUpdateDisposable = CompositeDisposable()
+        val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
         swipeTopCoinsRefreshLayout = view.swipeTopCoinsRefreshLayout
-        initRecyclerView(view, coinAdapter)
+        initAdapterAndRecycler(view)
         loadDataFromViewModel()
         refreshLayoutWithDelay()
         return view
     }
 
-    private fun loadDataFromViewModel() {
-        appViewModel?.getLiveDataCoinInfoList()?.observe(
-            viewLifecycleOwner, Observer {
-                setDataInAdapter(coinAdapter, it)
-                swipeTopCoinsRefreshLayout.isRefreshing = true
-                timerForRefresh(500, TimeUnit.MILLISECONDS)
-                refreshTxtInfoAboutLastUpdate()
-            }
-        )
-    }
-
-    private fun refreshLayoutWithDelay() {
-        swipeTopCoinsRefreshLayout.setOnRefreshListener {
-            loadDataFromViewModel()
-            timerForRefresh(1, TimeUnit.SECONDS)
-        }
-    }
-
-    private fun timerForRefresh(delay: Long, timeUnit: TimeUnit) {
-        disposeBag.add(Completable.timer(delay, timeUnit)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
-        )
-    }
-
-    private fun initRecyclerView(view: View, coinAdapter: CoinAdapter) {
+    private fun initAdapterAndRecycler(view: View) {
         recycler = view.recyclerViewTopCoins
         coinAdapter.setClickListener(clickListener)
         recycler.adapter = coinAdapter
         recycler.addItemDecoration(DivItemDecoration(16, 8))
+    }
+
+    private fun loadDataFromViewModel() {
+        appViewModel?.getLiveDataCoinInfoList()?.observe(
+            viewLifecycleOwner, Observer { setDataInAdapter(coinAdapter, it) }
+        )
     }
 
     private fun setDataInAdapter(coinAdapter: CoinAdapter, coins: List<Coin>): Disposable {
@@ -102,41 +76,39 @@ class TopCoinsFragment : BaseFragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { coinAdapter.setCoins(coins) }
             .subscribe { it.dispatchUpdatesTo(coinAdapter) }
-        infoAboutLastUpdate.visibility = View.VISIBLE
         disposeBag.add(disposable)
         return disposable
     }
 
-    private fun refreshTxtInfoAboutLastUpdate() {
-        infoAboutLastUpdateDisposable.dispose()
-        infoAboutLastUpdateDisposable = Observable.interval(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                when (it.toInt()) {
-                    0 -> infoAboutLastUpdate.text = getString(R.string.just_now)
-                    10 -> infoAboutLastUpdate.text = getString(R.string.a_few_seconds_ago)
-                    60 -> infoAboutLastUpdate.text = getString(R.string.a_minute_ago)
+    private fun refreshLayoutWithDelay() {
+        swipeTopCoinsRefreshLayout.setOnRefreshListener {
+            loadDataFromViewModel()
+            disposeBag.add(Completable.timer(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    swipeTopCoinsRefreshLayout.isRefreshing = false
+                    Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
                 }
-            }
+            )
+        }
     }
 
     fun openCoinDetailInfo(coin: Coin) {
         callbackToDetail?.openCoinDetailClick(coin)
     }
-
-    interface CallbackToDetail {
+    interface CallbackToCoinDetail {
         fun openCoinDetailClick(coin: Coin)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        this.callbackToDetail = context as CallbackToDetail
+        this.callbackToDetail = context as CallbackToCoinDetail
     }
 
     override fun onDestroy() {
         super.onDestroy()
         disposeBag.dispose()
-        infoAboutLastUpdateDisposable.dispose()
         callbackToDetail = null
     }
 }

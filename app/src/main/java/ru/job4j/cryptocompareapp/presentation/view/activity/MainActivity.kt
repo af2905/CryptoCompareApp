@@ -1,5 +1,7 @@
 package ru.job4j.cryptocompareapp.presentation.view.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,12 +19,13 @@ import ru.job4j.cryptocompareapp.presentation.view.fragment.NewsArticlesFragment
 import ru.job4j.cryptocompareapp.presentation.view.fragment.TopCoinsFragment
 import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
+import ru.job4j.cryptocompareapp.repository.database.entity.News
 import javax.inject.Inject
 
 class MainActivity :
     BaseActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
-    TopCoinsFragment.CallbackToDetail {
+    TopCoinsFragment.CallbackToCoinDetail, NewsArticlesFragment.CallbackToNewsDetail {
     private var isBottomNavViewVisible = true
     var appViewModel: AppViewModel? = null
         @Inject set
@@ -112,6 +115,12 @@ class MainActivity :
     override fun openCoinDetailClick(coin: Coin) {
         appViewModel?.setLiveDataSelectedCoin(coin)
         loadDetailCoinInfoFragment()
+    }
+
+    override fun openNewsDetailClick(news: News) {
+        val address = Uri.parse(news.url)
+        val openLinkIntent = Intent(Intent.ACTION_VIEW, address)
+        startActivity(openLinkIntent)
     }
 
     override fun onBackPressed() {

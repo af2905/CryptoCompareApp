@@ -1,5 +1,6 @@
 package ru.job4j.cryptocompareapp.presentation.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,12 +32,11 @@ import javax.inject.Inject
 class NewsArticlesFragment : BaseFragment() {
     private lateinit var recycler: RecyclerView
     private val newsAdapter = NewsAdapter()
+    private var callbackToDetail: CallbackToNewsDetail? = null
     private val disposeBag = CompositeDisposable()
     private lateinit var swipeNewsArticlesRefreshLayout: SwipeRefreshLayout
     private val clickListener: IClickListener<News> = object : IClickListener<News> {
-        override fun openDetailInfo(m: News) {
-            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
-        }
+        override fun openDetailInfo(m: News) = openNewsDetailInfo(m)
     }
     var appViewModel: AppViewModel? = null
         @Inject set
@@ -56,24 +56,16 @@ class NewsArticlesFragment : BaseFragment() {
         return view
     }
 
+    private fun initRecyclerView(view: View, newsAdapter: NewsAdapter) {
+        recycler = view.recyclerViewNewsArticles
+        newsAdapter.setClickListener(clickListener)
+        recycler.adapter = newsAdapter
+        recycler.addItemDecoration(DivItemDecoration(16, 8))
+    }
+
     private fun loadDataFromViewModel() {
         appViewModel?.getLiveDataNewsArticlesList()?.observe(
             viewLifecycleOwner, Observer { setDataInAdapter(newsAdapter, it) })
-    }
-
-    private fun refreshLayoutWithDelay() {
-        swipeNewsArticlesRefreshLayout.setOnRefreshListener {
-            loadDataFromViewModel()
-            timerForRefresh()
-        }
-    }
-
-    private fun timerForRefresh() {
-        disposeBag.add(Completable.timer(1, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { swipeNewsArticlesRefreshLayout.isRefreshing = false }
-        )
     }
 
     private fun setDataInAdapter(newsAdapter: NewsAdapter, newsArticles: List<News>): Disposable {
@@ -87,10 +79,35 @@ class NewsArticlesFragment : BaseFragment() {
         return disposable
     }
 
-    private fun initRecyclerView(view: View, newsAdapter: NewsAdapter) {
-        recycler = view.recyclerViewNewsArticles
-        newsAdapter.setClickListener(clickListener)
-        recycler.adapter = newsAdapter
-        recycler.addItemDecoration(DivItemDecoration(16, 8))
+    private fun refreshLayoutWithDelay() {
+        swipeNewsArticlesRefreshLayout.setOnRefreshListener {
+            disposeBag.add(Completable.timer(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    swipeNewsArticlesRefreshLayout.isRefreshing = false
+                    Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
+
+    fun openNewsDetailInfo(news: News) {
+        callbackToDetail?.openNewsDetailClick(news)
+    }
+
+    interface CallbackToNewsDetail {
+        fun openNewsDetailClick(news: News)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.callbackToDetail = context as CallbackToNewsDetail
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposeBag.dispose()
+        callbackToDetail = null
     }
 }

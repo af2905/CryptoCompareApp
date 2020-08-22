@@ -8,6 +8,7 @@
     <string name="action_settings">settings</string>
     <string name="top_price">TOP PRICE</string>
     <string name="just_now">just now</string>
+    <string name="just_updated">just updated</string>
     <string name="price">Current price</string>
     <string name="price_change">Price change 24h</string>
     <string name="market_capitalization">Market capitalization</string>
