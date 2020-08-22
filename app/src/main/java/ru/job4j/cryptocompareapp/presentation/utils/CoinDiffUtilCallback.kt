@@ -1,4 +1,4 @@
-package ru.job4j.cryptocompareapp.presentation.util
+package ru.job4j.cryptocompareapp.presentation.utils
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil

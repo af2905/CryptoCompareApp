@@ -20,7 +20,7 @@ data class News(
 
     @SerializedName("published_on")
     @Expose
-    val publishedOn: Int? = null,
+    val publishedOn: Long? = null,
 
     @SerializedName("imageurl")
     @Expose

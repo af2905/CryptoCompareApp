@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.CoinViewHolder
 import ru.job4j.cryptocompareapp.presentation.item.IClickListener
-import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_24
-import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
-import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback.Companion.PRICE
+import ru.job4j.cryptocompareapp.presentation.utils.CoinDiffUtilCallback.Companion.CHANGE_24
+import ru.job4j.cryptocompareapp.presentation.utils.CoinDiffUtilCallback.Companion.CHANGE_PCT_24
+import ru.job4j.cryptocompareapp.presentation.utils.CoinDiffUtilCallback.Companion.PRICE
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
 

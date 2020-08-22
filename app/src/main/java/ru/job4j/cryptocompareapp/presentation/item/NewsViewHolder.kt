@@ -13,7 +13,7 @@ class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val openDetail = View.OnClickListener { clickListener.openDetailInfo(news) }
 
     val txtSourceInfoName: TextView = itemView.txtSourceInfoName
-    val txtNewsLastUpdate: TextView = itemView.txtNewsLastUpdate
+    val txtNewsPublishedOn: TextView = itemView.txtNewsPublishedOn
     val txtNewsTitle: TextView = itemView.txtNewsTitle
     val txtNewsCategories: TextView = itemView.txtNewsCategories
     val imgNewsIcon: ImageView = itemView.imgNewsIcon

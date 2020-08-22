@@ -25,7 +25,7 @@ import ru.job4j.cryptocompareapp.presentation.adapter.CoinAdapter
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
 import ru.job4j.cryptocompareapp.presentation.decoration.DivItemDecoration
 import ru.job4j.cryptocompareapp.presentation.item.IClickListener
-import ru.job4j.cryptocompareapp.presentation.util.CoinDiffUtilCallback
+import ru.job4j.cryptocompareapp.presentation.utils.CoinDiffUtilCallback
 import ru.job4j.cryptocompareapp.presentation.viewmodel.AppViewModel
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import java.util.concurrent.TimeUnit
@@ -50,9 +50,7 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins_new, container, false)
         infoAboutLastUpdate = view.txtInfoAboutLastUpdate
@@ -65,16 +63,14 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     private fun loadDataFromViewModel() {
-        appViewModel?.getLiveDataCoinInfoList()
-            ?.observe(
-                viewLifecycleOwner,
-                Observer {
-                    setDataInAdapter(coinAdapter, it)
-                    swipeTopCoinsRefreshLayout.isRefreshing = true
-                    timerForRefresh(500, TimeUnit.MILLISECONDS)
-                    refreshTxtInfoAboutLastUpdate()
-                }
-            )
+        appViewModel?.getLiveDataCoinInfoList()?.observe(
+            viewLifecycleOwner, Observer {
+                setDataInAdapter(coinAdapter, it)
+                swipeTopCoinsRefreshLayout.isRefreshing = true
+                timerForRefresh(500, TimeUnit.MILLISECONDS)
+                refreshTxtInfoAboutLastUpdate()
+            }
+        )
     }
 
     private fun refreshLayoutWithDelay() {
@@ -85,11 +81,10 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     private fun timerForRefresh(delay: Long, timeUnit: TimeUnit) {
-        disposeBag.add(
-            Completable.timer(delay, timeUnit)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
+        disposeBag.add(Completable.timer(delay, timeUnit)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { swipeTopCoinsRefreshLayout.isRefreshing = false }
         )
     }
 

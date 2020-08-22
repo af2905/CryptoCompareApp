@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.presentation.item.IClickListener
 import ru.job4j.cryptocompareapp.presentation.item.NewsViewHolder
+import ru.job4j.cryptocompareapp.presentation.utils.TimeUtils
 import ru.job4j.cryptocompareapp.repository.database.entity.News
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
 
@@ -37,7 +38,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsViewHolder>() {
         holder.bind(news, clickListener)
 
         with(holder) {
-            txtNewsLastUpdate.text = news.publishedOn.toString()
+            txtNewsPublishedOn.text = news.publishedOn?.let { TimeUtils.convertTimestampToTime(it) }
             txtNewsTitle.text = news.title
             txtNewsCategories.text = news.categories
             news.newsSourceInfo?.let { txtSourceInfoName.text = it.name }
