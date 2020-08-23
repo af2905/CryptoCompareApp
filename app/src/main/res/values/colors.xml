@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F454C</color>
-    <color name="colorPrimaryDark">#012623</color>
+    <color name="colorPrimary">#262626</color>
+    <color name="colorPrimaryDark">#262626</color>
     <color name="colorAccent">#00D665</color>
     <color name="colorDivider">#DCDCDC</color>
     <color name="colorDarkBlue">#0A1623</color>
-    <color name="colorBrightGreen">#00D665</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorErrorRed">#B00020</color>
     <color name="colorDarkGray">#b1b3b1</color>
@@ -14,6 +13,4 @@
     <color name="coloMineShaft">#262626</color>
     <color name="colorShipGray">#3B3740</color>
     <color name="colorMako">#3F454C</color>
-
-
 </resources>

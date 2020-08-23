@@ -12,20 +12,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.imgDetailArrow
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.imgDetailIcon
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailChange24
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailChangePct24
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailFullName
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailHigh24
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailLow24
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailMarketCap
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailName
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailOpen24
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailPrice
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailTotalVolume24
-import kotlinx.android.synthetic.main.fragment_detail_coin_info_new2.*
-import kotlinx.android.synthetic.main.fragment_detail_coin_info_new2.view.*
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.*
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.*
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
@@ -68,7 +56,7 @@ class DetailCoinFragment : BaseFragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_detail_coin_info_new2, container, false)
+        val view = inflater.inflate(R.layout.fragment_detail_coin_info, container, false)
         initViews(view)
         initListeners()
         appViewModel?.getLiveDataSelectedCoin()?.observe(

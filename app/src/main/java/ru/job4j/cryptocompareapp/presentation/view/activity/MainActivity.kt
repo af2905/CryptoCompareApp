@@ -46,8 +46,7 @@ class MainActivity :
     private fun setToolbarAndBottomNavigationView() {
         val mainToolbar = toolbar
         setSupportActionBar(mainToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
+        supportActionBar?.setDisplayShowTitleEnabled(true)
         setBottomNavigationViewVisible()
         bottomNavView.inflateMenu(R.menu.bottom_navigation_menu)
         bottomNavView.setOnNavigationItemSelectedListener(this)
