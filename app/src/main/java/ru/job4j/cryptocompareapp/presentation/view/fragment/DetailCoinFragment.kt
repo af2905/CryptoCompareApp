@@ -1,15 +1,31 @@
 package ru.job4j.cryptocompareapp.presentation.view.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.imgDetailArrow
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.imgDetailIcon
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailChange24
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailChangePct24
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailFullName
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailHigh24
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailLow24
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailMarketCap
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailName
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailOpen24
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailPrice
+import kotlinx.android.synthetic.main.fragment_detail_coin_info.view.txtDetailTotalVolume24
+import kotlinx.android.synthetic.main.fragment_detail_coin_info_new2.*
+import kotlinx.android.synthetic.main.fragment_detail_coin_info_new2.view.*
 import ru.job4j.cryptocompareapp.R
 import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
 import ru.job4j.cryptocompareapp.presentation.base.BaseFragment
@@ -18,7 +34,8 @@ import ru.job4j.cryptocompareapp.repository.database.entity.Coin
 import ru.job4j.cryptocompareapp.repository.server.GlideClient
 import javax.inject.Inject
 
-class DetailCoinFragment : BaseFragment() {
+class DetailCoinFragment : BaseFragment(), View.OnClickListener {
+    private lateinit var coin: Coin
     private lateinit var detailFullName: TextView
     private lateinit var detailName: TextView
     private lateinit var detailPrice: TextView
@@ -31,7 +48,14 @@ class DetailCoinFragment : BaseFragment() {
     private lateinit var detailIcon: ImageView
     private lateinit var detailArrow: ImageView
     private lateinit var detailPctChange24: TextView
-    private lateinit var detailInfographic1: ImageView
+    private lateinit var cardPoweredBy: CardView
+    private lateinit var cardCoinName: CardView
+    private lateinit var cardCurrentPrice: CardView
+    private lateinit var cardPriceChange24H: CardView
+    private lateinit var cardMarketCap: CardView
+    private lateinit var cardOpen24H: CardView
+    private lateinit var cardHighLow24H: CardView
+    private lateinit var cardTotalVol24H: CardView
     var appViewModel: AppViewModel? = null
         @Inject set
 
@@ -44,8 +68,9 @@ class DetailCoinFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_detail_coin_info_new, container, false)
+        val view = inflater.inflate(R.layout.fragment_detail_coin_info_new2, container, false)
         initViews(view)
+        initListeners()
         appViewModel?.getLiveDataSelectedCoin()?.observe(
             viewLifecycleOwner,
             Observer {
@@ -53,6 +78,7 @@ class DetailCoinFragment : BaseFragment() {
                 downloadImage(imgUrl)
                 setDataToViews(it)
                 checkPercentageChangesAndSetArrow(view, it)
+                coin = it
             }
         )
         return view
@@ -72,8 +98,26 @@ class DetailCoinFragment : BaseFragment() {
             detailLow24 = txtDetailLow24
             detailTotalVolume24 = txtDetailTotalVolume24
             detailOpen24 = txtDetailOpen24
-            detailInfographic1 = imgDetailInfographic1
+            cardPoweredBy = cardViewPoweredBy
+            cardCoinName = cardViewCoinName
+            cardCurrentPrice = cardViewCurrentPrice
+            cardPriceChange24H = cardViewPriceChange24H
+            cardMarketCap = cardViewMarketCap
+            cardOpen24H = cardViewOpen24H
+            cardHighLow24H = cardViewHighLow24H
+            cardTotalVol24H = cardViewTotalVol24H
         }
+    }
+
+    private fun initListeners() {
+        cardPoweredBy.setOnClickListener(this)
+        cardCoinName.setOnClickListener(this)
+        cardCurrentPrice.setOnClickListener(this)
+        cardPriceChange24H.setOnClickListener(this)
+        cardMarketCap.setOnClickListener(this)
+        cardOpen24H.setOnClickListener(this)
+        cardHighLow24H.setOnClickListener(this)
+        cardTotalVol24H.setOnClickListener(this)
     }
 
     private fun setDataToViews(coin: Coin) {
@@ -103,29 +147,64 @@ class DetailCoinFragment : BaseFragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkPercentageChangesAndSetArrow(view: View, coin: Coin) {
         val change24Hour = coin.displayCoinPriceInfo.coinPriceInfo?.change24Hour
+        val theme = view.context.theme
         if (change24Hour != null) {
             if (change24Hour.contains('-')) {
-                detailArrow.setImageDrawable(
-                    resources.getDrawable(R.drawable.ic_arrow_down, view.context.theme)
-                )
-                changeTextColor(view.context, detailPctChange24, R.color.colorErrorRed)
-                changeInfographic(view.context, detailInfographic1, R.drawable.ic_downwards)
+                detailArrow.setImageDrawable(resources.getDrawable(R.drawable.ic_arrow_down, theme))
             } else {
-                detailArrow.setImageDrawable(
-                    resources.getDrawable(R.drawable.ic_arrow_up, view.context.theme)
-                )
-                changeTextColor(view.context, detailPctChange24, R.color.colorAccent)
-                changeInfographic(view.context, detailInfographic1, R.drawable.ic_upwards)
+                detailArrow.setImageDrawable(resources.getDrawable(R.drawable.ic_arrow_up, theme))
             }
         }
     }
 
-    private fun changeTextColor(context: Context, textView: TextView, color: Int) {
-        textView.setTextColor(resources.getColor(color, context.theme))
+    override fun onClick(v: View?) {
+        when (v) {
+            cardViewPoweredBy -> {
+                val address = Uri.parse(CRYPTOCOMPARE_LINK)
+                val openLinkIntent = Intent(Intent.ACTION_VIEW, address)
+                startActivity(openLinkIntent)
+            }
+            cardViewCoinName -> showAlertDialog(coin)
+            cardViewCurrentPrice -> showAlertDialog(coin)
+            cardViewHighLow24H -> showAlertDialog(coin)
+            cardViewMarketCap -> showAlertDialog(coin)
+            cardViewOpen24H -> showAlertDialog(coin)
+            cardViewPriceChange24H -> showAlertDialog(coin)
+            cardViewTotalVol24H -> showAlertDialog(coin)
+        }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun changeInfographic(context: Context, imageView: ImageView, img: Int) {
-        imageView.setImageDrawable(resources.getDrawable(img, context.theme))
+    private fun showAlertDialog(coin: Coin) {
+        activity?.let {
+            MaterialAlertDialogBuilder(it)
+                .setTitle(resources.getString(R.string.app_name))
+                .setMessage(setMessageToDialog(coin))
+                .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, _ ->
+                    dialog.cancel()
+                }.create().show()
+        }
+    }
+
+    private fun setMessageToDialog(coin: Coin): String {
+        return with(resources) {
+            with(coin.coinBasicInfo) {
+                with(coin.displayCoinPriceInfo.coinPriceInfo) {
+                    String.format(
+                        "\n%s: %s (%s)\n\n%s: %s\n\n%s: %s(%s%%)\n\n%s: %s\n\n%s: %s\n\n%s: %s\n\n%s: %s/%s\n",
+                        getString(R.string.coin_name), fullName, name,
+                        getString(R.string.price), this?.price,
+                        getString(R.string.price_change), this?.change24Hour, this?.changePct24Hour,
+                        getString(R.string.market_capitalization), this?.mktCap,
+                        getString(R.string.total_volume_24h), this?.totalVolume24H,
+                        getString(R.string.open_24h), this?.open24Hour,
+                        getString(R.string.low_high_24h), this?.high24Hour, this?.low24Hour
+                    )
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val CRYPTOCOMPARE_LINK = "https://min-api.cryptocompare.com"
     }
 }

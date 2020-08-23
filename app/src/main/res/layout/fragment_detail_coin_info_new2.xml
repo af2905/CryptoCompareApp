@@ -15,6 +15,7 @@
         android:useDefaultMargins="true">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewCoinName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_row="0"
@@ -89,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         tools:text="BTC" />
 
                 </LinearLayout>
@@ -97,6 +98,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewCurrentPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="0"
@@ -137,13 +139,14 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         tools:text="10,816.26" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewPriceChange24H"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="1"
@@ -157,7 +160,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="start"
                 android:orientation="vertical">
 
@@ -176,17 +179,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtDetailChange24"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        tools:text="$ 36.60" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txtDetailChange24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|start"
+                            android:layout_margin="8dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18sp"
+                            tools:text="$ 36.60" />
+
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -198,6 +208,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
                         android:layout_margin="8dp"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
@@ -209,15 +220,14 @@
                             android:layout_gravity="center"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="18sp"
-                            tools:text="+ 0.35 %" />
+                            tools:text="% 0.35 " />
 
                         <ImageView
                             android:id="@+id/imgDetailArrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
+
                             android:contentDescription="@string/arrow"
                             tools:srcCompat="@drawable/ic_arrow_up" />
                     </LinearLayout>
@@ -228,6 +238,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewMarketCap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="3"
@@ -273,6 +284,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewHighLow24H"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="4"
@@ -302,6 +314,7 @@
                         android:textColor="@color/colorPrimaryDark" />
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -322,7 +335,6 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:background="@color/colorConcrete" />
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -347,17 +359,18 @@
                         android:background="@color/colorConcrete" />
 
                     <ImageView
-                        android:id="@+id/imgDetailInfographic2"
+                        android:id="@+id/imgDetailHighLow"
                         android:layout_width="150dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/icon"
-                        android:src="@drawable/ic_low_high" />
+                        android:src="@drawable/ic_low_high_variant" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewTotalVol24H"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="4"
@@ -405,6 +418,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewOpen24H"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="3"
@@ -450,6 +464,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewPoweredBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="6"
@@ -489,7 +504,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/icon"
-                        android:src="@drawable/ic_cryptocompare" />
+                        android:src="@drawable/ic_cryptocompare_variant" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

@@ -4,10 +4,6 @@
         android:id="@+id/bottomNavMenuTopCoinsId"
         android:icon="@drawable/ic_finance"
         android:title="@string/topCoins" />
-    <item
-        android:id="@+id/bottomNavMenuSpyId"
-        android:icon="@drawable/ic_spy"
-        android:title="@string/spy" />
 
     <item
         android:id="@+id/bottomNavMenuNewsId"

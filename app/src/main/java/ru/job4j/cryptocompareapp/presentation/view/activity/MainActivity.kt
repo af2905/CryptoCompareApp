@@ -71,9 +71,9 @@ class MainActivity :
     private fun loadFragment(fragment: Fragment, tag: String) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.content, fragment, tag)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .addToBackStack(null)
+            .replace(R.id.content, fragment, tag)
+            .addToBackStack(tag)
             .commit()
     }
 
@@ -90,11 +90,14 @@ class MainActivity :
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.bottomNavMenuTopCoinsId -> {
+                setTopCoinsItemEnabledAndChecked(isEnabled = false, isChecked = true)
+                setNewsItemEnabledAndChecked(isEnabled = true, isChecked = false)
                 loadTopCoinsFragment()
                 true
             }
-            R.id.bottomNavMenuSpyId -> true
             R.id.bottomNavMenuNewsId -> {
+                setNewsItemEnabledAndChecked(isEnabled = false, isChecked = true)
+                setTopCoinsItemEnabledAndChecked(isEnabled = true, isChecked = false)
                 loadNewsArticlesFragment()
                 true
             }
@@ -124,9 +127,36 @@ class MainActivity :
     }
 
     override fun onBackPressed() {
+        setBottomNavViewBehaviorWhenOnBackPressed()
         val count = supportFragmentManager.backStackEntryCount
         if (count == 1) finish() else super.onBackPressed()
         if (isBottomNavViewVisible) return else bottomNavView.visibility = View.VISIBLE
+    }
+
+    private fun setTopCoinsItemEnabledAndChecked(isEnabled: Boolean, isChecked: Boolean) {
+        bottomNavView.menu.findItem(R.id.bottomNavMenuTopCoinsId).isEnabled = isEnabled
+        bottomNavView.menu.findItem(R.id.bottomNavMenuTopCoinsId).isChecked = isChecked
+    }
+
+    private fun setNewsItemEnabledAndChecked(isEnabled: Boolean, isChecked: Boolean) {
+        bottomNavView.menu.findItem(R.id.bottomNavMenuNewsId).isEnabled = isEnabled
+        bottomNavView.menu.findItem(R.id.bottomNavMenuNewsId).isChecked = isChecked
+    }
+
+    private fun setBottomNavViewBehaviorWhenOnBackPressed() {
+        val fragments = supportFragmentManager.fragments
+        for (fragment in fragments) {
+            if (fragment != null) {
+                if (fragment is TopCoinsFragment || fragment is DetailCoinFragment) {
+                    setNewsItemEnabledAndChecked(isEnabled = true, isChecked = false)
+                    setTopCoinsItemEnabledAndChecked(isEnabled = false, isChecked = true)
+                }
+                if (fragment is NewsArticlesFragment) {
+                    setTopCoinsItemEnabledAndChecked(isEnabled = true, isChecked = false)
+                    setNewsItemEnabledAndChecked(isEnabled = false, isChecked = true)
+                }
+            }
+        }
     }
 
     companion object {
