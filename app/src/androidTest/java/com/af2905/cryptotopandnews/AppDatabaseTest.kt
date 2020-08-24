@@ -46,7 +46,7 @@ class AppDatabaseTest {
         val dbCoins = coinDao.getCoinList()
         assertEquals(2, dbCoins.size)
 
-        val newsArticles = AndroidTestHelper().newsArticles
+        val newsArticles = AndroidTestHelper().newsList
         val twoNewsFromList = listOf(newsArticles[0], newsArticles[1])
         newsDao.insertNewsList(twoNewsFromList)
         val dbNews = newsDao.getNewsList()
@@ -62,7 +62,7 @@ class AppDatabaseTest {
         val coin = coinDao.getCoinById(firstCoinId)
         assertEquals(dbCoins[0], coin)
 
-        val newsArticles = AndroidTestHelper().newsArticles
+        val newsArticles = AndroidTestHelper().newsList
         newsDao.insertNewsList(newsArticles)
         val dbNews = newsDao.getNewsList()
         val secondNewsId = dbNews[1].id

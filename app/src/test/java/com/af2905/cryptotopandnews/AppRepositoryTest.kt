@@ -2,8 +2,6 @@ package com.af2905.cryptotopandnews
 
 import com.af2905.cryptotopandnews.repository.AppRepository
 import com.af2905.cryptotopandnews.repository.database.AppDatabase
-import com.af2905.cryptotopandnews.repository.database.entity.Coin
-import com.af2905.cryptotopandnews.repository.database.entity.News
 import com.af2905.cryptotopandnews.repository.server.ServerCommunicator
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -44,30 +42,17 @@ class AppRepositoryTest {
             appDatabase.coinDao().getCoinList()
         )
 
-        val newsArticles = TestHelper().createListOfNews()
-        every { appDatabase.newsDao().getNewsList() } returns newsArticles
+        val news = TestHelper().createListOfNews()
+        every { appDatabase.newsDao().getNewsList() } returns news
         every { serverCommunicator.getLatestNewsArticles() } returns Single.just(
             appDatabase.newsDao().getNewsList()
         )
 
-        val coinsTestSource = appRepository.getCoinPriceInfoFromNet()
-        val coinsTestObserver = TestObserver<List<Coin>>()
-        coinsTestObserver.assertNotSubscribed()
-        coinsTestSource.subscribe(coinsTestObserver)
-        coinsTestObserver.awaitTerminalEvent()
-        coinsTestObserver.assertComplete()
-        coinsTestObserver.assertNoErrors()
-        coinsTestObserver.assertValueCount(1)
-        coinsTestObserver.assertValues(coins)
-
-        val newsTestSource = appRepository.getLatestNewsArticlesFromNet()
-        val newsTestObserver = TestObserver<List<News>>()
-        newsTestObserver.assertNotSubscribed()
-        newsTestSource.subscribe(newsTestObserver)
-        newsTestObserver.awaitTerminalEvent()
-        newsTestObserver.assertComplete()
-        newsTestObserver.assertNoErrors()
-        newsTestObserver.assertValueCount(1)
-        newsTestObserver.assertValues(newsArticles)
+        with(TestHelper()) {
+            checkDataFlow(appRepository.getCoinPriceInfoFromNet(), coins, TestObserver())
+            checkDataFlow(
+                appRepository.getLatestNewsArticlesFromNet(), news, TestObserver()
+            )
+        }
     }
 }

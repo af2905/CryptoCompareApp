@@ -3,6 +3,8 @@ package com.af2905.cryptotopandnews
 import com.af2905.cryptotopandnews.repository.database.entity.Coin
 import com.af2905.cryptotopandnews.repository.database.entity.News
 import com.af2905.cryptotopandnews.repository.database.pojo.*
+import io.reactivex.Single
+import io.reactivex.observers.TestObserver
 
 class TestHelper {
     fun createListOfCoins(): List<Coin> {
@@ -25,5 +27,15 @@ class TestHelper {
             newsArticles.add(News("$i", "$i", i.toLong()))
         }
         return newsArticles
+    }
+
+    fun <T> checkDataFlow(source: Single<List<T>>, list: List<T>, observer: TestObserver<List<T>>) {
+        observer.assertNotSubscribed()
+        source.subscribe(observer)
+        observer.awaitTerminalEvent()
+        observer.assertComplete()
+        observer.assertNoErrors()
+        observer.assertValueCount(1)
+        observer.assertValues(list)
     }
 }

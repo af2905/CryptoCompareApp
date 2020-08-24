@@ -23,9 +23,5 @@ class AndroidTestHelper {
         )
     )
 
-    val newsArticles = listOf(
-        News("1", "1", 11111111),
-        News("2", "2", 22222222),
-        News("3", "3", 33333333)
-    )
+    val newsList = listOf(News("1", "1"), News("2", "2"), News("3", "3"))
 }

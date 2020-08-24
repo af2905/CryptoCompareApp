@@ -1,7 +1,7 @@
 package com.af2905.cryptotopandnews
 
-import com.af2905.cryptotopandnews.repository.database.entity.Coin
 import com.af2905.cryptotopandnews.repository.database.pojo.CoinsListOfData
+import com.af2905.cryptotopandnews.repository.database.pojo.NewsListOfData
 import com.af2905.cryptotopandnews.repository.server.ApiService
 import com.af2905.cryptotopandnews.repository.server.ServerCommunicator
 import io.mockk.MockKAnnotations
@@ -40,14 +40,17 @@ class ServerCommunicatorTest {
         every { apiService.getTopCoinsInfo() } returns Single.fromObservable(
             Observable.fromArray(priceList)
         )
-        val source = serverCommunicator.getCoinPriceInfo()
-        val testObserver = TestObserver<List<Coin>>()
-        testObserver.assertNotSubscribed()
-        source.subscribe(testObserver)
-        testObserver.awaitTerminalEvent()
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
-        testObserver.assertValueCount(1)
-        testObserver.assertValues(coins)
+
+        val newsArticles = TestHelper().createListOfNews()
+        val newsList = mockk<NewsListOfData>()
+        every { newsList.news } returns newsArticles
+        every { apiService.getLatestNewsArticles() } returns Single.fromObservable(
+            Observable.fromArray(newsList)
+        )
+
+        with(TestHelper()) {
+            checkDataFlow(serverCommunicator.getCoinPriceInfo(), coins, TestObserver())
+            checkDataFlow(serverCommunicator.getLatestNewsArticles(), newsArticles, TestObserver())
+        }
     }
 }
