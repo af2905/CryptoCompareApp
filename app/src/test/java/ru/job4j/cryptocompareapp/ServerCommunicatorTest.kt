@@ -34,7 +34,7 @@ class ServerCommunicatorTest {
 
     @Test
     fun checkDataFlowFromApiService() {
-        val coins = CoinTestHelper().createListOfCoins()
+        val coins = TestHelper().createListOfCoins()
         val priceList = mockk<CoinsListOfData>()
         every { priceList.coins } returns coins
         every { apiService.getTopCoinsInfo() } returns Single.fromObservable(

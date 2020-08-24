@@ -1,13 +1,10 @@
 package ru.job4j.cryptocompareapp
 
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
-import ru.job4j.cryptocompareapp.repository.database.pojo.CoinBasicInfo
-import ru.job4j.cryptocompareapp.repository.database.pojo.CoinPriceAndLastUpdate
-import ru.job4j.cryptocompareapp.repository.database.pojo.CoinPriceInfo
-import ru.job4j.cryptocompareapp.repository.database.pojo.DisplayCoinPriceInfo
-import ru.job4j.cryptocompareapp.repository.database.pojo.RawCoinPriceInfo
+import ru.job4j.cryptocompareapp.repository.database.entity.News
+import ru.job4j.cryptocompareapp.repository.database.pojo.*
 
-class CoinAndroidTestHelper {
+class AndroidTestHelper {
     val coins = listOf(
         Coin(
             1, CoinBasicInfo("1", "name1", "fullName1"),
@@ -24,5 +21,11 @@ class CoinAndroidTestHelper {
             RawCoinPriceInfo(CoinPriceAndLastUpdate(3.0)),
             DisplayCoinPriceInfo(CoinPriceInfo("3"))
         )
+    )
+
+    val newsArticles = listOf(
+        News("1", "1", 11111111),
+        News("2", "2", 22222222),
+        News("3", "3", 33333333)
     )
 }

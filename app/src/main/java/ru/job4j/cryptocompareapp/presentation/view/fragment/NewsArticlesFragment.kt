@@ -47,7 +47,9 @@ class NewsArticlesFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news_articles, container, false)
         swipeNewsArticlesRefreshLayout = view.swipeNewsArticlesRefreshLayout
@@ -66,7 +68,8 @@ class NewsArticlesFragment : BaseFragment() {
 
     private fun loadDataFromViewModel() {
         appViewModel?.getLiveDataNewsArticlesList()?.observe(
-            viewLifecycleOwner, Observer { setDataInAdapter(newsAdapter, it) })
+            viewLifecycleOwner, Observer { setDataInAdapter(newsAdapter, it) }
+        )
     }
 
     private fun setDataInAdapter(newsAdapter: NewsAdapter, newsArticles: List<News>): Disposable {
@@ -82,15 +85,16 @@ class NewsArticlesFragment : BaseFragment() {
 
     private fun refreshLayoutWithDelay() {
         swipeNewsArticlesRefreshLayout.setOnRefreshListener {
-            disposeBag.add(Completable.timer(500, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    swipeNewsArticlesRefreshLayout.isRefreshing = false
-                    val animId = R.anim.layout_animation_fall_down
-                    recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
-                    Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
-                }
+            disposeBag.add(
+                Completable.timer(500, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        swipeNewsArticlesRefreshLayout.isRefreshing = false
+                        val animId = R.anim.layout_animation_fall_down
+                        recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
+                        Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
+                    }
             )
         }
     }

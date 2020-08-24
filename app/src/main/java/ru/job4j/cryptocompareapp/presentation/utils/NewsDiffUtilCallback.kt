@@ -14,7 +14,7 @@ class NewsDiffUtilCallback(private val oldList: List<News>, private val newList:
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].publishedOn == newList[newItemPosition].publishedOn
-                && oldList[oldItemPosition].title == newList[newItemPosition].title
+        return oldList[oldItemPosition].publishedOn == newList[newItemPosition].publishedOn &&
+            oldList[oldItemPosition].title == newList[newItemPosition].title
     }
 }

@@ -13,6 +13,7 @@ import org.junit.Test
 import ru.job4j.cryptocompareapp.repository.AppRepository
 import ru.job4j.cryptocompareapp.repository.database.AppDatabase
 import ru.job4j.cryptocompareapp.repository.database.entity.Coin
+import ru.job4j.cryptocompareapp.repository.database.entity.News
 import ru.job4j.cryptocompareapp.repository.server.ServerCommunicator
 
 class AppRepositoryTest {
@@ -37,20 +38,36 @@ class AppRepositoryTest {
 
     @Test
     fun checkDataFlowFromServerCommunicator() {
-        val coins = CoinTestHelper().createListOfCoins()
+        val coins = TestHelper().createListOfCoins()
         every { appDatabase.coinDao().getCoinList() } returns coins
         every { serverCommunicator.getCoinPriceInfo() } returns Single.just(
             appDatabase.coinDao().getCoinList()
         )
 
-        val source = appRepository.getCoinPriceInfoFromNet()
-        val testObserver = TestObserver<List<Coin>>()
-        testObserver.assertNotSubscribed()
-        source.subscribe(testObserver)
-        testObserver.awaitTerminalEvent()
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
-        testObserver.assertValueCount(1)
-        testObserver.assertValues(coins)
+        val newsArticles = TestHelper().createListOfNews()
+        every { appDatabase.newsDao().getNewsList() } returns newsArticles
+        every { serverCommunicator.getLatestNewsArticles() } returns Single.just(
+            appDatabase.newsDao().getNewsList()
+        )
+
+        val coinsTestSource = appRepository.getCoinPriceInfoFromNet()
+        val coinsTestObserver = TestObserver<List<Coin>>()
+        coinsTestObserver.assertNotSubscribed()
+        coinsTestSource.subscribe(coinsTestObserver)
+        coinsTestObserver.awaitTerminalEvent()
+        coinsTestObserver.assertComplete()
+        coinsTestObserver.assertNoErrors()
+        coinsTestObserver.assertValueCount(1)
+        coinsTestObserver.assertValues(coins)
+
+        val newsTestSource = appRepository.getLatestNewsArticlesFromNet()
+        val newsTestObserver = TestObserver<List<News>>()
+        newsTestObserver.assertNotSubscribed()
+        newsTestSource.subscribe(newsTestObserver)
+        newsTestObserver.awaitTerminalEvent()
+        newsTestObserver.assertComplete()
+        newsTestObserver.assertNoErrors()
+        newsTestObserver.assertValueCount(1)
+        newsTestObserver.assertValues(newsArticles)
     }
 }

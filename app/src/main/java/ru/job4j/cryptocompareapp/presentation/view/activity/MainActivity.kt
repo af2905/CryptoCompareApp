@@ -25,7 +25,8 @@ import javax.inject.Inject
 class MainActivity :
     BaseActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
-    TopCoinsFragment.CallbackToCoinDetail, NewsArticlesFragment.CallbackToNewsDetail {
+    TopCoinsFragment.CallbackToCoinDetail,
+    NewsArticlesFragment.CallbackToNewsDetail {
     private var isBottomNavViewVisible = true
     var appViewModel: AppViewModel? = null
         @Inject set
@@ -68,13 +69,6 @@ class MainActivity :
     }
 
     private fun loadFragment(fragment: Fragment, tag: String) {
-       /* supportFragmentManager
-            .beginTransaction()
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .replace(R.id.content, fragment, tag)
-            .addToBackStack(tag)
-            .commit()*/
-
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)

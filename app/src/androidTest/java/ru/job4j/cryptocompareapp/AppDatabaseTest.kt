@@ -12,14 +12,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.job4j.cryptocompareapp.repository.database.AppDatabase
 import ru.job4j.cryptocompareapp.repository.database.dao.CoinDao
+import ru.job4j.cryptocompareapp.repository.database.dao.NewsDao
 
 @RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
     @Rule
     lateinit var instantTaskExecutorRule: InstantTaskExecutorRule
-
     private lateinit var database: AppDatabase
     private lateinit var coinDao: CoinDao
+    private lateinit var newsDao: NewsDao
 
     @Before
     fun initRoom() {
@@ -29,6 +30,7 @@ class AppDatabaseTest {
             .allowMainThreadQueries()
             .build()
         coinDao = database.coinDao()
+        newsDao = database.newsDao()
     }
 
     @After
@@ -38,20 +40,33 @@ class AppDatabaseTest {
 
     @Test
     fun checkLoadingAndReceivingData() {
-        val coins = CoinAndroidTestHelper().coins
+        val coins = AndroidTestHelper().coins
         val twoCoinsFromList = listOf(coins[0], coins[1])
         coinDao.insertCoinList(twoCoinsFromList)
         val dbCoins = coinDao.getCoinList()
         assertEquals(2, dbCoins.size)
+
+        val newsArticles = AndroidTestHelper().newsArticles
+        val twoNewsFromList = listOf(newsArticles[0], newsArticles[1])
+        newsDao.insertNewsList(twoNewsFromList)
+        val dbNews = newsDao.getNewsList()
+        assertEquals(2, dbNews.size)
     }
 
     @Test
     fun checkReceivingDataById() {
-        val coins = CoinAndroidTestHelper().coins
+        val coins = AndroidTestHelper().coins
         coinDao.insertCoinList(coins)
         val dbCoins = coinDao.getCoinList()
         val firstCoinId = dbCoins[0].id
         val coin = coinDao.getCoinById(firstCoinId)
         assertEquals(dbCoins[0], coin)
+
+        val newsArticles = AndroidTestHelper().newsArticles
+        newsDao.insertNewsList(newsArticles)
+        val dbNews = newsDao.getNewsList()
+        val secondNewsId = dbNews[1].id
+        val news = newsDao.getNewsById(secondNewsId.toInt())
+        assertEquals(dbNews[1], news)
     }
 }

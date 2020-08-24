@@ -47,7 +47,9 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
         swipeTopCoinsRefreshLayout = view.swipeTopCoinsRefreshLayout
@@ -84,15 +86,16 @@ class TopCoinsFragment : BaseFragment() {
     private fun refreshLayoutWithDelay() {
         swipeTopCoinsRefreshLayout.setOnRefreshListener {
             loadDataFromViewModel()
-            disposeBag.add(Completable.timer(500, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    swipeTopCoinsRefreshLayout.isRefreshing = false
-                    val animId = R.anim.layout_animation_fall_down
-                    recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
-                    Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
-                }
+            disposeBag.add(
+                Completable.timer(500, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        swipeTopCoinsRefreshLayout.isRefreshing = false
+                        val animId = R.anim.layout_animation_fall_down
+                        recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
+                        Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
+                    }
             )
         }
     }
