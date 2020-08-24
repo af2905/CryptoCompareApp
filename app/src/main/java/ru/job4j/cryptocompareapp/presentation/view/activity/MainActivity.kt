@@ -1,5 +1,6 @@
 package ru.job4j.cryptocompareapp.presentation.view.activity
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -68,9 +68,16 @@ class MainActivity :
     }
 
     private fun loadFragment(fragment: Fragment, tag: String) {
-        supportFragmentManager
+       /* supportFragmentManager
             .beginTransaction()
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .replace(R.id.content, fragment, tag)
+            .addToBackStack(tag)
+            .commit()*/
+
+        supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)
             .replace(R.id.content, fragment, tag)
             .addToBackStack(tag)
             .commit()
@@ -162,5 +169,12 @@ class MainActivity :
         private const val TOP_COINS_FRAGMENT = "topCoinsFragment"
         private const val DETAIL_COIN_FRAGMENT = "detailCoinFragment"
         private const val NEWS_ARTICLES_FRAGMENT = "newsArticlesFragment"
+
+        @JvmStatic
+        fun newInstance(context: Context): Intent {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            return intent
+        }
     }
 }

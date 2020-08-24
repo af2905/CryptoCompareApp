@@ -1,23 +1,24 @@
-package ru.job4j.cryptocompareapp.presentation.base
+package ru.job4j.cryptocompareapp.presentation.view.activity
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import ru.job4j.cryptocompareapp.App
 import ru.job4j.cryptocompareapp.R
-import ru.job4j.cryptocompareapp.di.component.ViewModelComponent
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
-abstract class BaseActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
+    private val scheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createDependencies()
+        setContentView(R.layout.activity_splash)
+        val runnable: () -> Unit = {
+            startActivity(MainActivity.newInstance(this))
+            finish()
+        }
+        scheduledExecutorService.schedule(runnable, 3, TimeUnit.SECONDS)
     }
-
-    private fun createDependencies() {
-        injectDependency((application as App).getViewModelComponent())
-    }
-
-    abstract fun injectDependency(component: ViewModelComponent)
 
     override fun startActivity(intent: Intent?) {
         super.startActivity(intent)

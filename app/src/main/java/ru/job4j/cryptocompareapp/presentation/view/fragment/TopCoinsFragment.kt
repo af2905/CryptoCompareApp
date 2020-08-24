@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -88,6 +89,8 @@ class TopCoinsFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     swipeTopCoinsRefreshLayout.isRefreshing = false
+                    val animId = R.anim.layout_animation_fall_down
+                    recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
                     Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
                 }
             )
@@ -97,6 +100,7 @@ class TopCoinsFragment : BaseFragment() {
     fun openCoinDetailInfo(coin: Coin) {
         callbackToDetail?.openCoinDetailClick(coin)
     }
+
     interface CallbackToCoinDetail {
         fun openCoinDetailClick(coin: Coin)
     }
