@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -77,7 +76,7 @@ class MainActivity :
             .commit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+/*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         return true
     }
@@ -85,7 +84,7 @@ class MainActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return true
-    }
+    }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

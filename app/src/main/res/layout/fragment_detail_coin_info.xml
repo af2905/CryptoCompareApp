@@ -364,7 +364,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/icon"
-                        android:src="@drawable/ic_low_high_variant" />
+                        android:src="@drawable/ic_low_high" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -504,7 +504,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/icon"
-                        android:src="@drawable/ic_cryptocompare_variant" />
+                        android:src="@drawable/ic_cryptocompare" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
