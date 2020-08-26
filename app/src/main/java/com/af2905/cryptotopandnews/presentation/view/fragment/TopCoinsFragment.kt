@@ -47,23 +47,31 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
         swipeTopCoinsRefreshLayout = view.swipeTopCoinsRefreshLayout
-        initAdapterAndRecycler(view)
+        initRecyclerView(view)
+        setBehaviorWhenLoadingError()
         loadDataFromViewModel()
         refreshLayoutWithDelay()
         return view
     }
 
-    private fun initAdapterAndRecycler(view: View) {
+    private fun initRecyclerView(view: View) {
         recycler = view.recyclerViewTopCoins
         coinAdapter.setClickListener(clickListener)
         recycler.adapter = coinAdapter
         recycler.addItemDecoration(DivItemDecoration(16, 8))
+    }
+
+    private fun setBehaviorWhenLoadingError() {
+        appViewModel?.getLiveDataErrorWhenLoadingData()?.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                true -> swipeTopCoinsRefreshLayout.isRefreshing = true
+                false -> swipeTopCoinsRefreshLayout.isRefreshing = false
+            }
+        })
     }
 
     private fun loadDataFromViewModel() {
@@ -93,7 +101,8 @@ class TopCoinsFragment : BaseFragment() {
                     .subscribe {
                         swipeTopCoinsRefreshLayout.isRefreshing = false
                         val animId = R.anim.layout_animation_fall_down
-                        recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
+                        recycler.layoutAnimation =
+                            AnimationUtils.loadLayoutAnimation(context, animId)
                         Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
                     }
             )

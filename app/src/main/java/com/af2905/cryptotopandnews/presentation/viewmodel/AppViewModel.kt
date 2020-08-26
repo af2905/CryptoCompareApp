@@ -20,6 +20,7 @@ class AppViewModel(application: Application, private val repository: AppReposito
     private val liveDataCoinInfoList: MutableLiveData<List<Coin>> = MutableLiveData()
     private val liveDataSelectedCoin: MutableLiveData<Coin> = MutableLiveData()
     private val liveDataNewsArticlesList: MutableLiveData<List<News>> = MutableLiveData()
+    private val liveDataErrorWhenLoadingData: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         loadTopCoins()
@@ -43,9 +44,11 @@ class AppViewModel(application: Application, private val repository: AppReposito
     private fun loadTopCoins() {
         disposeBag.add(
             getCoinPriceInfoFromRepository()
+                .doOnError { liveDataErrorWhenLoadingData.value = true }
                 .retry()
                 .subscribe(
                     {
+                        liveDataErrorWhenLoadingData.value = false
                         liveDataCoinInfoList.value = it
                         Log.d("TEST_OF_LOADING_DATA" + it.size, it.toString())
                     },
@@ -59,11 +62,11 @@ class AppViewModel(application: Application, private val repository: AppReposito
     private fun updateTopCoins() {
         disposeBag.add(
             getCoinPriceInfoFromRepository()
-                .delaySubscription(70, TimeUnit.SECONDS)
+                .delaySubscription(1, TimeUnit.MINUTES)
                 .repeat()
                 .retry()
                 .subscribe(
-                    { it ->
+                    {
                         liveDataCoinInfoList.value = it
                         if (getLiveDataSelectedCoin().value != null) {
                             val liveDataCoinId = getLiveDataSelectedCoin().value?.id
@@ -101,7 +104,7 @@ class AppViewModel(application: Application, private val repository: AppReposito
     private fun updateNewsArticles() {
         disposeBag.add(
             getLatestNewsArticlesFromRepository()
-                .delaySubscription(70, TimeUnit.SECONDS)
+                .delaySubscription(5, TimeUnit.MINUTES)
                 .repeat()
                 .retry()
                 .subscribe(
@@ -130,6 +133,10 @@ class AppViewModel(application: Application, private val repository: AppReposito
 
     fun getLiveDataNewsArticlesList(): LiveData<List<News>> {
         return liveDataNewsArticlesList
+    }
+
+    fun getLiveDataErrorWhenLoadingData(): LiveData<Boolean> {
+        return liveDataErrorWhenLoadingData
     }
 
     override fun onCleared() {

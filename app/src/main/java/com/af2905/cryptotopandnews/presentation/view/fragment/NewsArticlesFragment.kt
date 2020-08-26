@@ -47,13 +47,12 @@ class NewsArticlesFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news_articles, container, false)
         swipeNewsArticlesRefreshLayout = view.swipeNewsArticlesRefreshLayout
         initRecyclerView(view, newsAdapter)
+        setBehaviorWhenLoadingError()
         loadDataFromViewModel()
         refreshLayoutWithDelay()
         return view
@@ -64,6 +63,15 @@ class NewsArticlesFragment : BaseFragment() {
         newsAdapter.setClickListener(clickListener)
         recycler.adapter = newsAdapter
         recycler.addItemDecoration(DivItemDecoration(16, 8))
+    }
+
+    private fun setBehaviorWhenLoadingError() {
+        appViewModel?.getLiveDataErrorWhenLoadingData()?.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                true -> swipeNewsArticlesRefreshLayout.isRefreshing = true
+                false -> swipeNewsArticlesRefreshLayout.isRefreshing = false
+            }
+        })
     }
 
     private fun loadDataFromViewModel() {
@@ -92,7 +100,8 @@ class NewsArticlesFragment : BaseFragment() {
                     .subscribe {
                         swipeNewsArticlesRefreshLayout.isRefreshing = false
                         val animId = R.anim.layout_animation_fall_down
-                        recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, animId)
+                        recycler.layoutAnimation =
+                            AnimationUtils.loadLayoutAnimation(context, animId)
                         Toast.makeText(context, R.string.just_updated, Toast.LENGTH_SHORT).show()
                     }
             )
