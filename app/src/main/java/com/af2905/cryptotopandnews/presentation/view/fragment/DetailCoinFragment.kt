@@ -178,7 +178,7 @@ class DetailCoinFragment : BaseFragment(), View.OnClickListener {
             with(coin.coinBasicInfo) {
                 with(coin.displayCoinPriceInfo.coinPriceInfo) {
                     String.format(
-                        "\n%s: %s (%s)\n\n%s: %s\n\n%s: %s(%s%%)\n\n%s: %s\n\n%s: %s\n\n%s: %s\n\n%s: %s/%s\n",
+                        "\n%s: %s (%s)\n\n%s: %s\n\n%s: %s (%s%%)\n\n%s: %s\n\n%s: %s\n\n%s: %s\n\n%s: %s/%s\n",
                         getString(R.string.coin_name), fullName, name,
                         getString(R.string.price), this?.price,
                         getString(R.string.price_change), this?.change24Hour, this?.changePct24Hour,

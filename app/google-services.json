@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "312069394581",
+    "firebase_url": "https://crypto-top-and-news.firebaseio.com",
+    "project_id": "crypto-top-and-news",
+    "storage_bucket": "crypto-top-and-news.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312069394581:android:2d5c965f87f352e6b54b9c",
+        "android_client_info": {
+          "package_name": "com.af2905.cryptotopandnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312069394581-8oo3rqp17pg02dmifb7u375es8hvi2im.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqdXkGvLP87DcmFC8J0OdbKuGuJ3I3TSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312069394581-8oo3rqp17pg02dmifb7u375es8hvi2im.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

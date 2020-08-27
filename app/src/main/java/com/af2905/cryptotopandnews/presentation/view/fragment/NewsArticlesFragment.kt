@@ -47,7 +47,9 @@ class NewsArticlesFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news_articles, container, false)
         swipeNewsArticlesRefreshLayout = view.swipeNewsArticlesRefreshLayout
@@ -66,12 +68,15 @@ class NewsArticlesFragment : BaseFragment() {
     }
 
     private fun setBehaviorWhenLoadingError() {
-        appViewModel?.getLiveDataErrorWhenLoadingData()?.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> swipeNewsArticlesRefreshLayout.isRefreshing = true
-                false -> swipeNewsArticlesRefreshLayout.isRefreshing = false
+        appViewModel?.getLiveDataErrorWhenLoadingData()?.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    true -> swipeNewsArticlesRefreshLayout.isRefreshing = true
+                    false -> swipeNewsArticlesRefreshLayout.isRefreshing = false
+                }
             }
-        })
+        )
     }
 
     private fun loadDataFromViewModel() {

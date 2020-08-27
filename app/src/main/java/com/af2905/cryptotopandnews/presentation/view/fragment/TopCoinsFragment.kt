@@ -47,7 +47,9 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_coins, container, false)
         swipeTopCoinsRefreshLayout = view.swipeTopCoinsRefreshLayout
@@ -66,12 +68,15 @@ class TopCoinsFragment : BaseFragment() {
     }
 
     private fun setBehaviorWhenLoadingError() {
-        appViewModel?.getLiveDataErrorWhenLoadingData()?.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> swipeTopCoinsRefreshLayout.isRefreshing = true
-                false -> swipeTopCoinsRefreshLayout.isRefreshing = false
+        appViewModel?.getLiveDataErrorWhenLoadingData()?.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    true -> swipeTopCoinsRefreshLayout.isRefreshing = true
+                    false -> swipeTopCoinsRefreshLayout.isRefreshing = false
+                }
             }
-        })
+        )
     }
 
     private fun loadDataFromViewModel() {

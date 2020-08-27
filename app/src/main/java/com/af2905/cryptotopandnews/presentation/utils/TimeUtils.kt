@@ -3,7 +3,8 @@ package com.af2905.cryptotopandnews.presentation.utils
 import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.TimeZone
 
 class TimeUtils {
 

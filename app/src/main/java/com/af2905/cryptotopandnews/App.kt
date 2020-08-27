@@ -2,7 +2,11 @@ package com.af2905.cryptotopandnews
 
 import android.app.Application
 import androidx.room.Room
-import com.af2905.cryptotopandnews.di.component.*
+import com.af2905.cryptotopandnews.di.component.DaggerApiComponent
+import com.af2905.cryptotopandnews.di.component.DaggerDatabaseComponent
+import com.af2905.cryptotopandnews.di.component.DaggerRepositoryComponent
+import com.af2905.cryptotopandnews.di.component.DaggerViewModelComponent
+import com.af2905.cryptotopandnews.di.component.ViewModelComponent
 import com.af2905.cryptotopandnews.di.module.ApiModule
 import com.af2905.cryptotopandnews.di.module.DatabaseModule
 import com.af2905.cryptotopandnews.di.module.RepositoryModule

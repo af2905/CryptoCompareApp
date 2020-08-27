@@ -2,7 +2,11 @@ package com.af2905.cryptotopandnews
 
 import com.af2905.cryptotopandnews.repository.database.entity.Coin
 import com.af2905.cryptotopandnews.repository.database.entity.News
-import com.af2905.cryptotopandnews.repository.database.pojo.*
+import com.af2905.cryptotopandnews.repository.database.pojo.CoinBasicInfo
+import com.af2905.cryptotopandnews.repository.database.pojo.CoinPriceAndLastUpdate
+import com.af2905.cryptotopandnews.repository.database.pojo.CoinPriceInfo
+import com.af2905.cryptotopandnews.repository.database.pojo.DisplayCoinPriceInfo
+import com.af2905.cryptotopandnews.repository.database.pojo.RawCoinPriceInfo
 
 class AndroidTestHelper {
     val coins = listOf(
