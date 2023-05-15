@@ -1,6 +1,6 @@
 package com.af2905.cryptotopandnews.repository.database.pojo
 
-import com.af2905.cryptotopandnews.repository.server.ApiService
+import com.af2905.cryptotopandnews.BuildConfig
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -170,6 +170,6 @@ data class CoinPriceInfo(
     val imageUrl: String? = null
 ) {
     fun getFullImageUrl(): String {
-        return ApiService.BASE_IMAGE_URL + imageUrl
+        return BuildConfig.BASE_IMAGE_URL + imageUrl
     }
 }

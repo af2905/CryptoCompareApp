@@ -1,17 +1,18 @@
 package com.af2905.cryptotopandnews.di.module
 
-import com.af2905.cryptotopandnews.di.scope.RepositoryScope
-import com.af2905.cryptotopandnews.repository.AppRepository
-import com.af2905.cryptotopandnews.repository.database.AppDatabase
-import com.af2905.cryptotopandnews.repository.server.ServerCommunicator
+import com.af2905.cryptotopandnews.repository.NewsRepository
+import com.af2905.cryptotopandnews.repository.NewsRepositoryImpl
+import com.af2905.cryptotopandnews.repository.ToplistsRepository
+import com.af2905.cryptotopandnews.repository.ToplistsRepositoryImpl
+
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
-class RepositoryModule {
-    @Provides
-    @RepositoryScope
-    fun providesRepository(communicator: ServerCommunicator, appDatabase: AppDatabase): AppRepository {
-        return AppRepository(communicator, appDatabase)
-    }
+interface RepositoryModule {
+    @Binds
+    fun bindsToplistRepository(toplistsRepository: ToplistsRepositoryImpl): ToplistsRepository
+
+    @Binds
+    fun bindsNewsRepository(newsRepository: NewsRepositoryImpl): NewsRepository
 }

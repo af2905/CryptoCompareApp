@@ -7,5 +7,5 @@ import com.google.gson.annotations.SerializedName
 data class NewsListOfData(
     @SerializedName("Data")
     @Expose
-    val news: List<News>? = null
+    val news: List<News>
 )

@@ -5,17 +5,13 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.af2905.cryptotopandnews.repository.AppRepository
+import androidx.lifecycle.ViewModel
 import com.af2905.cryptotopandnews.repository.database.entity.Coin
 import com.af2905.cryptotopandnews.repository.database.entity.News
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class AppViewModel(application: Application, private val repository: AppRepository) :
-    AndroidViewModel(application) {
+class AppViewModel() : ViewModel()
+    /*AndroidViewModel(application) {
     private val disposeBag = CompositeDisposable()
     private val liveDataCoinInfoList: MutableLiveData<List<Coin>> = MutableLiveData()
     private val liveDataSelectedCoin: MutableLiveData<Coin> = MutableLiveData()
@@ -142,5 +138,5 @@ class AppViewModel(application: Application, private val repository: AppReposito
     override fun onCleared() {
         super.onCleared()
         disposeBag.dispose()
-    }
-}
+    }*/
+//}

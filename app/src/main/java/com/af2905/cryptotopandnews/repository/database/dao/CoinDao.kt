@@ -8,7 +8,7 @@ import com.af2905.cryptotopandnews.repository.database.entity.Coin
 
 @Dao
 interface CoinDao {
-    @Query("SELECT * FROM coins ORDER BY coinPrice DESC LIMIT 50")
+    @Query("SELECT * FROM coins")
     fun getCoinList(): List<Coin>
 
     @Query("SELECT * FROM coins WHERE id =:id")

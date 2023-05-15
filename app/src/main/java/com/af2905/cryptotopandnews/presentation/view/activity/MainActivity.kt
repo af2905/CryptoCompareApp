@@ -6,31 +6,34 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.af2905.cryptotopandnews.R
-import com.af2905.cryptotopandnews.di.component.ViewModelComponent
-import com.af2905.cryptotopandnews.presentation.base.BaseActivity
-import com.af2905.cryptotopandnews.presentation.view.fragment.DetailCoinFragment
-import com.af2905.cryptotopandnews.presentation.view.fragment.NewsArticlesFragment
-import com.af2905.cryptotopandnews.presentation.view.fragment.TopCoinsFragment
-import com.af2905.cryptotopandnews.presentation.viewmodel.AppViewModel
-import com.af2905.cryptotopandnews.repository.database.entity.Coin
-import com.af2905.cryptotopandnews.repository.database.entity.News
+import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
-class MainActivity :
-    BaseActivity(),
+class MainActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            TopCoinsScreen()
+        }
+    }
+
+
+/*    BaseActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
     TopCoinsFragment.CallbackToCoinDetail,
     NewsArticlesFragment.CallbackToNewsDetail {
     private var isBottomNavViewVisible = true
     var appViewModel: AppViewModel? = null
-        @Inject set
+        @Inject set*/
 
-    override fun injectDependency(component: ViewModelComponent) {
+/*    override fun injectDependency(component: ViewModelComponent) {
         component.inject(this)
     }
 
@@ -76,7 +79,7 @@ class MainActivity :
             .commit()
     }
 
-/*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+*//*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         return true
     }
@@ -84,7 +87,7 @@ class MainActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return true
-    }*/
+    }*//*
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -169,5 +172,5 @@ class MainActivity :
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             return intent
         }
-    }
+    }*/
 }
