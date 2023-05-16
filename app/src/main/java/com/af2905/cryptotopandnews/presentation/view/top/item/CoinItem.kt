@@ -1,6 +1,6 @@
 package com.af2905.cryptotopandnews.presentation.view.top.item
 
-import com.af2905.cryptotopandnews.repository.database.entity.Coin
+import com.af2905.cryptotopandnews.repository.database.entity.CoinEntity
 
 data class CoinItem(
     val id: String,
@@ -12,14 +12,14 @@ data class CoinItem(
     val imageUrl: String
 ) {
     companion object {
-        fun map(list: List<Coin>): List<CoinItem> {
+        fun map(list: List<CoinEntity>): List<CoinItem> {
             return list.map { map(it) }
         }
 
-        private fun map(coin: Coin): CoinItem {
+        private fun map(coin: CoinEntity): CoinItem {
             return with(coin) {
                 CoinItem(
-                    id = coinBasicInfo.coinBasicId,
+                    id = coinBasicInfo.id,
                     fullName = coinBasicInfo.fullName.orEmpty(),
                     name = coinBasicInfo.name.orEmpty(),
                     price = displayCoinPriceInfo.coinPriceInfo?.price.orEmpty(),

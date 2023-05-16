@@ -4,16 +4,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.af2905.cryptotopandnews.repository.database.entity.News
+import com.af2905.cryptotopandnews.repository.database.dto.News
+import com.af2905.cryptotopandnews.repository.database.entity.NewsEntity
 
 @Dao
 interface NewsDao {
     @Query("SELECT * FROM news ORDER BY publishedOn DESC LIMIT 50")
-    suspend fun getNewsList(): List<News>
+    suspend fun getAll(): List<NewsEntity>
 
     @Query("SELECT * FROM news WHERE id =:id")
-    suspend fun getNewsById(id: Int): News
+    suspend fun getNewsById(id: String): NewsEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNewsList(newsList: List<News>)
+    suspend fun save(newsList: List<NewsEntity>)
 }

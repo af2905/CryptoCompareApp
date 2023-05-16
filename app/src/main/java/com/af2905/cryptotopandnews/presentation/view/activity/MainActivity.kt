@@ -22,7 +22,6 @@ import com.af2905.cryptotopandnews.presentation.view.detail.CoinDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.detail.NewsDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.news.NewsScreen
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsController
-import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsScreen
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsViewModel
 import com.af2905.cryptotopandnews.presentation.view.top.di.DaggerTopCoinsComponent
 
@@ -70,11 +69,7 @@ class MainActivity : ComponentActivity() {
                                 icon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_finance),
-                                        tint = if (routePosition.value == Routes.coins) {
-                                            colorResource(id = R.color.colorAccent)
-                                        } else {
-                                            colorResource(id = R.color.colorConcrete)
-                                        },
+                                        tint = colorResource(id = R.color.colorConcrete),
                                         contentDescription = null
                                     )
                                 },
@@ -90,11 +85,7 @@ class MainActivity : ComponentActivity() {
                                 icon = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_news),
-                                        tint = if (routePosition.value == Routes.news) {
-                                            colorResource(id = R.color.colorAccent)
-                                        } else {
-                                            colorResource(id = R.color.colorConcrete)
-                                        },
+                                        tint = colorResource(id = R.color.colorConcrete),
                                         contentDescription = null
                                     )
                                 },
@@ -128,6 +119,7 @@ class MainActivity : ComponentActivity() {
                                     onItemClick = { navController.navigate(Routes.coinDetail) }
                                 )
                             }
+
                             composable(Routes.news) {
                                 NewsScreen()
                             }

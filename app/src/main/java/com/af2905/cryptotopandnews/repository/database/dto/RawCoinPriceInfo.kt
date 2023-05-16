@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.repository.database.pojo
+package com.af2905.cryptotopandnews.repository.database.dto
 
 import androidx.room.Embedded
 import com.google.gson.annotations.Expose

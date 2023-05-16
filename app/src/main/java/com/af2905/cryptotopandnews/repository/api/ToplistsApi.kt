@@ -4,7 +4,7 @@ import com.af2905.cryptotopandnews.repository.api.ApiParams.DEFAULT_CURRENCY
 import com.af2905.cryptotopandnews.repository.api.ApiParams.DEFAULT_LIMIT
 import com.af2905.cryptotopandnews.repository.api.ApiParams.QUERY_PARAM_LIMIT
 import com.af2905.cryptotopandnews.repository.api.ApiParams.QUERY_PARAM_TO_SYMBOL
-import com.af2905.cryptotopandnews.repository.database.pojo.CoinsListOfData
+import com.af2905.cryptotopandnews.repository.database.dto.CoinsListOfData
 import retrofit2.http.GET
 import retrofit2.http.Query
 

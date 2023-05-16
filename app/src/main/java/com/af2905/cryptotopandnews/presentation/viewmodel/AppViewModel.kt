@@ -1,14 +1,6 @@
 package com.af2905.cryptotopandnews.presentation.viewmodel
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.af2905.cryptotopandnews.repository.database.entity.Coin
-import com.af2905.cryptotopandnews.repository.database.entity.News
-import java.util.concurrent.TimeUnit
 
 class AppViewModel() : ViewModel()
     /*AndroidViewModel(application) {

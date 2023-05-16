@@ -1,6 +1,5 @@
 package com.af2905.cryptotopandnews.presentation.view.top
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
@@ -18,7 +17,7 @@ class TopCoinsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val response = repository.getToplistBy24HVolumeFullData()
+            val response = repository.getTopCoins()
             val list = CoinItem.map(response)
             _topCoins.emit(list)
         }

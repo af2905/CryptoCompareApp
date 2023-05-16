@@ -1,6 +1,5 @@
-package com.af2905.cryptotopandnews.repository.database.pojo
+package com.af2905.cryptotopandnews.repository.database.dto
 
-import com.af2905.cryptotopandnews.repository.database.entity.News
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

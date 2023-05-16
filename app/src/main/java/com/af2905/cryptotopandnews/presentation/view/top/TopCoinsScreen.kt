@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,9 +26,20 @@ fun TopCoinsScreen(
     onItemClick: (String) -> Unit
 ) {
     Surface(color = colorResource(id = R.color.colorConcrete)) {
-        Spacer(modifier = Modifier.height(dimens.spaceNormal))
-        CoinList(list = list, onItemClick = onItemClick)
-        Spacer(modifier = Modifier.height(dimens.spaceNormal))
+        if (list.isEmpty()) {
+            Progress()
+        } else {
+            Spacer(modifier = Modifier.height(dimens.spaceNormal))
+            CoinList(list = list, onItemClick = onItemClick)
+            Spacer(modifier = Modifier.height(dimens.spaceNormal))
+        }
+    }
+}
+
+@Composable
+fun Progress() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator()
     }
 }
 
@@ -36,11 +48,12 @@ fun CoinList(
     list: List<CoinItem>,
     onItemClick: (String) -> Unit
 ) {
+    val coins = remember(list) { list }
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(dimens.spaceSmall),
         contentPadding = PaddingValues(all = dimens.spaceNormal)
     ) {
-        items(list) { item ->
+        items(coins) { item ->
             CoinItem(
                 item = item,
                 onItemClick = { id -> onItemClick.invoke(id) }
