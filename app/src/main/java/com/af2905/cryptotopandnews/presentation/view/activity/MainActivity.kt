@@ -16,8 +16,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.af2905.cryptotopandnews.R
+import com.af2905.cryptotopandnews.di.component.AppComponentProvider
+import com.af2905.cryptotopandnews.di.daggerViewModel
+import com.af2905.cryptotopandnews.presentation.view.detail.CoinDetailScreen
+import com.af2905.cryptotopandnews.presentation.view.detail.NewsDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.news.NewsScreen
+import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsController
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsScreen
+import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsViewModel
+import com.af2905.cryptotopandnews.presentation.view.top.di.DaggerTopCoinsComponent
 
 class MainActivity : ComponentActivity() {
 
@@ -108,8 +115,29 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = Routes.coins,
                         ) {
-                            composable(Routes.coins) { TopCoinsScreen() }
-                            composable(Routes.news) { NewsScreen() }
+                            composable(Routes.coins) {
+                                val appComponent =
+                                    AppComponentProvider.getAppComponent(this@MainActivity)
+                                val component =
+                                    DaggerTopCoinsComponent.factory().create(appComponent)
+                                val viewModel: TopCoinsViewModel = daggerViewModel {
+                                    component.getViewModel()
+                                }
+                                TopCoinsController(
+                                    viewModel = viewModel,
+                                    onItemClick = { navController.navigate(Routes.coinDetail) }
+                                )
+                            }
+                            composable(Routes.news) {
+                                NewsScreen()
+                            }
+                            composable(Routes.coinDetail) {
+                                routePosition.value = Routes.coinDetail
+                                CoinDetailScreen()
+                            }
+                            composable(Routes.newsDetail) {
+                                NewsDetailScreen()
+                            }
                         }
                     }
                 }

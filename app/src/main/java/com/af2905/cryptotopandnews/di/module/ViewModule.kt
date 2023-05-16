@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.di
+package com.af2905.cryptotopandnews.di.module
 
 import com.af2905.cryptotopandnews.di.scope.ActivityScope
 import com.af2905.cryptotopandnews.presentation.view.activity.MainActivity

@@ -15,8 +15,9 @@ class ToplistsRepositoryImpl @Inject constructor(
     private val coinDao: CoinDao
 ) : ToplistsRepository {
     override suspend fun getToplistBy24HVolumeFullData(): List<Coin> {
-        coinDao.insertCoinList(toplistsApi.getToplistBy24HVolumeFullData().coins)
-        return coinDao.getCoinList()
+        //coinDao.insertCoinList(toplistsApi.getToplistBy24HVolumeFullData().coins)
+        //return coinDao.getCoinList()
+        return toplistsApi.getToplistBy24HVolumeFullData().coins
     }
 
     override suspend fun getCoinById(id: Int): Coin {

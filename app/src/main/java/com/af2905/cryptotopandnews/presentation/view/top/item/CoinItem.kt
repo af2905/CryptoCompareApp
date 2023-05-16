@@ -3,7 +3,7 @@ package com.af2905.cryptotopandnews.presentation.view.top.item
 import com.af2905.cryptotopandnews.repository.database.entity.Coin
 
 data class CoinItem(
-    val id: Int,
+    val id: String,
     val name: String,
     val fullName: String,
     val price: String,
@@ -16,10 +16,10 @@ data class CoinItem(
             return list.map { map(it) }
         }
 
-        fun map(coin: Coin): CoinItem {
+        private fun map(coin: Coin): CoinItem {
             return with(coin) {
                 CoinItem(
-                    id = id,
+                    id = coinBasicInfo.coinBasicId,
                     fullName = coinBasicInfo.fullName.orEmpty(),
                     name = coinBasicInfo.name.orEmpty(),
                     price = displayCoinPriceInfo.coinPriceInfo?.price.orEmpty(),

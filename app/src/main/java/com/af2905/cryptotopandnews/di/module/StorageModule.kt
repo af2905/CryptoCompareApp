@@ -26,9 +26,7 @@ class StorageModule {
     companion object {
         @AppScope
         @Provides
-        fun provideDoomDatabase(
-            @AppContext context: Context
-        ): AppDatabase {
+        fun provideRoomDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
         }
     }

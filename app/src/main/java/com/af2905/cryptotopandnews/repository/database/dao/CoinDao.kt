@@ -9,11 +9,11 @@ import com.af2905.cryptotopandnews.repository.database.entity.Coin
 @Dao
 interface CoinDao {
     @Query("SELECT * FROM coins")
-    fun getCoinList(): List<Coin>
+    suspend fun getAll(): List<Coin>?
 
     @Query("SELECT * FROM coins WHERE id =:id")
-    fun getCoinById(id: Int): Coin
+    suspend fun getCoinById(id: Int): Coin
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCoinList(coinList: List<Coin>)
+    suspend fun save(list: List<Coin>)
 }

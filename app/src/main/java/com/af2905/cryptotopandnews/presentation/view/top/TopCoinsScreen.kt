@@ -1,6 +1,5 @@
 package com.af2905.cryptotopandnews.presentation.view.top
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,52 +12,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.af2905.cryptotopandnews.R
 import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
-import com.af2905.cryptotopandnews.repository.database.entity.Coin
-import com.af2905.cryptotopandnews.repository.database.pojo.CoinBasicInfo
-import com.af2905.cryptotopandnews.repository.database.pojo.CoinPriceInfo
-import com.af2905.cryptotopandnews.repository.database.pojo.DisplayCoinPriceInfo
-import com.af2905.cryptotopandnews.repository.database.pojo.RawCoinPriceInfo
 import com.af2905.cryptotopandnews.theme.dimens
 
 @Composable
-fun TopCoinsScreen() {
+fun TopCoinsScreen(
+    list: List<CoinItem>,
+    onItemClick: (String) -> Unit
+) {
     Surface(color = colorResource(id = R.color.colorConcrete)) {
         Spacer(modifier = Modifier.height(dimens.spaceNormal))
-        CoinList()
+        CoinList(list = list, onItemClick = onItemClick)
         Spacer(modifier = Modifier.height(dimens.spaceNormal))
     }
 }
 
 @Composable
-fun CoinList() {
-    val list = mutableListOf<CoinItem>()
-    for (i in 0..30) {
-        val coin = Coin(
-            id = i,
-            coinBasicInfo = CoinBasicInfo(
-                coinBasicId = i.toString(),
-                name = "WBTH",
-                fullName = "Bitcoin"
-            ),
-            rawCoinPriceInfo = RawCoinPriceInfo(),
-            displayCoinPriceInfo = DisplayCoinPriceInfo(
-                coinPriceInfo = CoinPriceInfo(
-                    price = "$ 28,271.6",
-                    change24Hour = "$ 189.90",
-                    changePct24Hour = if (i % 2 == 0) "-0.68" else "0.50",
-                    imageUrl = "/media/37746251/btc.png"
-                )
-            )
-        )
-        list.add(
-            CoinItem.map(coin)
-        )
-    }
+fun CoinList(
+    list: List<CoinItem>,
+    onItemClick: (String) -> Unit
+) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(dimens.spaceSmall),
         contentPadding = PaddingValues(all = dimens.spaceNormal)
@@ -66,9 +43,7 @@ fun CoinList() {
         items(list) { item ->
             CoinItem(
                 item = item,
-                onItemClick = { id ->
-                    Log.d("ITEM_CLICKED_ID", "$id")
-                }
+                onItemClick = { id -> onItemClick.invoke(id) }
             )
         }
     }
@@ -77,15 +52,13 @@ fun CoinList() {
 @Composable
 fun CoinItem(
     item: CoinItem,
-    onItemClick: (Int) -> Unit
+    onItemClick: (String) -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(dimens.radiusSmall),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                onItemClick.invoke(item.id)
-            }
+            .clickable { onItemClick.invoke(item.id) }
     ) {
         Row {
             Box(
@@ -107,15 +80,17 @@ fun CoinItem(
                     .fillMaxWidth()
                     .padding(vertical = dimens.spaceTiny, horizontal = dimens.spaceNormal)
             ) {
-                Column() {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = item.fullName,
                         fontSize = 18.sp,
-                        color = colorResource(id = R.color.colorPrimaryDark)
+                        color = colorResource(id = R.color.colorPrimaryDark),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(text = item.name, color = colorResource(id = R.color.colorMako))
                 }
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = item.price,
                         fontSize = 18.sp,
@@ -138,12 +113,6 @@ fun CoinItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun TopCoinsScreenPreview() {
-    TopCoinsScreen()
 }
 
 fun String.pctChange() = String.format("(%s%%)", this)
