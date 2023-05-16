@@ -2,15 +2,12 @@ package com.af2905.cryptotopandnews.presentation.view.top
 
 import android.util.Log
 import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,23 +27,11 @@ import com.af2905.cryptotopandnews.theme.dimens
 
 @Composable
 fun TopCoinsScreen() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "CoinList", color = colorResource(id = R.color.colorWhite))
-                },
-                backgroundColor = colorResource(id = R.color.colorPrimaryDark)
-            )
-        },
-        content = {
-            Surface(color = colorResource(id = R.color.colorConcrete)) {
-                Spacer(modifier = Modifier.height(dimens.spaceNormal))
-                CoinList()
-                Spacer(modifier = Modifier.height(dimens.spaceNormal))
-            }
-        }
-    )
+    Surface(color = colorResource(id = R.color.colorConcrete)) {
+        Spacer(modifier = Modifier.height(dimens.spaceNormal))
+        CoinList()
+        Spacer(modifier = Modifier.height(dimens.spaceNormal))
+    }
 }
 
 @Composable

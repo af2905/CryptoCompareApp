@@ -1,176 +1,127 @@
 package com.af2905.cryptotopandnews.presentation.view.activity
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.af2905.cryptotopandnews.R
+import com.af2905.cryptotopandnews.presentation.view.news.NewsScreen
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsScreen
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TopCoinsScreen()
-        }
-    }
-
-
-/*    BaseActivity(),
-    BottomNavigationView.OnNavigationItemSelectedListener,
-    TopCoinsFragment.CallbackToCoinDetail,
-    NewsArticlesFragment.CallbackToNewsDetail {
-    private var isBottomNavViewVisible = true
-    var appViewModel: AppViewModel? = null
-        @Inject set*/
-
-/*    override fun injectDependency(component: ViewModelComponent) {
-        component.inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setToolbarAndBottomNavigationView()
-        if (savedInstanceState == null) {
-            loadTopCoinsFragment()
-        }
-    }
-
-    private fun setToolbarAndBottomNavigationView() {
-        val mainToolbar = toolbar
-        setSupportActionBar(mainToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        setBottomNavigationViewVisible()
-        bottomNavView.inflateMenu(R.menu.bottom_navigation_menu)
-        bottomNavView.setOnNavigationItemSelectedListener(this)
-    }
-
-    private fun loadTopCoinsFragment() {
-        setBottomNavigationViewVisible()
-        loadFragment(TopCoinsFragment(), TOP_COINS_FRAGMENT)
-    }
-
-    private fun loadDetailCoinInfoFragment() {
-        setBottomNavigationViewGone()
-        loadFragment(DetailCoinFragment(), DETAIL_COIN_FRAGMENT)
-    }
-
-    private fun loadNewsArticlesFragment() {
-        setBottomNavigationViewVisible()
-        loadFragment(NewsArticlesFragment(), NEWS_ARTICLES_FRAGMENT)
-    }
-
-    private fun loadFragment(fragment: Fragment, tag: String) {
-        supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)
-            .replace(R.id.content, fragment, tag)
-            .addToBackStack(tag)
-            .commit()
-    }
-
-*//*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_bar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return true
-    }*//*
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.bottomNavMenuTopCoinsId -> {
-                setTopCoinsItemEnabledAndChecked(isEnabled = false, isChecked = true)
-                setNewsItemEnabledAndChecked(isEnabled = true, isChecked = false)
-                loadTopCoinsFragment()
-                true
+            val navController = rememberNavController()
+            val selectedItem = remember { mutableStateOf("") }
+            val routePosition = remember {
+                mutableStateOf(Routes.coins)
             }
-            R.id.bottomNavMenuNewsId -> {
-                setNewsItemEnabledAndChecked(isEnabled = false, isChecked = true)
-                setTopCoinsItemEnabledAndChecked(isEnabled = true, isChecked = false)
-                loadNewsArticlesFragment()
-                true
-            }
-            else -> false
-        }
-    }
-
-    private fun setBottomNavigationViewVisible() {
-        isBottomNavViewVisible = true
-        bottomNavView.visibility = View.VISIBLE
-    }
-
-    private fun setBottomNavigationViewGone() {
-        isBottomNavViewVisible = false
-        bottomNavView.visibility = View.GONE
-    }
-
-    override fun openCoinDetailClick(coin: Coin) {
-        appViewModel?.setLiveDataSelectedCoin(coin)
-        loadDetailCoinInfoFragment()
-    }
-
-    override fun openNewsDetailClick(news: News) {
-        val address = Uri.parse(news.url)
-        val openLinkIntent = Intent(Intent.ACTION_VIEW, address)
-        startActivity(openLinkIntent)
-    }
-
-    override fun onBackPressed() {
-        setBottomNavViewBehaviorWhenOnBackPressed()
-        val count = supportFragmentManager.backStackEntryCount
-        if (count == 1) finish() else super.onBackPressed()
-        if (isBottomNavViewVisible) return else bottomNavView.visibility = View.VISIBLE
-    }
-
-    private fun setTopCoinsItemEnabledAndChecked(isEnabled: Boolean, isChecked: Boolean) {
-        bottomNavView.menu.findItem(R.id.bottomNavMenuTopCoinsId).isEnabled = isEnabled
-        bottomNavView.menu.findItem(R.id.bottomNavMenuTopCoinsId).isChecked = isChecked
-    }
-
-    private fun setNewsItemEnabledAndChecked(isEnabled: Boolean, isChecked: Boolean) {
-        bottomNavView.menu.findItem(R.id.bottomNavMenuNewsId).isEnabled = isEnabled
-        bottomNavView.menu.findItem(R.id.bottomNavMenuNewsId).isChecked = isChecked
-    }
-
-    private fun setBottomNavViewBehaviorWhenOnBackPressed() {
-        val fragments = supportFragmentManager.fragments
-        for (fragment in fragments) {
-            if (fragment != null) {
-                if (fragment is TopCoinsFragment || fragment is DetailCoinFragment) {
-                    setNewsItemEnabledAndChecked(isEnabled = true, isChecked = false)
-                    setTopCoinsItemEnabledAndChecked(isEnabled = false, isChecked = true)
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = routePosition.value,
+                                color = colorResource(id = R.color.colorWhite)
+                            )
+                        },
+                        backgroundColor = colorResource(id = R.color.colorPrimaryDark),
+                        navigationIcon = if (navController.previousBackStackEntry != null) {
+                            {
+                                IconButton(onClick = { navController.navigateUp() }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        tint = colorResource(id = R.color.colorWhite),
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        } else {
+                            null
+                        }
+                    )
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        backgroundColor = colorResource(id = R.color.colorPrimaryDark),
+                        content = {
+                            BottomNavigationItem(
+                                icon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_finance),
+                                        tint = if (routePosition.value == Routes.coins) {
+                                            colorResource(id = R.color.colorAccent)
+                                        } else {
+                                            colorResource(id = R.color.colorConcrete)
+                                        },
+                                        contentDescription = null
+                                    )
+                                },
+                                label = { Text(text = Routes.coins) },
+                                selected = selectedItem.value == Routes.coins,
+                                onClick = {
+                                    routePosition.value = Routes.coins
+                                    navController.navigate(Routes.coins)
+                                },
+                                alwaysShowLabel = false,
+                            )
+                            BottomNavigationItem(
+                                icon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_news),
+                                        tint = if (routePosition.value == Routes.news) {
+                                            colorResource(id = R.color.colorAccent)
+                                        } else {
+                                            colorResource(id = R.color.colorConcrete)
+                                        },
+                                        contentDescription = null
+                                    )
+                                },
+                                label = { Text(text = Routes.news) },
+                                selected = selectedItem.value == Routes.news,
+                                onClick = {
+                                    routePosition.value = Routes.news
+                                    navController.navigate(Routes.news)
+                                },
+                                alwaysShowLabel = false
+                            )
+                        }
+                    )
+                },
+                content = {
+                    Box(modifier = Modifier.padding(it)) {
+                        NavHost(
+                            navController = navController,
+                            startDestination = Routes.coins,
+                        ) {
+                            composable(Routes.coins) { TopCoinsScreen() }
+                            composable(Routes.news) { NewsScreen() }
+                        }
+                    }
                 }
-                if (fragment is NewsArticlesFragment) {
-                    setTopCoinsItemEnabledAndChecked(isEnabled = true, isChecked = false)
-                    setNewsItemEnabledAndChecked(isEnabled = false, isChecked = true)
-                }
-            }
+            )
         }
     }
 
-    companion object {
-        private const val TOP_COINS_FRAGMENT = "topCoinsFragment"
-        private const val DETAIL_COIN_FRAGMENT = "detailCoinFragment"
-        private const val NEWS_ARTICLES_FRAGMENT = "newsArticlesFragment"
+    internal object Routes {
+        const val coins: String = "Coins"
+        const val news: String = "News"
+        const val coinDetail: String = "Coin Detail"
+        const val newsDetail: String = "News Detail"
+    }
 
-        @JvmStatic
-        fun newInstance(context: Context): Intent {
-            val intent = Intent(context, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            return intent
-        }
-    }*/
 }
