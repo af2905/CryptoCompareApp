@@ -22,10 +22,10 @@ data class CoinItem(
                     id = coinBasicInfo.id,
                     fullName = coinBasicInfo.fullName.orEmpty(),
                     name = coinBasicInfo.name.orEmpty(),
-                    price = displayCoinPriceInfo.coinPriceInfo?.price.orEmpty(),
-                    change24Hour = displayCoinPriceInfo.coinPriceInfo?.change24Hour.orEmpty(),
-                    changePct24Hour = displayCoinPriceInfo.coinPriceInfo?.changePct24Hour.orEmpty(),
-                    imageUrl = displayCoinPriceInfo.coinPriceInfo?.getFullImageUrl().orEmpty()
+                    price = displayCoinPriceInfo?.coinPriceInfo?.price.orEmpty(),
+                    change24Hour = displayCoinPriceInfo?.coinPriceInfo?.change24Hour.orEmpty(),
+                    changePct24Hour = displayCoinPriceInfo?.coinPriceInfo?.changePct24Hour.orEmpty(),
+                    imageUrl = displayCoinPriceInfo?.coinPriceInfo?.getFullImageUrl().orEmpty()
 
                 )
             }

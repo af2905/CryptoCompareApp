@@ -1,6 +1,7 @@
 package com.af2905.cryptotopandnews.presentation.view.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.NavHost
@@ -32,34 +38,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val selectedItem = remember { mutableStateOf("") }
-            val routePosition = remember {
-                mutableStateOf(Routes.coins)
-            }
+
             Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = routePosition.value,
-                                color = colorResource(id = R.color.colorWhite)
-                            )
-                        },
-                        backgroundColor = colorResource(id = R.color.colorPrimaryDark),
-                        navigationIcon = if (navController.previousBackStackEntry != null) {
-                            {
-                                IconButton(onClick = { navController.navigateUp() }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.ArrowBack,
-                                        tint = colorResource(id = R.color.colorWhite),
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        } else {
-                            null
-                        }
-                    )
-                },
                 bottomBar = {
                     BottomAppBar(
                         modifier = Modifier.fillMaxWidth(),
@@ -76,10 +56,15 @@ class MainActivity : ComponentActivity() {
                                 label = { Text(text = Routes.coins) },
                                 selected = selectedItem.value == Routes.coins,
                                 onClick = {
-                                    routePosition.value = Routes.coins
-                                    navController.navigate(Routes.coins)
+                                    navController.navigate(Routes.coins) {
+                                        popUpTo(Routes.news) {
+                                            saveState = true
+                                            inclusive = true
+                                        }
+                                        restoreState = true
+                                    }
                                 },
-                                alwaysShowLabel = false,
+                                alwaysShowLabel = false
                             )
                             BottomNavigationItem(
                                 icon = {
@@ -92,8 +77,13 @@ class MainActivity : ComponentActivity() {
                                 label = { Text(text = Routes.news) },
                                 selected = selectedItem.value == Routes.news,
                                 onClick = {
-                                    routePosition.value = Routes.news
-                                    navController.navigate(Routes.news)
+                                    navController.navigate(Routes.news) {
+                                        popUpTo(Routes.coins) {
+                                            saveState = true
+                                            inclusive = true
+                                        }
+                                        restoreState = true
+                                    }
                                 },
                                 alwaysShowLabel = false
                             )
@@ -124,7 +114,6 @@ class MainActivity : ComponentActivity() {
                                 NewsScreen()
                             }
                             composable(Routes.coinDetail) {
-                                routePosition.value = Routes.coinDetail
                                 CoinDetailScreen()
                             }
                             composable(Routes.newsDetail) {
@@ -140,8 +129,7 @@ class MainActivity : ComponentActivity() {
     internal object Routes {
         const val coins: String = "Coins"
         const val news: String = "News"
-        const val coinDetail: String = "Coin Detail"
-        const val newsDetail: String = "News Detail"
+        const val coinDetail: String = "CoinDetail"
+        const val newsDetail: String = "NewsDetail"
     }
-
 }

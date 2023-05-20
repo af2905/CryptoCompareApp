@@ -13,3 +13,28 @@ internal fun TopCoinsController(
 
     TopCoinsScreen(list = topCoins, onItemClick = onItemClick)
 }
+
+/*                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = routePosition.value,
+                                color = colorResource(id = R.color.colorWhite)
+                            )
+                        },
+                        backgroundColor = colorResource(id = R.color.colorPrimaryDark),
+                        navigationIcon = if (navController.previousBackStackEntry != null) {
+                            {
+                                IconButton(onClick = { navController.navigateUp() }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        tint = colorResource(id = R.color.colorWhite),
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        } else {
+                            null
+                        }
+                    )
+                },*/

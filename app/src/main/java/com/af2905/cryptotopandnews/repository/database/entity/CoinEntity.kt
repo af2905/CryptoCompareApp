@@ -14,7 +14,7 @@ data class CoinEntity(
     @Embedded
     val coinBasicInfo: CoinBasicInfo,
     @Embedded
-    val displayCoinPriceInfo: DisplayCoinPriceInfo
+    val displayCoinPriceInfo: DisplayCoinPriceInfo?
 ) {
     companion object {
         fun map(list: List<Coin>): List<CoinEntity> {
