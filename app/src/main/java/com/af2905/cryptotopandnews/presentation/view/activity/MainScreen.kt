@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.af2905.cryptotopandnews.presentation.navigation.BottomNavigationItems
 import com.af2905.cryptotopandnews.presentation.navigation.SetupNavigationHost
+import com.af2905.cryptotopandnews.presentation.navigation.TopBarNavigation
 
 
 @Composable
@@ -18,7 +19,8 @@ fun MainScreen(
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { BottomNavigationItems(navController) }
+        topBar = { TopBarNavigation(navController = navController) },
+        bottomBar = { BottomNavigationItems(navController = navController) }
     ) { padding ->
         SetupNavigationHost(
             navController = navController,

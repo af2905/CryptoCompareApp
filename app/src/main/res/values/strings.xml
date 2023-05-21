@@ -21,4 +21,9 @@
     <string name="a_few_seconds_ago">a few seconds ago</string>
     <string name="a_minute_ago">a minute ago</string>
     <string name="coin_info_title">Coin information</string>
+
+    <string name="screen_top_coins_title">Top coins</string>
+    <string name="screen_news_title">News</string>
+    <string name="screen_coin_detail_title">Coin detail information</string>
+    <string name="screen_news_detail_title">News detail information</string>
 </resources>

@@ -6,10 +6,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.af2905.cryptotopandnews.data.database.entity.CoinEntity
 
+private const val DEFAULT_LIMIT = 100
+
 @Dao
 interface CoinDao {
-    @Query("SELECT * FROM coins")
-    suspend fun getAll(): List<CoinEntity>?
+    @Query("SELECT * FROM coins LIMIT :limit")
+    suspend fun getAll(limit: Int = DEFAULT_LIMIT): List<CoinEntity>?
 
     @Query("SELECT * FROM coins WHERE id =:id")
     suspend fun getCoinById(id: String): CoinEntity

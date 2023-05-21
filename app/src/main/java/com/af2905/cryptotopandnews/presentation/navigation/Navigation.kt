@@ -2,11 +2,14 @@ package com.af2905.cryptotopandnews.presentation.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -85,6 +88,52 @@ fun BottomNavigationItems(navController: NavController) {
 }
 
 @Composable
+fun TopBarNavigation(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val title = when (currentRoute) {
+        TOP_COINS_SCREEN -> stringResource(id = R.string.screen_top_coins_title)
+        NEWS_SCREEN -> stringResource(id = R.string.screen_news_title)
+        COIN_DETAIL_SCREEN -> stringResource(id = R.string.screen_coin_detail_title)
+        NEWS_DETAIL_SCREEN -> stringResource(id = R.string.screen_news_detail_title)
+        else -> ""
+    }
+
+    val bottomNavigationItemRouteList = listOf(TOP_COINS_SCREEN, NEWS_SCREEN)
+
+    TopAppBar(
+        modifier = modifier,
+        title = {
+            Text(
+                text = title,
+                color = colorResource(id = R.color.colorWhite)
+            )
+        },
+        backgroundColor = colorResource(id = R.color.colorPrimaryDark),
+        navigationIcon = if (navController.previousBackStackEntry != null &&
+            !bottomNavigationItemRouteList.contains(currentRoute)
+        ) {
+            {
+                IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        tint = colorResource(id = R.color.colorWhite),
+                        contentDescription = null
+                    )
+                }
+            }
+        } else {
+            null
+        }
+    )
+}
+
+@Composable
 fun SetupNavigationHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
@@ -107,7 +156,7 @@ fun SetupNavigationHost(
             )
         }
         composable(COIN_DETAIL_SCREEN) {
-            CoinDetailScreen(navController = navController)
+            CoinDetailScreen()
         }
         composable(NEWS_SCREEN) {
             NewsScreen()
