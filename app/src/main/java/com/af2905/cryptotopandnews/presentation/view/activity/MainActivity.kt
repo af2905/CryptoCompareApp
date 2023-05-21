@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,9 +35,29 @@ import com.af2905.cryptotopandnews.presentation.view.top.di.DaggerTopCoinsCompon
 
 class MainActivity : ComponentActivity() {
 
+    //private val appComponent = AppComponentProvider.getAppComponent(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            //BottomNavigationExampleTheme {
+            val scaffoldState: ScaffoldState = rememberScaffoldState()
+            val navController: NavHostController = rememberNavController()
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colors.background
+            ) {
+                MainScreen(
+                    scaffoldState = scaffoldState,
+                    navController = navController
+                )
+            }
+        }
+        //}
+
+
+ /*       setContent {
             val navController = rememberNavController()
             val selectedItem = remember { mutableStateOf("") }
 
@@ -123,13 +145,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             )
-        }
-    }
-
-    internal object Routes {
-        const val coins: String = "Coins"
-        const val news: String = "News"
-        const val coinDetail: String = "CoinDetail"
-        const val newsDetail: String = "NewsDetail"
+        }*/
     }
 }

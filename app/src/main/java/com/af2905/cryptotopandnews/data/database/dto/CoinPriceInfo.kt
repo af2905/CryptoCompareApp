@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.repository.database.dto
+package com.af2905.cryptotopandnews.data.database.dto
 
 import com.af2905.cryptotopandnews.BuildConfig
 import com.google.gson.annotations.Expose

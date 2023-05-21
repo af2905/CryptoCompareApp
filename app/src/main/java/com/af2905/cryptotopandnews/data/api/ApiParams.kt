@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.repository.api
+package com.af2905.cryptotopandnews.data.api
 
 object ApiParams {
     const val API_KEY = "api_key"

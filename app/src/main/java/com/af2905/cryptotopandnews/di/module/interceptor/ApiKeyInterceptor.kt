@@ -1,7 +1,7 @@
 package com.af2905.cryptotopandnews.di.module.interceptor
 
 import com.af2905.cryptotopandnews.BuildConfig
-import com.af2905.cryptotopandnews.repository.api.ApiParams
+import com.af2905.cryptotopandnews.data.api.ApiParams
 import okhttp3.Interceptor
 import okhttp3.Response
 

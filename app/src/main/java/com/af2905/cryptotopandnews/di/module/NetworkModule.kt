@@ -5,8 +5,8 @@ import com.af2905.cryptotopandnews.di.module.interceptor.ApiKeyInterceptor
 import com.af2905.cryptotopandnews.di.module.interceptor.ErrorInterceptor
 import com.af2905.cryptotopandnews.di.module.interceptor.HttpLoggerInterceptor
 import com.af2905.cryptotopandnews.di.scope.AppScope
-import com.af2905.cryptotopandnews.repository.api.NewsApi
-import com.af2905.cryptotopandnews.repository.api.ToplistsApi
+import com.af2905.cryptotopandnews.data.api.NewsApi
+import com.af2905.cryptotopandnews.data.api.ToplistsApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 

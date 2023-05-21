@@ -1,8 +1,8 @@
-package com.af2905.cryptotopandnews.repository
+package com.af2905.cryptotopandnews.data
 
-import com.af2905.cryptotopandnews.repository.api.ToplistsApi
-import com.af2905.cryptotopandnews.repository.database.dao.CoinDao
-import com.af2905.cryptotopandnews.repository.database.entity.CoinEntity
+import com.af2905.cryptotopandnews.data.api.ToplistsApi
+import com.af2905.cryptotopandnews.data.database.dao.CoinDao
+import com.af2905.cryptotopandnews.data.database.entity.CoinEntity
 import javax.inject.Inject
 
 interface ToplistsRepository {

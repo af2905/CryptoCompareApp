@@ -7,7 +7,7 @@ import com.af2905.cryptotopandnews.di.module.NetworkModule
 import com.af2905.cryptotopandnews.di.module.RepositoryModule
 import com.af2905.cryptotopandnews.di.module.StorageModule
 import com.af2905.cryptotopandnews.di.scope.AppScope
-import com.af2905.cryptotopandnews.repository.ToplistsRepository
+import com.af2905.cryptotopandnews.data.ToplistsRepository
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

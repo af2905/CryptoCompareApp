@@ -1,11 +1,10 @@
-package com.af2905.cryptotopandnews.repository.database.dao
+package com.af2905.cryptotopandnews.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.af2905.cryptotopandnews.repository.database.dto.Coin
-import com.af2905.cryptotopandnews.repository.database.entity.CoinEntity
+import com.af2905.cryptotopandnews.data.database.entity.CoinEntity
 
 @Dao
 interface CoinDao {

@@ -1,10 +1,10 @@
-package com.af2905.cryptotopandnews.repository.database.entity
+package com.af2905.cryptotopandnews.data.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.af2905.cryptotopandnews.repository.database.dto.News
-import com.af2905.cryptotopandnews.repository.database.dto.NewsSourceInfo
+import com.af2905.cryptotopandnews.data.database.dto.News
+import com.af2905.cryptotopandnews.data.database.dto.NewsSourceInfo
 
 @Entity(tableName = "news")
 data class NewsEntity(

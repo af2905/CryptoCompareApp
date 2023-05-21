@@ -2,11 +2,10 @@ package com.af2905.cryptotopandnews.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.af2905.cryptotopandnews.di.qualifier.AppContext
 import com.af2905.cryptotopandnews.di.scope.AppScope
-import com.af2905.cryptotopandnews.repository.database.AppDatabase
-import com.af2905.cryptotopandnews.repository.database.dao.CoinDao
-import com.af2905.cryptotopandnews.repository.database.dao.NewsDao
+import com.af2905.cryptotopandnews.data.database.AppDatabase
+import com.af2905.cryptotopandnews.data.database.dao.CoinDao
+import com.af2905.cryptotopandnews.data.database.dao.NewsDao
 import dagger.Module
 import dagger.Provides
 

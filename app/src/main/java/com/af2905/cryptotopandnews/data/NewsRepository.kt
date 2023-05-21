@@ -1,9 +1,8 @@
-package com.af2905.cryptotopandnews.repository
+package com.af2905.cryptotopandnews.data
 
-import com.af2905.cryptotopandnews.repository.api.NewsApi
-import com.af2905.cryptotopandnews.repository.database.dao.NewsDao
-import com.af2905.cryptotopandnews.repository.database.dto.News
-import com.af2905.cryptotopandnews.repository.database.entity.NewsEntity
+import com.af2905.cryptotopandnews.data.api.NewsApi
+import com.af2905.cryptotopandnews.data.database.dao.NewsDao
+import com.af2905.cryptotopandnews.data.database.entity.NewsEntity
 import javax.inject.Inject
 
 interface NewsRepository {

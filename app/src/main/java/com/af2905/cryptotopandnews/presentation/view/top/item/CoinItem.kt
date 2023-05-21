@@ -1,6 +1,6 @@
 package com.af2905.cryptotopandnews.presentation.view.top.item
 
-import com.af2905.cryptotopandnews.repository.database.entity.CoinEntity
+import com.af2905.cryptotopandnews.data.database.entity.CoinEntity
 
 data class CoinItem(
     val id: String,

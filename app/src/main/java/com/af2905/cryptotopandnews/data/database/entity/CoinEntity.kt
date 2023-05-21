@@ -1,11 +1,11 @@
-package com.af2905.cryptotopandnews.repository.database.entity
+package com.af2905.cryptotopandnews.data.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.af2905.cryptotopandnews.repository.database.dto.Coin
-import com.af2905.cryptotopandnews.repository.database.dto.CoinBasicInfo
-import com.af2905.cryptotopandnews.repository.database.dto.DisplayCoinPriceInfo
+import com.af2905.cryptotopandnews.data.database.dto.Coin
+import com.af2905.cryptotopandnews.data.database.dto.CoinBasicInfo
+import com.af2905.cryptotopandnews.data.database.dto.DisplayCoinPriceInfo
 
 @Entity(tableName = "coins")
 data class CoinEntity(

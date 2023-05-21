@@ -1,12 +1,12 @@
-package com.af2905.cryptotopandnews.repository.database.dto
+package com.af2905.cryptotopandnews.data.database.dto
 
 import androidx.room.Embedded
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class DisplayCoinPriceInfo(
+data class RawCoinPriceInfo(
     @SerializedName("USD")
     @Expose
     @Embedded
-    val coinPriceInfo: CoinPriceInfo? = null
+    val coinPriceAndLastUpdate: CoinPriceAndLastUpdate? = null
 )

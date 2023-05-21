@@ -1,7 +1,7 @@
 package com.af2905.cryptotopandnews.presentation.view.top.di
 
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsViewModel
-import com.af2905.cryptotopandnews.repository.ToplistsRepository
+import com.af2905.cryptotopandnews.data.ToplistsRepository
 import dagger.Module
 import dagger.Provides
 

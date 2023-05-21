@@ -3,7 +3,7 @@ package com.af2905.cryptotopandnews.presentation.view.top
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
-import com.af2905.cryptotopandnews.repository.ToplistsRepository
+import com.af2905.cryptotopandnews.data.ToplistsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
