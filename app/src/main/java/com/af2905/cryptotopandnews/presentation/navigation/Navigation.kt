@@ -17,7 +17,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.af2905.cryptotopandnews.R
 import com.af2905.cryptotopandnews.di.component.AppComponentProvider
-import com.af2905.cryptotopandnews.di.daggerViewModel
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.COIN_DETAIL_SCREEN
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.NEWS_DETAIL_SCREEN
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.NEWS_SCREEN
@@ -26,8 +25,6 @@ import com.af2905.cryptotopandnews.presentation.view.detail.CoinDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.detail.NewsDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.news.NewsScreen
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsController
-import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsViewModel
-import com.af2905.cryptotopandnews.presentation.view.top.di.DaggerTopCoinsComponent
 
 data class Item(
     val route: String,
@@ -138,21 +135,19 @@ fun SetupNavigationHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val appComponent = AppComponentProvider.getAppComponent(context)
+    val viewModelFactory = appComponent.getViewModelFactory()
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = TOP_COINS_SCREEN
     ) {
         composable(TOP_COINS_SCREEN) {
-            val context = LocalContext.current
-            val appComponent = AppComponentProvider.getAppComponent(context)
-            val component = DaggerTopCoinsComponent.factory().create(appComponent)
-            val viewModel: TopCoinsViewModel = daggerViewModel { component.getViewModel() }
             TopCoinsController(
-                viewModel = viewModel,
-                onItemClick = {
-                    navController.navigate(COIN_DETAIL_SCREEN)
-                }
+                viewModelFactory = viewModelFactory,
+                onItemClick = { navController.navigate(COIN_DETAIL_SCREEN) }
             )
         }
         composable(COIN_DETAIL_SCREEN) {
