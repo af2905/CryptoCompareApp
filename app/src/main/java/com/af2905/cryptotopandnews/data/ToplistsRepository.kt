@@ -17,9 +17,8 @@ class ToplistsRepositoryImpl @Inject constructor(
     override suspend fun getTopCoins(): List<CoinEntity> {
         val list = toplistsApi.getToplistBy24HVolumeFullData().coins
         coinDao.save(CoinEntity.map(list))
-        val savedList = coinDao.getAll().orEmpty()
-        //TODO need to move filterNot to use case
-        return savedList.filterNot { it.displayCoinPriceInfo == null }
+        //TODO logic for cashing data
+        return coinDao.getAll().orEmpty()
     }
 
     override suspend fun getCoinById(id: String): CoinEntity {

@@ -6,9 +6,11 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModelProvider
 import com.af2905.cryptotopandnews.di.ViewModelModule
 import com.af2905.cryptotopandnews.presentation.extension.viewModel
+import com.af2905.cryptotopandnews.presentation.shared.Progress
+import com.af2905.cryptotopandnews.presentation.view.top.state.Contract
 
 @Composable
-internal fun TopCoinsController(
+fun TopCoinsController(
     viewModelFactory: ViewModelProvider.Factory,
     onItemClick: (String) -> Unit
 ) {
@@ -16,7 +18,13 @@ internal fun TopCoinsController(
     val viewModel: TopCoinsViewModel =
         viewModel(key = ViewModelModule.KEY_TOP_COINS) { viewModelFactory }
 
-    val topCoins by viewModel.topCoins.collectAsState()
+    val state by viewModel.state.collectAsState()
 
-    TopCoinsScreen(list = topCoins, onItemClick = onItemClick)
+    when(state) {
+        is Contract.TopCoinsState.Loading -> Progress()
+        is Contract.TopCoinsState.Content -> {
+            TopCoinsScreen(list = (state as Contract.TopCoinsState.Content).list, onItemClick = onItemClick)
+        }
+        is Contract.TopCoinsState.Error -> {}
+    }
 }

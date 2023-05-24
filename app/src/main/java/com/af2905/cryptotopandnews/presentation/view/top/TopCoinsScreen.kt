@@ -1,6 +1,5 @@
 package com.af2905.cryptotopandnews.presentation.view.top
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,20 +26,9 @@ fun TopCoinsScreen(
     onItemClick: (String) -> Unit
 ) {
     Surface(color = colorResource(id = R.color.colorConcrete)) {
-        if (list.isEmpty()) {
-            Progress()
-        } else {
-            Spacer(modifier = Modifier.height(dimens.spaceNormal))
-            CoinList(list = list, onItemClick = onItemClick)
-            Spacer(modifier = Modifier.height(dimens.spaceNormal))
-        }
-    }
-}
-
-@Composable
-fun Progress() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
+        Spacer(modifier = Modifier.height(dimens.spaceNormal))
+        CoinList(list = list, onItemClick = onItemClick)
+        Spacer(modifier = Modifier.height(dimens.spaceNormal))
     }
 }
 

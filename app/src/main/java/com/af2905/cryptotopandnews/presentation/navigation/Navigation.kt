@@ -12,17 +12,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
 import com.af2905.cryptotopandnews.R
 import com.af2905.cryptotopandnews.di.component.AppComponentProvider
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.COIN_DETAIL_SCREEN
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.NEWS_DETAIL_SCREEN
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.NEWS_SCREEN
 import com.af2905.cryptotopandnews.presentation.navigation.Routes.TOP_COINS_SCREEN
-import com.af2905.cryptotopandnews.presentation.view.detail.CoinDetailScreen
-import com.af2905.cryptotopandnews.presentation.view.detail.NewsDetailScreen
+import com.af2905.cryptotopandnews.presentation.view.detail.coinDetail.CoinDetailController
+import com.af2905.cryptotopandnews.presentation.view.detail.newsDetail.NewsDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.news.NewsScreen
 import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsController
 
@@ -89,7 +91,6 @@ fun TopBarNavigation(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -147,11 +148,18 @@ fun SetupNavigationHost(
         composable(TOP_COINS_SCREEN) {
             TopCoinsController(
                 viewModelFactory = viewModelFactory,
-                onItemClick = { navController.navigate(COIN_DETAIL_SCREEN) }
+                onItemClick = { id ->
+                    navController.navigate(COIN_DETAIL_SCREEN.replace("{id}", id))
+                }
             )
         }
-        composable(COIN_DETAIL_SCREEN) {
-            CoinDetailScreen()
+        composable(
+            route = COIN_DETAIL_SCREEN,
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
+        ) {
+            it.arguments?.getString("id")?.let { id ->
+                CoinDetailController(id = id, viewModelFactory = viewModelFactory)
+            }
         }
         composable(NEWS_SCREEN) {
             NewsScreen()
@@ -166,6 +174,6 @@ fun SetupNavigationHost(
 object Routes {
     const val TOP_COINS_SCREEN: String = "top_coins"
     const val NEWS_SCREEN: String = "news"
-    const val COIN_DETAIL_SCREEN: String = "coin_detail"
+    const val COIN_DETAIL_SCREEN: String = "coin_detail/{id}"
     const val NEWS_DETAIL_SCREEN: String = "news_detail"
 }

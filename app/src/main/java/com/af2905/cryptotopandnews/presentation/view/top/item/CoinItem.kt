@@ -16,7 +16,7 @@ data class CoinItem(
             return list.map { map(it) }
         }
 
-        private fun map(coin: CoinEntity): CoinItem {
+        fun map(coin: CoinEntity): CoinItem {
             return with(coin) {
                 CoinItem(
                     id = coinBasicInfo.id,

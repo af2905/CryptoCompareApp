@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.presentation.view.detail
+package com.af2905.cryptotopandnews.presentation.view.detail.newsDetail
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,10 +11,10 @@ import com.af2905.cryptotopandnews.R
 import com.af2905.cryptotopandnews.theme.dimens
 
 @Composable
-fun CoinDetailScreen() {
+fun NewsDetailScreen() {
     Surface(color = colorResource(id = R.color.colorConcrete)) {
         Spacer(modifier = Modifier.height(dimens.spaceNormal))
-        Text(text = "Coin Detail Empty Screen")
+        Text(text = "News Detail Empty Screen")
         Spacer(modifier = Modifier.height(dimens.spaceNormal))
     }
 }
