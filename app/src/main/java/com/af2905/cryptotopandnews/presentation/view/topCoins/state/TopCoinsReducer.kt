@@ -1,12 +1,15 @@
-package com.af2905.cryptotopandnews.presentation.view.top.state
+package com.af2905.cryptotopandnews.presentation.view.topCoins.state
 
 import com.af2905.cryptotopandnews.domain.usecase.GetTopCoinsUseCase
 import com.af2905.cryptotopandnews.domain.usecase.TopCoinsParams
 import com.af2905.cryptotopandnews.presentation.Reducer
+import com.af2905.cryptotopandnews.presentation.view.topCoins.callback.TopCoinsActionCallback
+import com.af2905.cryptotopandnews.presentation.view.topCoins.callback.TopCoinsEffectCallback
 
 class TopCoinsReducer(
     private val getTopCoinsUseCase: GetTopCoinsUseCase,
-    private val callback: TopCoinsReducerCallback
+    private val actionCallback: TopCoinsActionCallback,
+    private val effectCallback: TopCoinsEffectCallback
 ) : Reducer<TopCoinsContract.State, TopCoinsContract.Action> {
     override suspend fun reduce(
         state: TopCoinsContract.State,
@@ -25,14 +28,16 @@ class TopCoinsReducer(
     ): TopCoinsContract.State {
         return when (action) {
             is TopCoinsContract.Action.LoadData -> {
-                return try {
-                    val response = getTopCoinsUseCase(TopCoinsParams).getOrThrow()
-                    callback.onLoadDataSuccess(list = response)
-                    state
-                } catch (e: Exception) {
-                    callback.onLoadDataError(e = e)
-                    state
-                }
+                getTopCoinsUseCase(TopCoinsParams).fold(
+                    onSuccess = { list ->
+                        actionCallback.onLoadDataSuccess(list = list)
+                        state
+                    },
+                    onFailure = { error ->
+                        actionCallback.onLoadDataError(throwable = error)
+                        state
+                    }
+                )
             }
 
             is TopCoinsContract.Action.LoadDataSuccess -> {
@@ -40,7 +45,7 @@ class TopCoinsReducer(
             }
 
             is TopCoinsContract.Action.LoadDataError -> {
-                TopCoinsContract.State.Error(e = action.e)
+                TopCoinsContract.State.Error(throwable = action.throwable)
             }
 
             else -> state
@@ -53,7 +58,7 @@ class TopCoinsReducer(
     ): TopCoinsContract.State {
         return when (action) {
             is TopCoinsContract.Action.OpenDetail -> {
-                callback.openDetailScreen(id = action.id)
+                effectCallback.onOpenDetailScreen(id = action.id)
                 state
             }
 
@@ -67,7 +72,7 @@ class TopCoinsReducer(
     ): TopCoinsContract.State {
         return when (action) {
             is TopCoinsContract.Action.LoadData -> {
-                callback.onLoadData()
+                actionCallback.onLoadData()
                 TopCoinsContract.State.Loading
             }
 

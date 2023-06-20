@@ -6,7 +6,7 @@ import com.af2905.cryptotopandnews.domain.usecase.GetCoinDetailUseCase
 import com.af2905.cryptotopandnews.domain.usecase.GetTopCoinsUseCase
 import com.af2905.cryptotopandnews.presentation.view.detail.coinDetail.CoinDetailViewModel
 import com.af2905.cryptotopandnews.presentation.view.news.NewsViewModel
-import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsViewModel
+import com.af2905.cryptotopandnews.presentation.view.topCoins.TopCoinsViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap

@@ -1,10 +1,19 @@
 package com.af2905.cryptotopandnews.presentation.navigation
 
 import androidx.annotation.DrawableRes
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -26,7 +35,7 @@ import com.af2905.cryptotopandnews.presentation.navigation.Routes.TOP_COINS_SCRE
 import com.af2905.cryptotopandnews.presentation.view.detail.coinDetail.CoinDetailController
 import com.af2905.cryptotopandnews.presentation.view.detail.newsDetail.NewsDetailScreen
 import com.af2905.cryptotopandnews.presentation.view.news.NewsScreen
-import com.af2905.cryptotopandnews.presentation.view.top.TopCoinsController
+import com.af2905.cryptotopandnews.presentation.view.topCoins.TopCoinsController
 
 data class Item(
     val route: String,

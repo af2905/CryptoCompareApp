@@ -1,6 +1,6 @@
 package com.af2905.cryptotopandnews.presentation.view.detail.coinDetail.state
 
-import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
+import com.af2905.cryptotopandnews.presentation.view.topCoins.item.CoinItem
 
 class Contract {
     sealed interface CoinDetailState {

@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.presentation.view.top
+package com.af2905.cryptotopandnews.presentation.view.topCoins
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.af2905.cryptotopandnews.di.ViewModelModule
 import com.af2905.cryptotopandnews.presentation.extension.viewModel
 import com.af2905.cryptotopandnews.presentation.shared.Progress
-import com.af2905.cryptotopandnews.presentation.view.top.state.TopCoinsContract
+import com.af2905.cryptotopandnews.presentation.view.topCoins.state.TopCoinsContract
 
 @Composable
 fun TopCoinsController(

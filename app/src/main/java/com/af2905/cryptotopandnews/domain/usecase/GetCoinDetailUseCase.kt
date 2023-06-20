@@ -2,7 +2,7 @@ package com.af2905.cryptotopandnews.domain.usecase
 
 import com.af2905.cryptotopandnews.data.ToplistsRepository
 import com.af2905.cryptotopandnews.domain.CoroutineUseCase
-import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
+import com.af2905.cryptotopandnews.presentation.view.topCoins.item.CoinItem
 import javax.inject.Inject
 
 class GetCoinDetailUseCase @Inject constructor(

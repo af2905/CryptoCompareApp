@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.presentation.view.top.item
+package com.af2905.cryptotopandnews.presentation.view.topCoins.item
 
 import com.af2905.cryptotopandnews.data.database.entity.CoinEntity
 

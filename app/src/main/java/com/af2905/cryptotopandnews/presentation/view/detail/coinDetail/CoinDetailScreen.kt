@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import com.af2905.cryptotopandnews.R
-import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
+import com.af2905.cryptotopandnews.presentation.view.topCoins.item.CoinItem
 import com.af2905.cryptotopandnews.theme.dimens
 
 @Composable

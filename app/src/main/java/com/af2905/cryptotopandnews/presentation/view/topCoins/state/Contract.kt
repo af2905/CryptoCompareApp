@@ -1,18 +1,18 @@
-package com.af2905.cryptotopandnews.presentation.view.top.state
+package com.af2905.cryptotopandnews.presentation.view.topCoins.state
 
-import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
+import com.af2905.cryptotopandnews.presentation.view.topCoins.item.CoinItem
 
 class TopCoinsContract {
     sealed interface State {
         object Loading : State
         data class Content(val list: List<CoinItem>) : State
-        data class Error(val e: Exception) : State
+        data class Error(val throwable: Throwable) : State
     }
 
     sealed interface Action {
         object LoadData : Action
         data class LoadDataSuccess(val list: List<CoinItem>) : Action
-        data class LoadDataError(val e: Exception) : Action
+        data class LoadDataError(val throwable: Throwable) : Action
         data class OpenDetail(val id: String) : Action
     }
 

@@ -1,4 +1,4 @@
-package com.af2905.cryptotopandnews.presentation.view.top
+package com.af2905.cryptotopandnews.presentation.view.topCoins
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,8 +29,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.af2905.cryptotopandnews.R
-import com.af2905.cryptotopandnews.presentation.view.top.item.CoinItem
-import com.af2905.cryptotopandnews.presentation.view.top.state.TopCoinsReducerCallback
+import com.af2905.cryptotopandnews.presentation.view.topCoins.callback.TopCoinsActionCallback
+import com.af2905.cryptotopandnews.presentation.view.topCoins.item.CoinItem
 import com.af2905.cryptotopandnews.theme.dimens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 fun TopCoinsScreen(
     coroutineScope: CoroutineScope,
     list: List<CoinItem>,
-    callback: TopCoinsReducerCallback
+    callback: TopCoinsActionCallback
 ) {
     Surface(color = colorResource(id = R.color.colorConcrete)) {
         Spacer(modifier = Modifier.height(dimens.spaceNormal))
@@ -56,7 +56,7 @@ fun TopCoinsScreen(
 fun CoinList(
     coroutineScope: CoroutineScope,
     list: List<CoinItem>,
-    callback: TopCoinsReducerCallback
+    callback: TopCoinsActionCallback
 ) {
     val coins = remember(list) { list }
     LazyColumn(
