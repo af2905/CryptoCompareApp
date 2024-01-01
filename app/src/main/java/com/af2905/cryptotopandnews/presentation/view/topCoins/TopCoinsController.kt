@@ -19,7 +19,9 @@ fun TopCoinsController(
     val coroutineScope = rememberCoroutineScope()
 
     val viewModel: TopCoinsViewModel =
-        viewModel(key = ViewModelModule.KEY_TOP_COINS) { viewModelFactory }
+        viewModel(key = ViewModelModule.KEY_TOP_COINS) {
+            viewModelFactory
+        }
 
     val state by viewModel.store.stateFlow.collectAsState()
 
